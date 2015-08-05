@@ -8,5 +8,14 @@
         <div>
             {% block body_block %}{% endblock %}
         </div>
+
+        <hr />
+
+        <div>
+            <ul>
+		        <li><a href="{% url 'chords:index' %}">Home</a></li>
+		        <li><a href="{% url 'chords:about' %}">About</a></li>
+            </ul>
+        </div>
     </body>
 </html>
