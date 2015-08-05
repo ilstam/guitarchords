@@ -3,5 +3,15 @@
 {% block title %}Home{% endblock %}
 
 {% block body_block %}
-    <strong>Hi!</strong> {{ hello_msg }}
+    <h1>Hi! This is index!</h1>
+    {% if songs %}
+        <h2>Recently added songs</h2>
+        <ul>
+        {% for song in songs %}
+        <li><a href="{% url 'chords:song' song.slug %}">{{ song }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <strong>There are no songs present at the moment.</strong>
+    {% endif %}
 {% endblock %}
