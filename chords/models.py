@@ -27,6 +27,7 @@ class Song(models.Model):
             slug_text = greek_to_english_letters(self.title)
             self.slug = generate_unique_slug(Song, slug_text, slug_max_length)
 
+        self.content = self.content.strip('\n')
         super(Song, self).save(*args, **kwargs)
 
     def __str__(self):
