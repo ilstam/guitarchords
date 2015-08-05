@@ -4,3 +4,6 @@ from django.shortcuts import render
 def index(request):
     context = {'hello_msg' : 'This is the index page'}
     return render(request, 'chords/index.html', context)
+
+def about(request):
+    return render(request, 'chords/about.html', {})

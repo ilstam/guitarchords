@@ -1,0 +1,10 @@
+{% extends 'chords/base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}About{% endblock %}
+
+{% block body_block %}
+    <h1>This is the about page.</h1>
+    <img src="{% static 'chords/img/guitar.jpg' %}" alt="Guitar picture" />
+{% endblock %}
