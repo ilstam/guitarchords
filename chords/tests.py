@@ -1,54 +1,80 @@
 from django.test import TestCase
+from django.core.urlresolvers import reverse
 
 from .models import Artist, Song
+
+
+def dummy_artist(name='Some Artist'):
+    artist = Artist(name=name)
+    artist.save()
+    return artist
+
+def dummy_song(title='Random Song'):
+    song = Song(title=title, artist=dummy_artist())
+    song.save()
+    return song
 
 
 class SongModelTests(TestCase):
     def test_slug_line_creation(self):
         """
-        make sure that when we add a song an appropriate slug line is created
-        i.e. "Random Song" -> "random-song"
+        When we add a song, an appropriate slug must be created.
         """
-        artist = Artist(name='Some Artist')
-        artist.save()
-        song = Song(title='Random Song', artist=artist)
-        song.save()
+        song = dummy_song(title='Random Song')
         self.assertEqual(song.slug, 'random-song')
 
     def test_slug_line_creation_greek(self):
         """
-        make sure that when we add a song with greek title an appropriate slug
-        line in english is created
-        i.e. "Τυχαίο όνομα από τραγούδι" -> "tyxaio-onoma-apo-tragoudi"
+        When we add a song with a greek title, an appropriate slug must be
+        created in english.
         """
-        artist = Artist(name='Κάποιος Καλλιτέχνης')
-        artist.save()
-        song = Song(title='Τυχαίο όνομα από τραγούδι', artist=artist)
-        song.save()
+        song = dummy_song(title='Τυχαίο όνομα από τραγούδι')
         self.assertEqual(song.slug, 'tyxaio-onoma-apo-tragoudi')
 
     def test_slugs_are_unique(self):
         """
-        make sure that slugs are always unique, even with same title and artist
+        Song slugs must be always unique, even when they have the same title.
         """
-        artist = Artist(name='Some Artist')
-        artist.save()
-        song1 = Song(title='Random Song', artist=artist)
-        song1.save()
-        song2 = Song(title=song1.title, artist=artist)
+        song1 = dummy_song()
+        song2 = Song(title=song1.title, artist=song1.artist)
         song2.save()
-
         self.assertNotEqual(song1.slug, song2.slug)
 
     def test_slugs_are_of_appropriate_size(self):
         """
-        make sure that slugs do not exceed the specified length
+        Song slug must not exceed the specified length.
         """
         slug_length = 5
-
-        artist = Artist(name='Some Artist')
-        artist.save()
-        song1 = Song(title='Random Song', artist=artist)
+        song1 = Song(title='Random Song', artist=dummy_artist())
         song1.save(slug_max_length=slug_length)
-
         self.assertEqual(len(song1.slug), slug_length)
+
+
+class IndexViewTests(TestCase):
+    def test_index_view_with_no_songs(self):
+        """
+        If no songs exist, an appropriate message should be displayed.
+        """
+        response = self.client.get(reverse('chords:index'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "There are no songs present at the moment.")
+        self.assertQuerysetEqual(response.context['songs'], [])
+
+
+class SongViewTests(TestCase):
+    def test_song_view_with_an_invalid_slug(self):
+        """
+        The song view should return a 404 not found for invalid slugs.
+        """
+        song = dummy_song()
+        response = self.client.get(reverse('chords:song',
+                                   args=(song.slug+"invalid",)))
+        self.assertEqual(response.status_code, 404)
+
+    def test_song_view_with_a_valid_slug(self):
+        """
+        The song view should display song title for valid slugs.
+        """
+        song = dummy_song()
+        response = self.client.get(reverse('chords:song', args=(song.slug,)))
+        self.assertContains(response, song.title, status_code=200)
