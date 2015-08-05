@@ -27,3 +27,14 @@ def generate_unique_slug(cls, string, max_length=-1):
         slug = "{0}-{1}".format(orig[:max_length - len(str(x)) - 1], x)
 
     return slug
+
+def greek_to_english_letters(s):
+    """
+    Converts all greek letters to lowercase english letters.
+    Useful for creating song slugs from greek song titles.
+    """
+    from_chars = 'αβγδεζηθικλμνξοπρσςτυφχψωάήέίόύώϊϋ'
+    to_chars = 'abgdezh8iklmn3oprsstyfxqwaheioywiy'
+
+    s = s.lower().translate(str.maketrans(from_chars, to_chars)).replace('q', 'ps')
+    return s.replace('8', 'th').replace('3', 'ks').replace('oy', 'ou')

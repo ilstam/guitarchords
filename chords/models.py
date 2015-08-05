@@ -1,6 +1,6 @@
 from django.db import models
 
-from .utils import generate_unique_slug
+from .utils import generate_unique_slug, greek_to_english_letters
 
 class Artist(models.Model):
     name = models.CharField(max_length=80)
@@ -25,6 +25,7 @@ class Song(models.Model):
         if not self.id:
             # generate slug only when creating an object to avoid broken links
             slug_text = '{0} {1}'.format(self.artist.surname, self.title)
+            slug_text = greek_to_english_letters(slug_text)
             self.slug = generate_unique_slug(Song, slug_text, slug_max_length)
 
         super(Song, self).save(*args, **kwargs)

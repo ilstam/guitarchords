@@ -24,7 +24,7 @@ class SongModelTests(TestCase):
         artist.save()
         song = Song(title='Τυχαίο Τραγούδι', artist=artist)
         song.save()
-        self.assertEqual(song.slug, 'kallitexnis-tyxaio-tragoudi')
+        self.assertEqual(song.slug, 'kallitexnhs-tyxaio-tragoudi')
 
     def test_slugs_are_unique_and_of_appropriate_size(self):
         """
