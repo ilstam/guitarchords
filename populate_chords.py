@@ -20,6 +20,7 @@ def add_song(title, artist, content, video='', tabs=False):
     s.content = content
     s.video = video
     s.tabs = tabs
+    s.save()
 
 def populate():
     artist_katsimixa = add_artist("Αδελφοί Κατσιμίχα")
