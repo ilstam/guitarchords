@@ -1,0 +1,12 @@
+{% extends 'chords/base.html' %}
+
+{% block title %}{{ song.title }}{% endblock %}
+
+{% block body_block %}
+    <h2>{{ song.title }}</h2>
+    <ul>
+        <li>Artist: {{ song.artist.name }}</li>
+        <li>Registered: {{ song.pub_date }}</li>
+    </ul>
+    <pre>{{ song.content }}</pre>
+{% endblock %}
