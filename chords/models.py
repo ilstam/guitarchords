@@ -1,23 +1,33 @@
 from django.db import models
 
-class Singer(models.Model):
+from .utils import generate_unique_slug
+
+class Artist(models.Model):
     name = models.CharField(max_length=80)
     surname = models.CharField(max_length=80)
 
     def __str__(self):
-        return "{0} {1}".format(self.name, self.surname) if self.name else self.surname
+        return '{0} {1}'.format(self.name, self.surname) if self.name else self.surname
 
 class Song(models.Model):
     title = models.CharField(max_length=100)
-    singer = models.ForeignKey(Singer)
-    content = models.TextField()
+    artist = models.ForeignKey(Artist)
+    content = models.TextField(default='')
     #genre = models.ForeignKey(Genre)
-    video = models.URLField(default="")
-    tabs = models.BooleanField('tablatures')
+    video = models.URLField(default='')
+    tabs = models.BooleanField('tablatures', default=False)
     #sender = models.ForeignKey(User)
     pub_date = models.DateTimeField('date published', auto_now_add=True)
     mod_date = models.DateTimeField('last modified', auto_now=True)
     slug = models.SlugField(unique=True, max_length=60)
 
+    def save(self, slug_max_length=-1, *args, **kwargs):
+        if not self.id:
+            # generate slug only when creating an object to avoid broken links
+            slug_text = '{0} {1}'.format(self.artist.surname, self.title)
+            self.slug = generate_unique_slug(Song, slug_text, slug_max_length)
+
+        super(Song, self).save(*args, **kwargs)
+
     def __str__(self):
-        return "{0}: {1}".format(self.singer, self.title)
+        return '{0}: {1}'.format(self.artist, self.title)
