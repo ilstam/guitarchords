@@ -9,8 +9,8 @@ def dummy_artist(name='Some Artist'):
     artist.save()
     return artist
 
-def dummy_song(title='Random Song'):
-    song = Song(title=title, artist=dummy_artist())
+def dummy_song(title='Random Song', artist_name='Some Artist'):
+    song = Song(title=title, artist=dummy_artist(name=artist_name))
     song.save()
     return song
 
@@ -58,7 +58,18 @@ class IndexViewTests(TestCase):
         response = self.client.get(reverse('chords:index'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "There are no songs present at the moment.")
+        self.assertNotContains(response, "Recently added songs")
         self.assertQuerysetEqual(response.context['songs'], [])
+
+    def test_index_view_with_songs(self):
+        """
+        The most recently added songs should be displayed on the index page.
+        """
+        song = dummy_song('Random Song', 'Some Artist')
+        response = self.client.get(reverse('chords:index'))
+        self.assertContains(response, "Recently added songs", status_code=200)
+        self.assertQuerysetEqual(response.context['songs'],
+                                 ['<Song: Some Artist - Random Song>'])
 
 
 class SongViewTests(TestCase):
