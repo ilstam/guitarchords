@@ -8,7 +8,7 @@
         <h2>Recently added songs</h2>
         <ul>
         {% for song in songs %}
-        <li><a href="{% url 'chords:song' song.slug %}">{{ song }}</a></li>
+        <li><a href="{% url 'chords:song' song.slug %}">{{ song.full_title }}</a></li>
         {% endfor %}
         </ul>
     {% else %}

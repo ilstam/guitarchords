@@ -39,5 +39,8 @@ class Song(models.Model):
         self.content = self.content.strip('\n')
         super(Song, self).save(*args, **kwargs)
 
-    def __str__(self):
+    def full_title(self):
         return '{0} - {1}'.format(self.artist, self.title)
+
+    def __str__(self):
+        return self.title
