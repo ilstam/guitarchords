@@ -15,9 +15,16 @@ def add_artist(name):
     a.save()
     return a
 
-def add_song(title, artist, content, video='', tabs=False, published=False):
+def add_song(title,
+             artist,
+             content,
+             genre='',
+             video='',
+             tabs=False,
+             published=False):
     s = Song.objects.get_or_create(title=title, artist=artist)[0]
     s.content = content
+    s.genre = genre
     s.video = video
     s.tabs = tabs
     s.published = published
@@ -30,6 +37,7 @@ def populate():
     add_song(
         title="Ρίτα Ριτάκι",
         artist=artist_katsimixa,
+        genre=Song.ENTEXNO,
         content="""
 G          Em        C             D
 Παλεύει το ποτάμι στη θάλασσα να βγει
@@ -80,6 +88,7 @@ G      Em   Am         D
     add_song(
         title="Δε με ελέγχω",
         artist=artist_xasma,
+        genre=Song.PUNK,
         content="""
                    Bm               D
 Κάνουν το λάθος το απλό, μα και σωστό
@@ -144,6 +153,7 @@ Bm
     add_song(
         title="Ό,τι αγαπώ είναι για λίγο",
         artist=artist_xasma,
+        genre=Song.PUNK,
         content="""
 F#5       A5               D5
 Κάθε μου λέξη σε κρυμμένη σελίδα
@@ -211,6 +221,7 @@ F#5 E5 D5
     add_song(
         title="Ρίτα",
         artist=artist_spathia,
+        genre=Song.ROCK,
         content="""
 Em                          G D
 Βρήκα χθες το βράδυ την αγάπη μου τη Ρίτα

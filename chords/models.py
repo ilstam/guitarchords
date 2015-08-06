@@ -20,17 +20,45 @@ class Artist(models.Model):
 
 
 class Song(models.Model):
+    BLUES = 'BLU'
+    CLASSIC = 'CLA'
+    CHANT = 'CHA'
+    ENTEXNO = 'EDE'
+    LAIKO = 'LAI'
+    POP = 'POP'
+    PUNK = 'PUN'
+    RAP = 'RAP'
+    REGGAE = 'REG'
+    ROCK = 'ROC'
+    TRADITIONAL = 'TRA'
+
+    GENRE_CHOICES = (
+        ('', '---'),
+        (BLUES, 'Blues'),
+        (CLASSIC, 'Classic'),
+        (CHANT, 'Chant'),
+        (ENTEXNO, 'Entexno'),
+        (LAIKO, 'Laiko'),
+        (POP, 'Pop'),
+        (PUNK, 'Punk'),
+        (RAP, 'Rap'),
+        (REGGAE, 'Reggae'),
+        (ROCK, 'Rock'),
+        (TRADITIONAL, 'Traditional'),
+    )
+
     title = models.CharField(max_length=100)
     artist = models.ForeignKey(Artist)
     content = models.TextField(default='')
-    #genre = models.ForeignKey(Genre)
+    genre = models.CharField(max_length=3,
+                             choices=GENRE_CHOICES,
+                             default='',
+                             blank=True)
     video = models.URLField(blank=True)
     tabs = models.BooleanField('tablatures', default=False)
     #sender = models.ForeignKey(User)
     published = models.BooleanField(default=False)
-    # when the song initially submitted by a user for approval
     reg_date = models.DateTimeField('date registered', auto_now_add=True)
-    # when the song actually published after approval
     pub_date = models.DateTimeField('date published', null=True, blank=True)
     mod_date = models.DateTimeField('last modified', auto_now=True)
     slug = models.SlugField(unique=True)
@@ -53,6 +81,9 @@ class Song(models.Model):
 
     def full_title(self):
         return '{0} - {1}'.format(self.artist, self.title)
+
+    def genre_str(self):
+        return self.get_genre_display()
 
     def __str__(self):
         return self.title
