@@ -108,6 +108,25 @@ class IndexViewTests(TestCase):
                                  ['<Song: Random Song>'])
 
 
+class ArtistViewTests(TestCase):
+    def test_artist_view_with_an_invalid_slug(self):
+        """
+        The artist view should return a 404 not found for invalid slugs.
+        """
+        artist = dummy_artist()
+        response = self.client.get(reverse('chords:artist',
+                                   args=(artist.slug+"invalid",)))
+        self.assertEqual(response.status_code, 404)
+
+    def test_artist_view_with_a_valid_slug(self):
+        """
+        The artist view should display artist name for valid slugs.
+        """
+        artist = dummy_artist()
+        response = self.client.get(reverse('chords:artist', args=(artist.slug,)))
+        self.assertContains(response, artist.name, status_code=200)
+
+
 class SongViewTests(TestCase):
     def test_song_view_with_an_invalid_slug(self):
         """
