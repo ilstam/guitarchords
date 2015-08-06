@@ -75,6 +75,8 @@ class Song(models.Model):
 
         if self.old_published != self.published and self.published:
             self.pub_date = timezone.now()
+        if self.old_published != self.published and not self.published:
+            self.pub_date = None
         self.old_published = self.published
 
         super(Song, self).save(*args, **kwargs)

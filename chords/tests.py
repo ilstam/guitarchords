@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
+from django.utils import timezone
 
 from .models import Artist, Song
 
@@ -109,6 +110,26 @@ class SongModelTests(TestCase):
         song.title = "Some Other Name"
         song.save()
         self.assertNotEqual(song.slug, orig_slug)
+
+    def test_pub_date_with_a_published_song(self):
+        """
+        Published songs must have a published day in past.
+        """
+        song = create_song(published=True)
+        self.assertLessEqual(song.pub_date, timezone.now())
+
+    def test_pub_date_with_an_unpublished_song(self):
+        """
+        Un-published songs should have no publish date, even if they published
+        once.
+        """
+        song = create_song(published=False)
+        self.assertEqual(song.pub_date, None)
+        song.published = True
+        song.save()
+        song.published = False
+        song.save()
+        self.assertEqual(song.pub_date, None)
 
 
 class IndexViewTests(TestCase):
