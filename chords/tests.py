@@ -105,7 +105,7 @@ class IndexViewTests(TestCase):
         response = self.client.get(reverse('chords:index'))
         self.assertContains(response, "Recently added songs", status_code=200)
         self.assertQuerysetEqual(response.context['songs'],
-                                 ['<Song: Some Artist - Random Song>'])
+                                 ['<Song: Random Song>'])
 
 
 class SongViewTests(TestCase):
