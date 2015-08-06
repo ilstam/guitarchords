@@ -15,6 +15,42 @@ def dummy_song(title='Random Song', artist_name='Some Artist'):
     return song
 
 
+class ArtistModelTests(TestCase):
+    def test_slug_line_creation(self):
+        """
+        When we add an artist, an appropriate slug must be created.
+        """
+        artist = dummy_artist(name='Some Artist')
+        self.assertEqual(artist.slug, 'some-artist')
+
+    def test_slug_line_creation_greek(self):
+        """
+        When we add an artist with a greek name, an appropriate slug must be
+        created in english.
+        """
+        artist = dummy_artist(name='Τυχαίο Όνομα Καλλιτέχνη')
+        self.assertEqual(artist.slug, 'tyxaio-onoma-kallitexnh')
+
+    def test_slugs_are_unique(self):
+        """
+        Artist slugs must be always unique, even when there artists with the
+        same name.
+        """
+        artist1 = dummy_artist()
+        artist2 = Artist(name=artist1.name)
+        artist2.save()
+        self.assertNotEqual(artist1.slug, artist2.slug)
+
+    def test_slugs_are_of_appropriate_size(self):
+        """
+        Artist slug must not exceed the specified length.
+        """
+        slug_length = 20
+        artist = Artist(name='Some Artist')
+        artist.save(slug_max_length=slug_length)
+        self.assertLessEqual(len(artist.slug), slug_length)
+
+
 class SongModelTests(TestCase):
     def test_slug_line_creation(self):
         """
@@ -45,9 +81,9 @@ class SongModelTests(TestCase):
         Song slug must not exceed the specified length.
         """
         slug_length = 5
-        song1 = Song(title='Random Song', artist=dummy_artist())
-        song1.save(slug_max_length=slug_length)
-        self.assertEqual(len(song1.slug), slug_length)
+        song = Song(title='Random Song', artist=dummy_artist())
+        song.save(slug_max_length=slug_length)
+        self.assertLessEqual(len(song.slug), slug_length)
 
 
 class IndexViewTests(TestCase):

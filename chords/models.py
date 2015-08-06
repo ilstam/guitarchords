@@ -5,6 +5,15 @@ from .utils import generate_unique_slug, greek_to_english_letters
 class Artist(models.Model):
     # names are stored in the "Surname Name" format
     name = models.CharField(max_length=80)
+    slug = models.SlugField(unique=True)
+
+    def save(self, slug_max_length=-1, *args, **kwargs):
+        if not self.id:
+            # generate slug only when creating an object to avoid broken links
+            slug_text = greek_to_english_letters(self.name)
+            self.slug = generate_unique_slug(Artist, slug_text, slug_max_length)
+
+        super(Artist, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
