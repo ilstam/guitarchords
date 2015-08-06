@@ -205,7 +205,7 @@ F#5 E5 D5
     # print out what we have added to the user
     for a in Artist.objects.all():
         for s in Song.objects.filter(artist=a):
-            print(str(s))
+            print('{0} - {1}'.format(str(a), str(s)))
 
 
 if __name__ == '__main__':

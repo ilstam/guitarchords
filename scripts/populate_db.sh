@@ -4,5 +4,7 @@
 cd ..
 ./manage.py makemigrations chords
 ./manage.py migrate
+echo ""
 ./populate_chords.py
+echo ""
 ./manage.py createsuperuser
