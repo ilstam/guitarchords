@@ -11,5 +11,11 @@ def song(request, song_slug):
     song = get_object_or_404(Song, slug=song_slug)
     return render(request, 'chords/song.html', {'song' : song})
 
+def artist(request, artist_slug):
+    artist = get_object_or_404(Artist, slug=artist_slug)
+    songs = Song.objects.filter(artist=artist)
+    context = {'artist' : artist, 'songs' : songs}
+    return render(request, 'chords/artist.html', context)
+
 def about(request):
     return render(request, 'chords/about.html', {})
