@@ -10,10 +10,8 @@ class Artist(models.Model):
     slug = models.SlugField(unique=True)
 
     def save(self, slug_max_length=-1, *args, **kwargs):
-        if not self.id:
-            # generate slug only when creating an object to avoid broken links
-            slug_text = greek_to_english_letters(self.name)
-            self.slug = generate_unique_slug(Artist, slug_text, slug_max_length)
+        slug_text = greek_to_english_letters(self.name)
+        self.slug = generate_unique_slug(Artist, slug_text, slug_max_length)
 
         super(Artist, self).save(*args, **kwargs)
 
@@ -35,19 +33,17 @@ class Song(models.Model):
     # when the song actually published after approval
     pub_date = models.DateTimeField('date published', null=True, blank=True)
     mod_date = models.DateTimeField('last modified', auto_now=True)
-    slug = models.SlugField(unique=True, max_length=60)
+    slug = models.SlugField(unique=True)
 
     def __init__(self, *args, **kwargs):
         super(Song, self).__init__(*args, **kwargs)
         self.old_published = self.published
 
     def save(self, slug_max_length=-1, *args, **kwargs):
-        if not self.id:
-            # generate slug only when creating an object to avoid broken links
-            slug_text = greek_to_english_letters(self.title)
-            self.slug = generate_unique_slug(Song, slug_text, slug_max_length)
-
         self.content = self.content.strip('\n')
+
+        slug_text = greek_to_english_letters(self.title)
+        self.slug = generate_unique_slug(Song, slug_text, slug_max_length)
 
         if self.old_published != self.published and self.published:
             self.pub_date = timezone.now()

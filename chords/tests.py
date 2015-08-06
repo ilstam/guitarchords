@@ -38,8 +38,8 @@ class ArtistModelTests(TestCase):
 
     def test_slugs_are_unique(self):
         """
-        Artist slugs must be always unique, even when there artists with the
-        same name.
+        Artist slugs must be always unique, even when there are artists with
+        the same name.
         """
         artist1 = create_artist()
         artist2 = Artist(name=artist1.name)
@@ -54,6 +54,16 @@ class ArtistModelTests(TestCase):
         artist = Artist(name='Some Artist')
         artist.save(slug_max_length=slug_length)
         self.assertLessEqual(len(artist.slug), slug_length)
+
+    def test_slug_changes_when_name_changes(self):
+        """
+        When we change the artist name, the slug should also be updated.
+        """
+        artist = create_artist(name='Some Artist')
+        orig_slug = artist.slug
+        artist.name = "Some Other Name"
+        artist.save()
+        self.assertNotEqual(artist.slug, orig_slug)
 
 
 class SongModelTests(TestCase):
@@ -89,6 +99,16 @@ class SongModelTests(TestCase):
         song = Song(title='Random Song', artist=create_artist())
         song.save(slug_max_length=slug_length)
         self.assertLessEqual(len(song.slug), slug_length)
+
+    def test_slug_changes_when_title_changes(self):
+        """
+        When we change the song title, the slug should also be updated.
+        """
+        song = create_song(title='Random Song')
+        orig_slug = song.slug
+        song.title = "Some Other Name"
+        song.save()
+        self.assertNotEqual(song.slug, orig_slug)
 
 
 class IndexViewTests(TestCase):
