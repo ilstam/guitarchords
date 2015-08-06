@@ -1,6 +1,5 @@
-from datetime import datetime
-
 from django.db import models
+from django.utils import timezone
 
 from .utils import generate_unique_slug, greek_to_english_letters
 
@@ -51,7 +50,7 @@ class Song(models.Model):
         self.content = self.content.strip('\n')
 
         if self.old_published != self.published and self.published:
-            self.pub_date = datetime.now()
+            self.pub_date = timezone.now()
         self.old_published = self.published
 
         super(Song, self).save(*args, **kwargs)

@@ -15,11 +15,12 @@ def add_artist(name):
     a.save()
     return a
 
-def add_song(title, artist, content, video='', tabs=False):
+def add_song(title, artist, content, video='', tabs=False, published=False):
     s = Song.objects.get_or_create(title=title, artist=artist)[0]
     s.content = content
     s.video = video
     s.tabs = tabs
+    s.published = published
     s.save()
     return s
 
@@ -70,7 +71,8 @@ G      Em   C          D
 Ρίτα-Ριτάκι, τίποτα δε θυμάσαι
 G      Em   Am         D
 Ρίτα-Ριτάκι, απόψε πού κοιμάσαι
-"""
+""",
+        published = True
             )
 
     artist_xasma = add_artist("Χάσμα")
@@ -135,7 +137,8 @@ Bm
 δε με ελέγχω - να σε κοιτώ απλά
         G
 δε με ελέγχω - χάνομαι - γίνομαι σκιά
-"""
+""",
+        published = True
             )
 
     add_song(
@@ -199,7 +202,46 @@ D5                  E5                 A5
 
 <em>Κλείσιμο</em>
 F#5 E5 D5
-"""
+""",
+        published = True
+            )
+
+    artist_spathia = add_artist("Ξύλινα Σπαθιά")
+
+    add_song(
+        title="Ρίτα",
+        artist=artist_spathia,
+        content="""
+Em                          G D
+Βρήκα χθες το βράδυ την αγάπη μου τη Ρίτα
+κλώτσαγε τον Πύργο έριχνε πέτρες στα καράβια
+κοίτα με στα μάτια μη φοβάσαι λέει κοίτα
+Ρίτα τι να δω μωρό μου έχουν μείνει άδεια
+
+Ρίτα πως μπορείς να τα ξεχάσεις όλα εκείνα
+τα όνειρα που κάναμε να φύγουμε παρέα
+μου 'χες πει μαζί θα την περνάμε πάντα φίνα
+πάντοτε οι δυο μας θα τη βγάζαμε ωραία
+
+E      G
+Η Ρίτα αλλάζει
+ D            A
+τώρα πια δεν την τρομάζει
+E       G
+η νύχτα τα φώτα
+D            A
+όχι πια, όχι όπως πρώτα
+
+Ρίτα σ' ένα κόσμο από σίδερο κι ατσάλι
+βρες μου ένα τρόπο να μη ντρέπομαι να ζήσω
+Ρίτα μου 'χουν βάλει δυναμίτη στο κεφάλι
+Ρίτα μην πεθαίνεις μη μ' αφήνεις να σ' αφήσω
+
+Η Ρίτα το ξέρει
+ακονίζει το μαχαίρι
+Ρίτα σταμάτα, σταμάτα, σταμάτα
+""",
+        published = False
             )
 
     # print out what we have added to the user

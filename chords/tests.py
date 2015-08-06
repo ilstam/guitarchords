@@ -4,13 +4,18 @@ from django.core.urlresolvers import reverse
 from .models import Artist, Song
 
 
-def dummy_artist(name='Some Artist'):
+def create_artist(name='Some Artist'):
     artist = Artist(name=name)
     artist.save()
     return artist
 
-def dummy_song(title='Random Song', artist_name='Some Artist'):
-    song = Song(title=title, artist=dummy_artist(name=artist_name))
+def create_song(title='Random Song', artist_name='Some Artist', artist=None,
+                published=True):
+    if artist is None:
+        song = Song(title=title, artist=create_artist(name=artist_name))
+    else:
+        song = Song(title=title, artist=artist)
+    song.published = published
     song.save()
     return song
 
@@ -20,7 +25,7 @@ class ArtistModelTests(TestCase):
         """
         When we add an artist, an appropriate slug must be created.
         """
-        artist = dummy_artist(name='Some Artist')
+        artist = create_artist(name='Some Artist')
         self.assertEqual(artist.slug, 'some-artist')
 
     def test_slug_line_creation_greek(self):
@@ -28,7 +33,7 @@ class ArtistModelTests(TestCase):
         When we add an artist with a greek name, an appropriate slug must be
         created in english.
         """
-        artist = dummy_artist(name='Τυχαίο Όνομα Καλλιτέχνη')
+        artist = create_artist(name='Τυχαίο Όνομα Καλλιτέχνη')
         self.assertEqual(artist.slug, 'tyxaio-onoma-kallitexnh')
 
     def test_slugs_are_unique(self):
@@ -36,7 +41,7 @@ class ArtistModelTests(TestCase):
         Artist slugs must be always unique, even when there artists with the
         same name.
         """
-        artist1 = dummy_artist()
+        artist1 = create_artist()
         artist2 = Artist(name=artist1.name)
         artist2.save()
         self.assertNotEqual(artist1.slug, artist2.slug)
@@ -56,7 +61,7 @@ class SongModelTests(TestCase):
         """
         When we add a song, an appropriate slug must be created.
         """
-        song = dummy_song(title='Random Song')
+        song = create_song(title='Random Song')
         self.assertEqual(song.slug, 'random-song')
 
     def test_slug_line_creation_greek(self):
@@ -64,14 +69,14 @@ class SongModelTests(TestCase):
         When we add a song with a greek title, an appropriate slug must be
         created in english.
         """
-        song = dummy_song(title='Τυχαίο όνομα από τραγούδι')
+        song = create_song(title='Τυχαίο όνομα από τραγούδι')
         self.assertEqual(song.slug, 'tyxaio-onoma-apo-tragoudi')
 
     def test_slugs_are_unique(self):
         """
         Song slugs must be always unique, even when they have the same title.
         """
-        song1 = dummy_song()
+        song1 = create_song()
         song2 = Song(title=song1.title, artist=song1.artist)
         song2.save()
         self.assertNotEqual(song1.slug, song2.slug)
@@ -81,7 +86,7 @@ class SongModelTests(TestCase):
         Song slug must not exceed the specified length.
         """
         slug_length = 5
-        song = Song(title='Random Song', artist=dummy_artist())
+        song = Song(title='Random Song', artist=create_artist())
         song.save(slug_max_length=slug_length)
         self.assertLessEqual(len(song.slug), slug_length)
 
@@ -97,13 +102,33 @@ class IndexViewTests(TestCase):
         self.assertNotContains(response, "Recently added songs")
         self.assertQuerysetEqual(response.context['songs'], [])
 
-    def test_index_view_with_songs(self):
+    def test_index_view_with_a_published_song(self):
         """
-        The most recently added songs should be displayed on the index page.
+        Recently published songs should be displayed on the index page.
         """
-        song = dummy_song('Random Song', 'Some Artist')
+        create_song(title='Random Song', published=True)
         response = self.client.get(reverse('chords:index'))
-        self.assertContains(response, "Recently added songs", status_code=200)
+        self.assertQuerysetEqual(response.context['songs'],
+                                 ['<Song: Random Song>'])
+
+    def test_index_view_with_a_unpublished_song(self):
+        """
+        Recently un-published songs should not be displayed on the index page.
+        """
+        create_song(published=False)
+        response = self.client.get(reverse('chords:index'))
+        self.assertContains(response, "There are no songs present at the moment.")
+        self.assertNotContains(response, "Recently added songs")
+        self.assertQuerysetEqual(response.context['songs'], [])
+
+    def test_index_view_with_published_and_unpublished_song(self):
+        """
+        Even if both published and un-published songs exist, only published
+        songs should be displayed on the index page.
+        """
+        create_song(title='Random Song', published=True)
+        create_song(title='Another Random Song', published=False)
+        response = self.client.get(reverse('chords:index'))
         self.assertQuerysetEqual(response.context['songs'],
                                  ['<Song: Random Song>'])
 
@@ -113,7 +138,7 @@ class ArtistViewTests(TestCase):
         """
         The artist view should return a 404 not found for invalid slugs.
         """
-        artist = dummy_artist()
+        artist = create_artist()
         response = self.client.get(reverse('chords:artist',
                                    args=(artist.slug+"invalid",)))
         self.assertEqual(response.status_code, 404)
@@ -122,9 +147,40 @@ class ArtistViewTests(TestCase):
         """
         The artist view should display artist name for valid slugs.
         """
-        artist = dummy_artist()
+        artist = create_artist()
         response = self.client.get(reverse('chords:artist', args=(artist.slug,)))
         self.assertContains(response, artist.name, status_code=200)
+
+    def test_artist_view_with_a_published_song(self):
+        """
+        The artist view should display song title for published songs.
+        """
+        song = create_song(published=True)
+        response = self.client.get(reverse('chords:artist',
+                                   args=(song.artist.slug,)))
+        self.assertContains(response, song.title, status_code=200)
+
+    def test_artist_view_with_a_unpublished_song(self):
+        """
+        The artist view should not display song title for un-published songs.
+        """
+        song = create_song(published=False)
+        response = self.client.get(reverse('chords:artist',
+                                   args=(song.artist.slug,)))
+        self.assertQuerysetEqual(response.context['songs'], [])
+
+    def test_artist_view_with_published_and_unpublished_song(self):
+        """
+        Even if both published and un-published songs exist, only published
+        songs should be displayed on the artist view.
+        """
+        artist = create_artist()
+        song1 = create_song(title='Random Song', artist=artist, published=True)
+        song2 = create_song(artist=artist, published=False)
+
+        response = self.client.get(reverse('chords:artist', args=(artist.slug,)))
+        self.assertQuerysetEqual(response.context['songs'],
+                                 ['<Song: Random Song>'])
 
 
 class SongViewTests(TestCase):
@@ -132,7 +188,7 @@ class SongViewTests(TestCase):
         """
         The song view should return a 404 not found for invalid slugs.
         """
-        song = dummy_song()
+        song = create_song()
         response = self.client.get(reverse('chords:song',
                                    args=(song.slug+"invalid",)))
         self.assertEqual(response.status_code, 404)
@@ -141,6 +197,22 @@ class SongViewTests(TestCase):
         """
         The song view should display song title for valid slugs.
         """
-        song = dummy_song()
+        song = create_song(published=True)
         response = self.client.get(reverse('chords:song', args=(song.slug,)))
         self.assertContains(response, song.title, status_code=200)
+
+    def test_song_view_with_a_published_song(self):
+        """
+        The song view should display song title for published songs.
+        """
+        song = create_song(published=True)
+        response = self.client.get(reverse('chords:song', args=(song.slug,)))
+        self.assertContains(response, song.title, status_code=200)
+
+    def test_song_view_with_an_unpublished_song(self):
+        """
+        The song view should return a 404 not found for un-published songs.
+        """
+        song = create_song(published=False)
+        response = self.client.get(reverse('chords:song', args=(song.slug,)))
+        self.assertEqual(response.status_code, 404)
