@@ -1,3 +1,4 @@
+import re
 import itertools
 
 from django.template.defaultfilters import slugify
@@ -38,3 +39,16 @@ def greek_to_english_letters(s):
 
     s = s.lower().translate(str.maketrans(from_chars, to_chars)).replace('q', 'ps')
     return s.replace('8', 'th').replace('3', 'ks').replace('oy', 'ou')
+
+def parse_song(song):
+    """
+    Parse song and enclose every chord in span tags of class "chord".
+
+    Chords are surrounded by @ symbols.
+    So "lorem @G#dim7@ ipsum" should become "<span class="chord">G#dim7</span>".
+
+    It will also strip empty lines from the end and beginning of the song.
+    """
+    song = song.strip('\n')
+    return re.sub('(^|\s)@([\S]+)@(\s|$)', r'\1<span class="chord">\2</span>\3',
+                  song)
