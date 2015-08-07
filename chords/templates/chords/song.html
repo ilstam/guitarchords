@@ -3,11 +3,5 @@
 {% block title %}{{ song.title }}{% endblock %}
 
 {% block body_block %}
-    <h2>{{ song.title }}</h2>
-    <ul>
-        <li>Artist: <a href="{% url 'chords:artist' song.artist.slug %}">{{ song.artist.name }}</a></li>
-        <li>Registered: {{ song.pub_date }}</li>
-        <li>Genre: {{ song.genre_str }}</li>
-    </ul>
-    <pre>{{ song.content }}</pre>
+    {% include "chords/display_song.html" %}
 {% endblock %}
