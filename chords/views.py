@@ -26,15 +26,27 @@ def add_song(request):
             print(form.cleaned_data)
             return redirect('chords:verify_song')
     else:
-        form = AddSongForm()
+        form = AddSongForm(initial=request.session.get('song_data', None))
 
     return render(request, 'chords/add_song.html', {'form' : form})
 
 def verify_song(request):
     song_data = request.session.get('song_data', None)
-    song = Song.create_song_from_json(song_data, save=False)
+    if song_data is None:
+        return redirect('chords:add_song')
+
+    song = Song.create_song_from_json(data=song_data, save=False)
     context = {'song' : song, 'pseudo_artist' : song_data['artist_txt']}
     return render(request, 'chords/verify_song.html', context)
+
+def song_submitted(request):
+    song_data = request.session.get('song_data', None)
+    if song_data is None:
+        return redirect('chords:add_song')
+
+    Song.create_song_from_json(data=song_data, save=True)
+    del request.session['song_data']
+    return render(request, 'chords/song_submitted.html', {})
 
 def about(request):
     return render(request, 'chords/about.html', {})

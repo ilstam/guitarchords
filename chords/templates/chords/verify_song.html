@@ -7,5 +7,10 @@
     Please verify the song.
     <hr />
     {% include "chords/display_song.html" %}
-    <hr />
+    <form method="get" action="{% url 'chords:add_song' %}">
+        <input type="submit" id="goback_btn" value="Go back" />
+    </form>
+    <form method="get" action="{% url 'chords:song_submitted' %}">
+        <input type="submit" id="submit_btn" value="It's ok, submit song!" />
+    </form>
 {% endblock %}
