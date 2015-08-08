@@ -1,6 +1,7 @@
 from django.forms import ModelForm, CharField, Textarea
 
 from .models import Song
+from .utils import strip_whitespace_lines
 
 
 class AddSongForm(ModelForm):
@@ -37,3 +38,14 @@ class AddSongForm(ModelForm):
                 'required' : "Remember to include the song!"
             },
         }
+
+    def clean(self):
+        self.cleaned_data['content'] = strip_whitespace_lines(
+                self.cleaned_data['content'])
+
+        video_url = self.cleaned_data['video']
+        if video_url and not (video_url.startswith('http://')
+        or video_url.startswith('https://')):
+            self.cleaned_data['video'] = 'http://' + video_url
+
+        return self.cleaned_data
