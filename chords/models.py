@@ -95,11 +95,22 @@ class Song(models.Model):
     def __str__(self):
         return self.title
 
+    @staticmethod
     def create_song_from_json(data, save=False):
+        """
+        Create and return a Song object with the values of the data dict.
+
+        If save is True, save the resulting song and artist to the database.
+        Else, use the NullArtist as the artist and don't touch the database.
+
+        The NullArtist serves testing purposes and may never be visible to
+        the end user. By using this method combined with a browser session,
+        it's a useful way for exchanging data of dummy songs between views
+        without touching the database.
+        """
         if save:
             artist = Artist(name=data['artist_txt'])
         else:
-            # NullArtist serves testing purposes
             artist = Artist.objects.get_or_create(name='NullArtist')[0]
         artist.save()
 
