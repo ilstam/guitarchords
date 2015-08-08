@@ -1,8 +1,9 @@
-from django.test import TestCase
+from django.test import TestCase, SimpleTestCase
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 
 from .models import Artist, Song
+from . import utils
 
 
 def create_artist(name='Some Artist'):
@@ -267,3 +268,38 @@ class SongViewTests(TestCase):
         song = create_song(published=False)
         response = self.client.get(reverse('chords:song', args=(song.slug,)))
         self.assertEqual(response.status_code, 404)
+
+
+class TestUtils(SimpleTestCase):
+    def test_strip_whitespace_lines(self):
+        """
+        The strip_empty_lines() function should remove all empty lines from
+        end and begging and any adjacent whitespace lines inside.
+        """
+        s1 = """
+
+
+        some identation here
+
+
+lorem ipsum
+
+"""
+        s2 = """        some identation here
+
+lorem ipsum"""
+        self.assertEqual(utils.strip_whitespace_lines(s1), s2)
+
+    def test_song_parsing(self):
+        """
+        A song must have all its chords enclosed in span tags after parsing and
+        all empty lines in the begging end the end must be stripped.
+        """
+        orig = """
+      @Am@  @G#@
+Lorem ipsum, lorem ipsum
+
+"""
+        result = """      <span class="chord">Am</span>  <span class="chord">G#</span>
+Lorem ipsum, lorem ipsum"""
+        self.assertEqual(utils.parse_song(orig), result)
