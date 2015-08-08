@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 from django.utils import timezone
 
 from .models import Artist, Song
+from .forms import AddSongForm
 from . import utils
 
 
@@ -268,6 +269,59 @@ class SongViewTests(TestCase):
         song = create_song(published=False)
         response = self.client.get(reverse('chords:song', args=(song.slug,)))
         self.assertEqual(response.status_code, 404)
+
+
+class AddSongFormTests(TestCase):
+    def test_form_with_valid_data(self):
+        """
+        Form must be valid with sensible data.
+        """
+        data = {'title' : 'Title', 'artist_txt' : 'Artist', 'genre' : Song.POP,
+                'video' : 'https://www.example.com', 'tabs' : True,
+                'content' : 'content'
+                }
+        form = AddSongForm(data=data)
+        self.assertTrue(form.is_valid())
+
+    def test_form_with_invalid_data(self):
+        """
+        Form cannot be valid if any of title, artist_txt, genre or content
+        is missing, or if we give an invalid url.
+        """
+        form = AddSongForm()
+        self.assertFalse(form.is_valid())
+
+        # title required
+        data = {'title' : '', 'artist_txt' : 'Artist', 'genre' : Song.POP,
+                'video' : 'https://www.example.com', 'tabs' : True,
+                'content' : 'content'
+                }
+        form = AddSongForm(data=data)
+        self.assertFalse(form.is_valid())
+
+        # artist_txt required
+        data = {'title' : 'Title', 'artist_txt' : '', 'genre' : Song.POP,
+                'video' : 'https://www.example.com', 'tabs' : True,
+                'content' : 'content'
+                }
+        form = AddSongForm(data=data)
+        self.assertFalse(form.is_valid())
+
+        # genre required
+        data = {'title' : 'Title', 'artist_txt' : 'Artist', 'genre' : None,
+                'video' : 'https://www.example.com', 'tabs' : True,
+                'content' : 'content'
+                }
+        form = AddSongForm(data=data)
+        self.assertFalse(form.is_valid())
+
+        # invalid url
+        data = {'title' : 'Title', 'artist_txt' : 'Artist', 'genre' : Song.POP,
+                'video' : 'invalid_url', 'tabs' : True,
+                'content' : 'content'
+                }
+        form = AddSongForm(data=data)
+        self.assertFalse(form.is_valid())
 
 
 class TestUtils(SimpleTestCase):
