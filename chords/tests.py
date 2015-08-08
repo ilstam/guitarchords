@@ -56,15 +56,16 @@ class ArtistModelTests(TestCase):
         artist.save(slug_max_length=slug_length)
         self.assertLessEqual(len(artist.slug), slug_length)
 
-    def test_slug_changes_when_name_changes(self):
+    def test_slug_when_name_changes(self):
         """
-        When we change the artist name, the slug should also be updated.
+        Once created slug must never change, even when we update the artist
+        name, in order to avoid broken links.
         """
         artist = create_artist(name='Some Artist')
         orig_slug = artist.slug
         artist.name = "Some Other Name"
         artist.save()
-        self.assertNotEqual(artist.slug, orig_slug)
+        self.assertEqual(artist.slug, orig_slug)
 
 
 class SongModelTests(TestCase):
@@ -101,15 +102,16 @@ class SongModelTests(TestCase):
         song.save(slug_max_length=slug_length)
         self.assertLessEqual(len(song.slug), slug_length)
 
-    def test_slug_changes_when_title_changes(self):
+    def test_slug_when_title_changes(self):
         """
-        When we change the song title, the slug should also be updated.
+        Once created, slug must never change, even when we update the song
+        title, in order to avoid broken links.
         """
         song = create_song(title='Random Song')
         orig_slug = song.slug
         song.title = "Some Other Name"
         song.save()
-        self.assertNotEqual(song.slug, orig_slug)
+        self.assertEqual(song.slug, orig_slug)
 
     def test_pub_date_with_a_published_song(self):
         """
