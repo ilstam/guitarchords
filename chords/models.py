@@ -34,7 +34,6 @@ class Song(models.Model):
     TRADITIONAL = 'TRA'
 
     GENRE_CHOICES = (
-        ('', '---'),
         (BLUES, 'Blues'),
         (CLASSIC, 'Classic'),
         (CHANT, 'Chant'),
@@ -53,8 +52,8 @@ class Song(models.Model):
     content = models.TextField(default='')
     genre = models.CharField(max_length=3,
                              choices=GENRE_CHOICES,
-                             default='',
-                             blank=True)
+                             default=ENTEXNO,
+                            )
     video = models.URLField(blank=True)
     tabs = models.BooleanField('tablatures', default=False)
     #sender = models.ForeignKey(User)
