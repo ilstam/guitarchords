@@ -225,6 +225,14 @@ class ArtistViewTests(TestCase):
         self.assertQuerysetEqual(response.context['songs'],
                                  ['<Song: Random Song>'])
 
+    def test_nullartist_is_visible(self):
+        """
+        The Null Artist must not be visible and the artist view must return a
+        404 not found.
+        """
+        artist = Artist.objects.get_or_create(name='NullArtist')[0]
+        response = self.client.get(reverse('chords:artist', args=(artist.slug,)))
+        self.assertEqual(response.status_code, 404)
 
 class SongViewTests(TestCase):
     def test_song_view_with_an_invalid_slug(self):

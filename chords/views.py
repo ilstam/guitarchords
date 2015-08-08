@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import Q
 
 from .models import Artist, Song
 from .forms import AddSongForm
@@ -13,7 +14,7 @@ def song(request, song_slug):
     return render(request, 'chords/song.html', {'song' : song})
 
 def artist(request, artist_slug):
-    artist = get_object_or_404(Artist, slug=artist_slug)
+    artist = get_object_or_404(Artist, ~Q(name='NullArtist'), slug=artist_slug)
     songs = Song.objects.filter(artist=artist, published=True)
     context = {'artist' : artist, 'songs' : songs}
     return render(request, 'chords/artist.html', context)
