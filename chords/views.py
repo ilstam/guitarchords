@@ -6,6 +6,8 @@ from .forms import AddSongForm
 
 
 def index(request):
+    if 'song_data' in request.session:
+        del request.session['song_data']
     recent_songs = Song.objects.filter(published=True).order_by('-pub_date')[:5]
     return render(request, 'chords/index.html', {'songs' : recent_songs})
 
