@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 
 from .utils import generate_unique_slug, greek_to_english_letters
+from .utils import strip_whitespace_lines
 
 
 class Artist(models.Model):
@@ -75,7 +76,7 @@ class Song(models.Model):
             slug_text = greek_to_english_letters(self.title)
             self.slug = generate_unique_slug(Song, slug_text, slug_max_length)
 
-        self.content = self.content.strip('\n')
+        self.content = strip_whitespace_lines(self.content)
 
         if self.old_published != self.published and self.published:
             self.pub_date = timezone.now()

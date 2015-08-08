@@ -52,3 +52,21 @@ def parse_song(song):
     song = song.strip('\n')
     return re.sub('(^|\s)@([\S]+)@(\s|$)', r'\1<span class="chord">\2</span>\3',
                   song)
+
+def strip_whitespace_lines(string):
+    """
+    Remove whitespace lines from the beginning and the end of the string,
+    as well as adjacent whitespace lines inside.
+    """
+    lines = [(l.strip() if not l.strip() else l) for l in string.splitlines()]
+
+    # remove whitespace lines from beginning and end
+    while lines and not lines[0]:
+        lines.pop(0)
+    while lines and not lines[-1]:
+        lines.pop()
+
+    # remove any adjacent whitespace lines
+    lines = [l[0] for l in itertools.groupby(lines)]
+
+    return '\n'.join(lines)
