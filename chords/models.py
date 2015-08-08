@@ -7,6 +7,7 @@ from .utils import generate_unique_slug, greek_to_english_letters
 class Artist(models.Model):
     # names are stored in the "Surname Name" format
     name = models.CharField(max_length=80)
+    reg_date = models.DateTimeField('date registered', auto_now_add=True)
     slug = models.SlugField(unique=True)
 
     def save(self, slug_max_length=-1, *args, **kwargs):
