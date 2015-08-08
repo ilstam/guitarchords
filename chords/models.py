@@ -89,3 +89,25 @@ class Song(models.Model):
 
     def __str__(self):
         return self.title
+
+    def create_song_from_json(data, save=False):
+        if save:
+            artist = Artist(name=data['artist_txt'])
+        else:
+            # NullArtist serves testing purposes
+            artist = Artist.objects.get_or_create(name='NullArtist')[0]
+        artist.save()
+
+        song = Song(
+            title=data['title'],
+            artist=artist,
+            video=data['video'],
+            genre=data['genre'],
+            tabs=data['tabs'],
+            content=data['content'],
+        )
+
+        if save:
+            song.save()
+
+        return song

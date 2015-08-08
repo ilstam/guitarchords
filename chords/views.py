@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Artist, Song
 from .forms import AddSongForm
@@ -22,13 +22,19 @@ def add_song(request):
     if request.method == 'POST':
         form = AddSongForm(request.POST)
         if form.is_valid():
-            pass
-            #return HttpResponseRedirect('somewhere')
-
+            request.session['song_data'] = form.cleaned_data
+            print(form.cleaned_data)
+            return redirect('chords:verify_song')
     else:
         form = AddSongForm()
 
     return render(request, 'chords/add_song.html', {'form' : form})
+
+def verify_song(request):
+    song_data = request.session.get('song_data', None)
+    song = Song.create_song_from_json(song_data, save=False)
+    context = {'song' : song, 'pseudo_artist' : song_data['artist_txt']}
+    return render(request, 'chords/verify_song.html', context)
 
 def about(request):
     return render(request, 'chords/about.html', {})

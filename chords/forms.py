@@ -1,21 +1,25 @@
-from django.forms import ModelForm, Textarea, TextInput
+from django.forms import ModelForm, CharField, Textarea
 
 from .models import Song
 
 
 class AddSongForm(ModelForm):
+    artist_txt = CharField(
+            max_length=100,
+            label='Artist',
+            help_text='Surname Name format, required'
+    )
+
     class Meta:
         model = Song
-        fields = ['title', 'artist', 'genre', 'video', 'tabs', 'content']
+        fields = ['title', 'artist_txt', 'genre', 'video', 'tabs', 'content']
 
         widgets = {
-            'artist' : TextInput,
             'content' : Textarea(attrs={'cols': 70, 'rows': 35}),
         }
 
         labels = {
             'title' : 'Title',
-            'artist' : 'Artist',
             'genre' : 'Genre',
             'video' : 'Video',
             'tabs' : 'Tabs',
@@ -24,7 +28,6 @@ class AddSongForm(ModelForm):
 
         help_texts = {
             'title' : 'required',
-            'artist' : 'Surname Name format, required',
             'video' : 'Youtube etc.',
             'tabs' : 'does this version contain tabs?',
         }
