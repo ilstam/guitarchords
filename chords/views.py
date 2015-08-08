@@ -23,7 +23,6 @@ def add_song(request):
         form = AddSongForm(request.POST)
         if form.is_valid():
             request.session['song_data'] = form.cleaned_data
-            print(form.cleaned_data)
             return redirect('chords:verify_song')
     else:
         form = AddSongForm(initial=request.session.get('song_data', None))
