@@ -19,4 +19,5 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^chords/', include('chords.urls', namespace='chords')),
+    url(r'^accounts/', include('registration.backends.default.urls')),
 ]
