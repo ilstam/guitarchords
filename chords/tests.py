@@ -271,6 +271,61 @@ class SongViewTests(TestCase):
         self.assertEqual(response.status_code, 404)
 
 
+class AddSongViewTests(TestCase):
+    def test_addsong_view_with_valid_input(self):
+        """
+        AddSongView with valid POST data should return a 302 Found.
+        """
+        data = {'title' : 'Title', 'artist_txt' : 'Artist', 'genre' : Song.POP,
+                'video' : 'https://www.example.com', 'tabs' : True,
+                'content' : 'content'
+                }
+        response = self.client.post(reverse('chords:add_song'), data)
+        self.assertEqual(response.status_code, 302)
+
+    def test_addsong_view_with_invalid_input(self):
+        """
+        AddSongView must return an appropriate message for each case of
+        invalid POST data.
+        """
+        # missing title
+        data = {'title' : '', 'artist_txt' : 'Artist', 'Artist' : Song.POP,
+                'video' : 'https://www.example.com', 'tabs' : True,
+                'content' : 'content'
+                }
+        response = self.client.post(reverse('chords:add_song'), data)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "This field is required.")
+
+        # missing artist_txt
+        data = {'title' : 'Title', 'artist_txt' : 'Artist', '' : Song.POP,
+                'video' : 'https://www.example.com', 'tabs' : True,
+                'content' : 'content'
+                }
+        response = self.client.post(reverse('chords:add_song'), data)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "This field is required.")
+
+        # missing genre
+        data = {'title' : 'Title', 'artist_txt' : 'Artist', 'genre' : None,
+                'video' : 'https://www.example.com', 'tabs' : True,
+                'content' : 'content'
+                }
+        response = self.client.post(reverse('chords:add_song'), data)
+        self.assertEqual(response.status_code, 200)
+        msg = "Select a valid choice. None is not one of the available choices."
+        self.assertContains(response, msg)
+
+        # invalid video url
+        data = {'title' : 'Title', 'artist_txt' : 'Artist', 'Artist' : Song.POP,
+                'video' : 'example', 'tabs' : True,
+                'content' : 'content'
+                }
+        response = self.client.post(reverse('chords:add_song'), data)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Enter a valid URL.")
+
+
 class AddSongFormTests(TestCase):
     def test_form_with_valid_data(self):
         """
@@ -315,7 +370,7 @@ class AddSongFormTests(TestCase):
         form = AddSongForm(data=data)
         self.assertFalse(form.is_valid())
 
-        # invalid url
+        # invalid video url
         data = {'title' : 'Title', 'artist_txt' : 'Artist', 'genre' : Song.POP,
                 'video' : 'invalid_url', 'tabs' : True,
                 'content' : 'content'
