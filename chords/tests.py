@@ -73,7 +73,7 @@ class ArtistModelTests(TestCase):
         """
         artist = create_artist(name='Some Artist')
         orig_slug = artist.slug
-        artist.name = "Some Other Name"
+        artist.name = 'Some Other Name'
         artist.save()
         self.assertEqual(artist.slug, orig_slug)
 
@@ -119,7 +119,7 @@ class SongModelTests(TestCase):
         """
         song = create_song(title='Random Song')
         orig_slug = song.slug
-        song.title = "Some Other Name"
+        song.title = 'Some Other Name'
         song.save()
         self.assertEqual(song.slug, orig_slug)
 
@@ -151,8 +151,8 @@ class IndexViewTests(TestCase):
         """
         response = self.client.get(reverse('chords:index'))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "There are no songs present at the moment.")
-        self.assertNotContains(response, "Recently added songs")
+        self.assertContains(response, 'There are no songs present at the moment.')
+        self.assertNotContains(response, 'Recently added songs')
         self.assertQuerysetEqual(response.context['songs'], [])
 
     def test_index_view_with_a_published_song(self):
@@ -170,8 +170,8 @@ class IndexViewTests(TestCase):
         """
         create_song(published=False)
         response = self.client.get(reverse('chords:index'))
-        self.assertContains(response, "There are no songs present at the moment.")
-        self.assertNotContains(response, "Recently added songs")
+        self.assertContains(response, 'There are no songs present at the moment.')
+        self.assertNotContains(response, 'Recently added songs')
         self.assertQuerysetEqual(response.context['songs'], [])
 
     def test_index_view_with_published_and_unpublished_song(self):
@@ -193,7 +193,7 @@ class ArtistViewTests(TestCase):
         """
         artist = create_artist()
         response = self.client.get(reverse('chords:artist',
-                                   args=(artist.slug+"invalid",)))
+                                   args=(artist.slug+'invalid',)))
         self.assertEqual(response.status_code, 404)
 
     def test_artist_view_with_a_valid_slug(self):
@@ -244,6 +244,7 @@ class ArtistViewTests(TestCase):
         response = self.client.get(reverse('chords:artist', args=(artist.slug,)))
         self.assertEqual(response.status_code, 404)
 
+
 class SongViewTests(TestCase):
     def test_song_view_with_an_invalid_slug(self):
         """
@@ -251,7 +252,7 @@ class SongViewTests(TestCase):
         """
         song = create_song()
         response = self.client.get(reverse('chords:song',
-                                   args=(song.slug+"invalid",)))
+                                   args=(song.slug+'invalid',)))
         self.assertEqual(response.status_code, 404)
 
     def test_song_view_with_a_valid_slug(self):
@@ -296,23 +297,23 @@ class AddSongViewTests(TestCase):
         response = self.client.post(reverse('chords:add_song'),
                 valid_song_data(title=''))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "This field is required.")
+        self.assertContains(response, 'This field is required.')
         # missing artist_txt
         response = self.client.post(reverse('chords:add_song'),
                 valid_song_data(artist_txt=''))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "This field is required.")
+        self.assertContains(response, 'This field is required.')
         # missing genre
         response = self.client.post(reverse('chords:add_song'),
                 valid_song_data(genre=None))
         self.assertEqual(response.status_code, 200)
-        msg = "Select a valid choice. None is not one of the available choices."
+        msg = 'Select a valid choice. None is not one of the available choices.'
         self.assertContains(response, msg)
         # invalid video url
         response = self.client.post(reverse('chords:add_song'),
                 valid_song_data(video='invalid_url'))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Enter a valid URL.")
+        self.assertContains(response, 'Enter a valid URL.')
 
 
 class VerifySongViewTests(TestCase):
@@ -335,6 +336,34 @@ class VerifySongViewTests(TestCase):
         session.save()
         response = self.client.get(reverse('chords:verify_song'))
         self.assertContains(response, session['song_data']['title'])
+
+
+class SongSubmittedViewTests(TestCase):
+    def test_redirects_with_no_song_data(self):
+        """
+        When there are no song_data on the session the song_submitted view
+        must redirect to the add_song view.
+        """
+        response = self.client.get(reverse('chords:song_submitted'))
+        self.assertFalse('song_data' in self.client.session)
+        self.assertRedirects(response, reverse('chords:add_song'))
+
+    def test_with_song_data(self):
+        """
+        When there are valid song_data stored on the session, one more
+        _unpublished_ song must be added to the database.
+        """
+        session = self.client.session
+        session['song_data'] = valid_song_data()
+        session.save()
+        pub_songs = Song.objects.filter(published=True).count()
+        unpub_songs = Song.objects.filter(published=False).count()
+
+        response = self.client.get(reverse('chords:song_submitted'))
+        self.assertContains(response, 'Thank you for submitting a song!')
+        self.assertEqual(pub_songs, Song.objects.filter(published=True).count())
+        self.assertEqual(unpub_songs + 1,
+                Song.objects.filter(published=False).count())
 
 
 class AddSongFormTests(TestCase):
@@ -372,8 +401,8 @@ class TestUtils(SimpleTestCase):
         The strip_empty_lines() function should remove all empty lines from
         end and begging and any adjacent whitespace lines inside.
         """
-        s1 = "  \t\n\n\t \tsome identation here\n\n\n\nlorem ipsum\n\n"
-        s2 =         "\t \tsome identation here\n\nlorem ipsum"
+        s1 = '  \t\n\n\t \tsome identation here\n\n\n\nlorem ipsum\n\n'
+        s2 =         '\t \tsome identation here\n\nlorem ipsum'
         self.assertEqual(utils.strip_whitespace_lines(s1), s2)
 
     def test_song_parsing(self):
