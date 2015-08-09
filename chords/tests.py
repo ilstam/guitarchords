@@ -22,6 +22,14 @@ def create_song(title='Random Song', artist_name='Some Artist', artist=None,
     song.save()
     return song
 
+def valid_song_data(title='Title', artist_txt='artist_txt', genre=Song.POP,
+                    video='http://www.example.com', tabs=True,
+                    content='content'):
+    return {
+        'title' : title, 'artist_txt' : artist_txt, 'genre' : genre,
+        'video' : video, 'tabs' : tabs, 'content' : content
+    }
+
 
 class ArtistModelTests(TestCase):
     def test_slug_line_creation(self):
@@ -276,11 +284,7 @@ class AddSongViewTests(TestCase):
         """
         AddSongView with valid POST data should return a 302 Found.
         """
-        data = {'title' : 'Title', 'artist_txt' : 'Artist', 'genre' : Song.POP,
-                'video' : 'https://www.example.com', 'tabs' : True,
-                'content' : 'content'
-                }
-        response = self.client.post(reverse('chords:add_song'), data)
+        response = self.client.post(reverse('chords:add_song'), valid_song_data())
         self.assertEqual(response.status_code, 302)
 
     def test_addsong_view_with_invalid_input(self):
@@ -289,39 +293,24 @@ class AddSongViewTests(TestCase):
         invalid POST data.
         """
         # missing title
-        data = {'title' : '', 'artist_txt' : 'Artist', 'Artist' : Song.POP,
-                'video' : 'https://www.example.com', 'tabs' : True,
-                'content' : 'content'
-                }
-        response = self.client.post(reverse('chords:add_song'), data)
+        response = self.client.post(reverse('chords:add_song'),
+                valid_song_data(title=''))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "This field is required.")
-
         # missing artist_txt
-        data = {'title' : 'Title', 'artist_txt' : 'Artist', '' : Song.POP,
-                'video' : 'https://www.example.com', 'tabs' : True,
-                'content' : 'content'
-                }
-        response = self.client.post(reverse('chords:add_song'), data)
+        response = self.client.post(reverse('chords:add_song'),
+                valid_song_data(artist_txt=''))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "This field is required.")
-
         # missing genre
-        data = {'title' : 'Title', 'artist_txt' : 'Artist', 'genre' : None,
-                'video' : 'https://www.example.com', 'tabs' : True,
-                'content' : 'content'
-                }
-        response = self.client.post(reverse('chords:add_song'), data)
+        response = self.client.post(reverse('chords:add_song'),
+                valid_song_data(genre=None))
         self.assertEqual(response.status_code, 200)
         msg = "Select a valid choice. None is not one of the available choices."
         self.assertContains(response, msg)
-
         # invalid video url
-        data = {'title' : 'Title', 'artist_txt' : 'Artist', 'Artist' : Song.POP,
-                'video' : 'example', 'tabs' : True,
-                'content' : 'content'
-                }
-        response = self.client.post(reverse('chords:add_song'), data)
+        response = self.client.post(reverse('chords:add_song'),
+                valid_song_data(video='invalid_url'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Enter a valid URL.")
 
@@ -342,10 +331,7 @@ class VerifySongViewTests(TestCase):
         view must display the song.
         """
         session = self.client.session
-        session['song_data'] = {'title' : 'Title', 'artist_txt' : 'Artist',
-                'genre' : Song.POP, 'video' : 'https://www.example.com',
-                'tabs' : True, 'content' : 'content'
-                }
+        session['song_data'] = valid_song_data()
         session.save()
         response = self.client.get(reverse('chords:verify_song'))
         self.assertContains(response, session['song_data']['title'])
@@ -356,11 +342,7 @@ class AddSongFormTests(TestCase):
         """
         Form must be valid with sensible data.
         """
-        data = {'title' : 'Title', 'artist_txt' : 'Artist', 'genre' : Song.POP,
-                'video' : 'https://www.example.com', 'tabs' : True,
-                'content' : 'content'
-                }
-        form = AddSongForm(data=data)
+        form = AddSongForm(data=valid_song_data())
         self.assertTrue(form.is_valid())
 
     def test_form_with_invalid_data(self):
@@ -370,37 +352,17 @@ class AddSongFormTests(TestCase):
         """
         form = AddSongForm()
         self.assertFalse(form.is_valid())
-
         # title required
-        data = {'title' : '', 'artist_txt' : 'Artist', 'genre' : Song.POP,
-                'video' : 'https://www.example.com', 'tabs' : True,
-                'content' : 'content'
-                }
-        form = AddSongForm(data=data)
+        form = AddSongForm(data=valid_song_data(title=''))
         self.assertFalse(form.is_valid())
-
         # artist_txt required
-        data = {'title' : 'Title', 'artist_txt' : '', 'genre' : Song.POP,
-                'video' : 'https://www.example.com', 'tabs' : True,
-                'content' : 'content'
-                }
-        form = AddSongForm(data=data)
+        form = AddSongForm(data=valid_song_data(artist_txt=''))
         self.assertFalse(form.is_valid())
-
         # genre required
-        data = {'title' : 'Title', 'artist_txt' : 'Artist', 'genre' : None,
-                'video' : 'https://www.example.com', 'tabs' : True,
-                'content' : 'content'
-                }
-        form = AddSongForm(data=data)
+        form = AddSongForm(data=valid_song_data(genre=None))
         self.assertFalse(form.is_valid())
-
         # invalid video url
-        data = {'title' : 'Title', 'artist_txt' : 'Artist', 'genre' : Song.POP,
-                'video' : 'invalid_url', 'tabs' : True,
-                'content' : 'content'
-                }
-        form = AddSongForm(data=data)
+        form = AddSongForm(data=valid_song_data(video='invalid_url'))
         self.assertFalse(form.is_valid())
 
 
