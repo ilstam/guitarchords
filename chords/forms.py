@@ -42,11 +42,4 @@ class AddSongForm(ModelForm):
     def clean(self):
         self.cleaned_data['content'] = strip_whitespace_lines(
                 self.cleaned_data['content'])
-
-        if 'video' in self.cleaned_data:
-            video_url = self.cleaned_data['video']
-            if video_url and not (video_url.startswith('http://')
-            or video_url.startswith('https://')):
-                self.cleaned_data['video'] = 'http://' + video_url
-
         return self.cleaned_data
