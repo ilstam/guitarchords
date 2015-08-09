@@ -51,12 +51,9 @@ class Song(models.Model):
     )
 
     title = models.CharField(max_length=100)
-    artist = models.ForeignKey(Artist)
+    artist = models.ForeignKey(Artist, null=True)
     content = models.TextField(default='')
-    genre = models.CharField(max_length=3,
-                             choices=GENRE_CHOICES,
-                             default=ENTEXNO,
-                            )
+    genre = models.CharField(max_length=3, choices=GENRE_CHOICES, default=ENTEXNO)
     video = models.URLField(blank=True)
     tabs = models.BooleanField('tablatures', default=False)
     #sender = models.ForeignKey(User)
@@ -94,36 +91,3 @@ class Song(models.Model):
 
     def __str__(self):
         return self.title
-
-    @staticmethod
-    def create_song_from_json(data, save=False):
-        """
-        Create and return a Song object with the values of the data dict.
-
-        If save is True, save the resulting song and artist to the database.
-        Else, use the NullArtist as the artist and don't touch the database.
-
-        The NullArtist serves testing purposes and may never be visible to
-        the end user. By using this method combined with a browser session,
-        it's a useful way for exchanging data of dummy songs between views
-        without touching the database.
-        """
-        if save:
-            artist = Artist(name=data['artist_txt'])
-        else:
-            artist = Artist.objects.get_or_create(name='NullArtist')[0]
-        artist.save()
-
-        song = Song(
-            title=data['title'],
-            artist=artist,
-            video=data['video'],
-            genre=data['genre'],
-            tabs=data['tabs'],
-            content=data['content'],
-        )
-
-        if save:
-            song.save()
-
-        return song

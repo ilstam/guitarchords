@@ -12,19 +12,14 @@ def create_artist(name='Some Artist'):
     artist.save()
     return artist
 
-def create_song(title='Random Song', artist_name='Some Artist', artist=None,
-                published=True):
-    if artist is None:
-        song = Song(title=title, artist=create_artist(name=artist_name))
-    else:
-        song = Song(title=title, artist=artist)
+def create_song(title='Random Song', artist=None, published=True):
+    song = Song(title=title, artist=artist)
     song.published = published
     song.save()
     return song
 
 def valid_song_data(title='Title', artist_txt='artist_txt', genre=Song.POP,
-                    video='http://www.example.com', tabs=True,
-                    content='content'):
+                    video='http://www.example.com', tabs=True, content='content'):
     return {
         'title' : title, 'artist_txt' : artist_txt, 'genre' : genre,
         'video' : video, 'tabs' : tabs, 'content' : content
@@ -208,7 +203,7 @@ class ArtistViewTests(TestCase):
         """
         The artist view should display song title for published songs.
         """
-        song = create_song(published=True)
+        song = create_song(published=True, artist=create_artist())
         response = self.client.get(reverse('chords:artist',
                                    args=(song.artist.slug,)))
         self.assertContains(response, song.title, status_code=200)
@@ -217,7 +212,7 @@ class ArtistViewTests(TestCase):
         """
         The artist view should not display song title for un-published songs.
         """
-        song = create_song(published=False)
+        song = create_song(published=False, artist=create_artist())
         response = self.client.get(reverse('chords:artist',
                                    args=(song.artist.slug,)))
         self.assertQuerysetEqual(response.context['songs'], [])
@@ -234,15 +229,6 @@ class ArtistViewTests(TestCase):
         response = self.client.get(reverse('chords:artist', args=(artist.slug,)))
         self.assertQuerysetEqual(response.context['songs'],
                                  ['<Song: Random Song>'])
-
-    def test_nullartist_is_visible(self):
-        """
-        The Null Artist must not be visible and the artist view must return a
-        404 not found.
-        """
-        artist = Artist.objects.get_or_create(name='NullArtist')[0]
-        response = self.client.get(reverse('chords:artist', args=(artist.slug,)))
-        self.assertEqual(response.status_code, 404)
 
 
 class SongViewTests(TestCase):

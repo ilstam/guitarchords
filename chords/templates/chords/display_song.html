@@ -1,9 +1,9 @@
 <h2>{{ song.title }}</h2>
 <ul>
-    {% if pseudo_artist %}
-        <li>Artist: {{ pseudo_artist }}</li>
-    {% else %}
+    {% if song.artist %}
         <li>Artist: <a href="{% url 'chords:artist' song.artist.slug %}">{{ song.artist.name }}</a></li>
+    {% else %}
+        <li>Artist: {{ artist_txt }}</li>
     {% endif %}
     {% if song.reg_date %}
         <li>Registered: {{ song.reg_date }}</li>

@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.db.models import Q
 
 from .models import Artist, Song
 from .forms import AddSongForm
@@ -16,7 +15,7 @@ def song(request, song_slug):
     return render(request, 'chords/song.html', {'song' : song})
 
 def artist(request, artist_slug):
-    artist = get_object_or_404(Artist, ~Q(name='NullArtist'), slug=artist_slug)
+    artist = get_object_or_404(Artist, slug=artist_slug)
     songs = Song.objects.filter(artist=artist, published=True)
     context = {'artist' : artist, 'songs' : songs}
     return render(request, 'chords/artist.html', context)
@@ -37,8 +36,12 @@ def verify_song(request):
     if song_data is None:
         return redirect('chords:add_song')
 
-    song = Song.create_song_from_json(data=song_data, save=False)
-    context = {'song' : song, 'pseudo_artist' : song_data['artist_txt']}
+    song = Song(
+        title=song_data['title'], artist=None, video=song_data['video'],
+        genre=song_data['genre'], tabs=song_data['tabs'],
+        content=song_data['content'])
+
+    context = {'song' : song, 'artist_txt' : song_data['artist_txt']}
     return render(request, 'chords/verify_song.html', context)
 
 def song_submitted(request):
@@ -46,7 +49,14 @@ def song_submitted(request):
     if song_data is None:
         return redirect('chords:add_song')
 
-    Song.create_song_from_json(data=song_data, save=True)
+    artist = Artist(name=song_data['artist_txt'])
+    artist.save()
+    song = Song(
+        title=song_data['title'], artist=artist, video=song_data['video'],
+        genre=song_data['genre'], tabs=song_data['tabs'],
+        content=song_data['content'])
+    song.save()
+
     del request.session['song_data']
     return render(request, 'chords/song_submitted.html', {})
 
