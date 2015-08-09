@@ -326,6 +326,31 @@ class AddSongViewTests(TestCase):
         self.assertContains(response, "Enter a valid URL.")
 
 
+class VerifySongViewTests(TestCase):
+    def test_redirects_with_no_song_data(self):
+        """
+        When there are no song_data on the session the verify_song view must
+        redirect to the add_song view.
+        """
+        response = self.client.get(reverse('chords:verify_song'))
+        self.assertFalse('song_data' in self.client.session)
+        self.assertRedirects(response, reverse('chords:add_song'))
+
+    def test_with_song_data(self):
+        """
+        When there are valid song_data stored on the session the verify_song
+        view must display the song.
+        """
+        session = self.client.session
+        session['song_data'] = {'title' : 'Title', 'artist_txt' : 'Artist',
+                'genre' : Song.POP, 'video' : 'https://www.example.com',
+                'tabs' : True, 'content' : 'content'
+                }
+        session.save()
+        response = self.client.get(reverse('chords:verify_song'))
+        self.assertContains(response, session['song_data']['title'])
+
+
 class AddSongFormTests(TestCase):
     def test_form_with_valid_data(self):
         """
