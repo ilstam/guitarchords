@@ -40,6 +40,7 @@ class AddSongForm(ModelForm):
         }
 
     def clean(self):
-        self.cleaned_data['content'] = strip_whitespace_lines(
-                self.cleaned_data['content'])
+        if 'content' in self.cleaned_data:
+            self.cleaned_data['content'] = strip_whitespace_lines(
+                    self.cleaned_data['content'])
         return self.cleaned_data
