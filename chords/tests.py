@@ -180,6 +180,17 @@ class IndexViewTests(TestCase):
         self.assertQuerysetEqual(response.context['songs'],
                                  ['<Song: Random Song>'])
 
+    def test_erase_song_data(self):
+        """
+        Index view must remove song_data from the session.
+        """
+        session = self.client.session
+        session['song_data'] = valid_song_data()
+        session.save()
+        self.assertTrue('song_data' in self.client.session)
+        response = self.client.get(reverse('chords:index'))
+        self.assertFalse('song_data' in self.client.session)
+
 
 class ArtistViewTests(TestCase):
     def test_artist_view_with_an_invalid_slug(self):
@@ -350,6 +361,7 @@ class SongSubmittedViewTests(TestCase):
         self.assertEqual(pub_songs, Song.objects.filter(published=True).count())
         self.assertEqual(unpub_songs + 1,
                 Song.objects.filter(published=False).count())
+        self.assertFalse('song_data' in self.client.session)
 
 
 class AddSongFormTests(TestCase):
