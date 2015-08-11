@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 from .utils import generate_unique_slug, greek_to_english_letters
 from .utils import strip_whitespace_lines
@@ -56,7 +57,7 @@ class Song(models.Model):
     genre = models.CharField(max_length=3, choices=GENRE_CHOICES, default=ENTEXNO)
     video = models.URLField(blank=True)
     tabs = models.BooleanField('tablatures', default=False)
-    #sender = models.ForeignKey(User)
+    user = models.ForeignKey(User, null=True, blank=True)
     published = models.BooleanField(default=False)
     reg_date = models.DateTimeField('date registered', auto_now_add=True)
     pub_date = models.DateTimeField('date published', null=True, blank=True)
