@@ -13,8 +13,14 @@
 
         <div>
             <ul>
-		        <li><a href="{% url 'chords:index' %}">Home</a></li>
-		        <li><a href="{% url 'chords:about' %}">About</a></li>
+                <li><a href="{% url 'chords:index' %}">Home</a></li>
+                <li><a href="{% url 'chords:about' %}">About</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'auth_logout' %}?next=/chords/">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'registration_register' %}">Register Here</a></li>
+                    <li><a href="{% url 'auth_login' %}">Login</a></li>
+                {% endif %}
             </ul>
         </div>
     </body>

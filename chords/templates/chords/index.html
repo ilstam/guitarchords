@@ -3,7 +3,12 @@
 {% block title %}Home{% endblock %}
 
 {% block body_block %}
-    <h1>Hi! This is index!</h1>
+    {% if user.is_authenticated %}
+        <h1>Hi {{ user.username }}! This is index!</h1>
+    {% else %}
+        <h1>Hi! This is index!</h1>
+    {% endif %}
+
     {% if songs %}
         <h2>Recently added songs</h2>
         <ul>
