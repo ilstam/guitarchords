@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 
 from .models import Artist, Song
 from .forms import AddSongForm
@@ -20,6 +21,7 @@ def artist(request, artist_slug):
     context = {'artist' : artist, 'songs' : songs}
     return render(request, 'chords/artist.html', context)
 
+@login_required
 def add_song(request):
     if request.method == 'POST':
         form = AddSongForm(request.POST)
@@ -31,6 +33,7 @@ def add_song(request):
 
     return render(request, 'chords/add_song.html', {'form' : form})
 
+@login_required
 def verify_song(request):
     song_data = request.session.get('song_data', None)
     if song_data is None:
@@ -44,6 +47,7 @@ def verify_song(request):
     context = {'song' : song, 'artist_txt' : song_data['artist_txt']}
     return render(request, 'chords/verify_song.html', context)
 
+@login_required
 def song_submitted(request):
     song_data = request.session.get('song_data', None)
     if song_data is None:
