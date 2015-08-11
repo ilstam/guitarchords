@@ -53,11 +53,11 @@ class Song(models.Model):
 
     title = models.CharField(max_length=100)
     artist = models.ForeignKey(Artist, null=True)
+    user = models.ForeignKey(User, null=True, blank=True)
     content = models.TextField(default='')
     genre = models.CharField(max_length=3, choices=GENRE_CHOICES, default=ENTEXNO)
     video = models.URLField(blank=True)
     tabs = models.BooleanField('tablatures', default=False)
-    user = models.ForeignKey(User, null=True, blank=True)
     published = models.BooleanField(default=False)
     reg_date = models.DateTimeField('date registered', auto_now_add=True)
     pub_date = models.DateTimeField('date published', null=True, blank=True)
@@ -92,3 +92,11 @@ class Song(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Bookmark(models.Model):
+    user = models.ForeignKey(User)
+    song = models.ForeignKey(Song)
+
+    def __str__(self):
+        return '{0} -> {1}'.format(self.user.username, self.song.full_title())
