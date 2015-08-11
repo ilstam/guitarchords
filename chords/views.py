@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
-from .models import Artist, Song
+from .models import Artist, Song, Bookmark
 from .forms import AddSongForm
 
 
@@ -66,6 +67,16 @@ def song_submitted(request):
 
     del request.session['song_data']
     return render(request, 'chords/song_submitted.html', {})
+
+@login_required
+def user_bookmarks(request):
+    if not request.user.is_authenticated():
+        return redirect('chords:index')
+
+    user = request.user
+    bookmarks = Bookmark.objects.filter(user=user, song__published=True).order_by('song__artist__name', 'song__title')
+    songs = [bookmark.song for bookmark in bookmarks]
+    return render(request, 'chords/user_bookmarks.html', {'songs' : songs})
 
 def about(request):
     return render(request, 'chords/about.html', {})

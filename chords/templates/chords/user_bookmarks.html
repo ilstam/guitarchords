@@ -1,0 +1,17 @@
+{% extends 'chords/base.html' %}
+
+{% block title %}Your bookmarks{% endblock %}
+
+{% block body_block %}
+
+{% if songs %}
+    <ul>
+    {% for song in songs %}
+    <li><a href="{% url 'chords:song' song.slug %}">{{ song.full_title }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <strong>Your bookmarks are empty.</strong>
+{% endif %}
+
+{% endblock %}
