@@ -1,5 +1,6 @@
 from django.test import TestCase, SimpleTestCase
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 from django.utils import timezone
 
 from .models import Artist, Song
@@ -278,16 +279,30 @@ class SongViewTests(TestCase):
 
 
 class AddSongViewTests(TestCase):
+    def setUp(self):
+        user = User.objects.create_user('username', 'user@x.com', 'password')
+        self.client.login(username='username', password='password')
+
+    def test_redirects_when_not_logged_in(self):
+        """
+        When no user is logged in, the add_song view must redirect to the
+        login page.
+        """
+        self.client.logout()
+        response = self.client.get(reverse('chords:add_song'))
+        self.assertRedirects(response,
+            reverse('auth_login') + '?next=' + reverse('chords:add_song'))
+
     def test_addsong_view_with_valid_input(self):
         """
-        AddSongView with valid POST data should return a 302 Found.
+        The add_song view with valid POST data should return a 302 Found.
         """
         response = self.client.post(reverse('chords:add_song'), valid_song_data())
         self.assertEqual(response.status_code, 302)
 
     def test_addsong_view_with_invalid_input(self):
         """
-        AddSongView must return an appropriate message for each case of
+        The add_song view must return an appropriate message for each case of
         invalid POST data.
         """
         # missing title
@@ -314,6 +329,20 @@ class AddSongViewTests(TestCase):
 
 
 class VerifySongViewTests(TestCase):
+    def setUp(self):
+        user = User.objects.create_user('username', 'user@x.com', 'password')
+        self.client.login(username='username', password='password')
+
+    def test_redirects_when_not_logged_in(self):
+        """
+        When no user is logged in, the verify_song view must redirect to the
+        login page.
+        """
+        self.client.logout()
+        response = self.client.get(reverse('chords:verify_song'))
+        self.assertRedirects(response,
+            reverse('auth_login') + '?next=' + reverse('chords:verify_song'))
+
     def test_redirects_with_no_song_data(self):
         """
         When there are no song_data on the session the verify_song view must
@@ -336,6 +365,20 @@ class VerifySongViewTests(TestCase):
 
 
 class SongSubmittedViewTests(TestCase):
+    def setUp(self):
+        user = User.objects.create_user('username', 'user@x.com', 'password')
+        self.client.login(username='username', password='password')
+
+    def test_redirects_when_not_logged_in(self):
+        """
+        When no user is logged in, the song_submitted view must redirect to
+        the login page.
+        """
+        self.client.logout()
+        response = self.client.get(reverse('chords:song_submitted'))
+        self.assertRedirects(response,
+            reverse('auth_login') + '?next=' + reverse('chords:song_submitted'))
+
     def test_redirects_with_no_song_data(self):
         """
         When there are no song_data on the session the song_submitted view
