@@ -49,16 +49,19 @@ def verify_song(request):
 
 @login_required
 def song_submitted(request):
+    if not request.user.is_authenticated():
+        return redirect('chords:index')
+
     song_data = request.session.get('song_data', None)
     if song_data is None:
         return redirect('chords:add_song')
 
-    artist = Artist(name=song_data['artist_txt'])
+    artist = Artist.objects.get_or_create(name=song_data['artist_txt'])[0]
     artist.save()
     song = Song(
-        title=song_data['title'], artist=artist, video=song_data['video'],
-        genre=song_data['genre'], tabs=song_data['tabs'],
-        content=song_data['content'])
+        title=song_data['title'], artist=artist, user=request.user,
+        video=song_data['video'], genre=song_data['genre'],
+        tabs=song_data['tabs'], content=song_data['content'])
     song.save()
 
     del request.session['song_data']

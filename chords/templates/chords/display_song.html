@@ -9,5 +9,8 @@
         <li>Registered: {{ song.reg_date }}</li>
     {% endif %}
     <li>Genre: {{ song.genre_str }}</li>
+    {% if song.user %}
+        <li>Sent by: {{ song.user.get_username }}</li>
+    {% endif %}
 </ul>
 <pre>{{ song.content }}</pre>
