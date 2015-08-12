@@ -211,6 +211,17 @@ class ArtistViewTests(TestCase):
         response = self.client.get(reverse('chords:artist', args=(artist.slug,)))
         self.assertContains(response, artist.name, status_code=200)
 
+    def test_artist_view_with_no_songs(self):
+        """
+        The artist view should display an appropriate message when there are
+        no songs associated with the artist.
+        """
+        artist = create_artist()
+        response = self.client.get(reverse('chords:artist', args=(artist.slug,)))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'There are no registered songs for this artist.')
+        self.assertQuerysetEqual(response.context['songs'], [])
+
     def test_artist_view_with_a_published_song(self):
         """
         The artist view should display song title for published songs.
