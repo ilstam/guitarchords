@@ -7,6 +7,8 @@ import django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'guitarchords.settings')
 django.setup()
 
+from django.contrib.auth.models import User
+
 from chords.models import Artist, Song
 
 
@@ -15,14 +17,10 @@ def add_artist(name):
     a.save()
     return a
 
-def add_song(title,
-             artist,
-             content,
-             genre='',
-             video='',
-             tabs=False,
-             published=False):
+def add_song(title, artist, user=None, content='', genre='', video='',
+             tabs=False, published=False):
     s = Song.objects.get_or_create(title=title, artist=artist)[0]
+    s.user = user
     s.content = content
     s.genre = genre
     s.video = video
@@ -31,12 +29,21 @@ def add_song(title,
     s.save()
     return s
 
+def create_user(username='username', password='password'):
+    user = User.objects.get_or_create(username=username)[0]
+    user.password = password
+    user.save()
+    return user
+
 def populate():
+    user_bob = create_user(username='bob')
+
     artist_katsimixa = add_artist("Αδελφοί Κατσιμίχα")
 
     add_song(
         title="Ρίτα Ριτάκι",
         artist=artist_katsimixa,
+        user=user_bob,
         genre=Song.ENTEXNO,
         content="""
 G          Em        C             D
@@ -88,6 +95,7 @@ G      Em   Am         D
     add_song(
         title="Δε με ελέγχω",
         artist=artist_xasma,
+        user=user_bob,
         genre=Song.PUNK,
         content="""
                    Bm               D
@@ -153,6 +161,7 @@ Bm
     add_song(
         title="Ό,τι αγαπώ είναι για λίγο",
         artist=artist_xasma,
+        user=user_bob,
         genre=Song.PUNK,
         content="""
 F#5       A5               D5
@@ -221,6 +230,7 @@ F#5 E5 D5
     add_song(
         title="Ρίτα",
         artist=artist_spathia,
+        user=user_bob,
         genre=Song.ROCK,
         content="""
 Em                          G D
@@ -256,6 +266,11 @@ D            A
             )
 
     # print out what we have added to the user
+    print('Users:')
+    for u in User.objects.all():
+        print(u)
+
+    print('\nSongs:')
     for a in Artist.objects.all():
         for s in Song.objects.filter(artist=a):
             print('{0} - {1}'.format(str(a), str(s)))
