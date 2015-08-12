@@ -1,0 +1,18 @@
+{% extends 'chords/base.html' %}
+
+{% block title %}{{ user.username }}{% endblock %}
+
+{% block body_block %}
+
+<h2>Songs sent by {{ user.username }}.</h2>
+{% if songs %}
+    <ul>
+    {% for song in songs %}
+    <li><a href="{% url 'chords:song' song.slug %}">{{ song.full_title }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <strong>This user hasn't sent any songs yet.</strong>
+{% endif %}
+
+{% endblock %}

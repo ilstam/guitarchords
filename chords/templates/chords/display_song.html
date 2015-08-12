@@ -10,7 +10,7 @@
     {% endif %}
     <li>Genre: {{ song.genre_str }}</li>
     {% if song.user %}
-        <li>Sent by: {{ song.user.get_username }}</li>
+        <li>Sent by: <a href="{% url 'chords:user' song.user.get_username %}">{{ song.user.get_username }}</a></li>
     {% endif %}
 </ul>
 <pre>{{ song.content }}</pre>

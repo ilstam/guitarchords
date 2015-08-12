@@ -10,5 +10,6 @@ urlpatterns = [
     url(r'^add_song/$', views.add_song, name='add_song'),
     url(r'^verify_song/$', views.verify_song, name='verify_song'),
     url(r'^song_submitted/$', views.song_submitted, name='song_submitted'),
-    url(r'^user/bookmarks/$', views.user_bookmarks, name='user_bookmarks'),
+    url(r'^user/(?P<username>[\w]+)/$', views.user, name='user'),
+    url(r'^bookmarks/$', views.user_bookmarks, name='user_bookmarks'),
 ]

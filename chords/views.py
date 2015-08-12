@@ -18,9 +18,16 @@ def song(request, song_slug):
 
 def artist(request, artist_slug):
     artist = get_object_or_404(Artist, slug=artist_slug)
-    songs = Song.objects.filter(artist=artist, published=True)
+    songs = Song.objects.filter(artist=artist, published=True).order_by('title')
     context = {'artist' : artist, 'songs' : songs}
     return render(request, 'chords/artist.html', context)
+
+def user(request, username):
+    user = get_object_or_404(User, username=username)
+    songs = Song.objects.filter(user=user, published=True
+        ).order_by('artist__name', 'title')
+    context = {'user' : user, 'songs' : songs}
+    return render(request, 'chords/user.html', context)
 
 @login_required
 def add_song(request):
@@ -68,6 +75,7 @@ def song_submitted(request):
 @login_required
 def user_bookmarks(request):
     user = request.user
-    bookmarks = Bookmark.objects.filter(user=user, song__published=True).order_by('song__artist__name', 'song__title')
+    bookmarks = Bookmark.objects.filter(user=user, song__published=True
+        ).order_by('song__artist__name', 'song__title')
     songs = [bookmark.song for bookmark in bookmarks]
     return render(request, 'chords/user_bookmarks.html', {'songs' : songs})
