@@ -77,6 +77,3 @@ def user_bookmarks(request):
     bookmarks = Bookmark.objects.filter(user=user, song__published=True).order_by('song__artist__name', 'song__title')
     songs = [bookmark.song for bookmark in bookmarks]
     return render(request, 'chords/user_bookmarks.html', {'songs' : songs})
-
-def about(request):
-    return render(request, 'chords/about.html', {})
