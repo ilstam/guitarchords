@@ -64,10 +64,6 @@ class Song(models.Model):
     mod_date = models.DateTimeField('last modified', auto_now=True)
     slug = models.SlugField(unique=True)
 
-    def __init__(self, *args, **kwargs):
-        super(Song, self).__init__(*args, **kwargs)
-        self.old_published = self.published
-
     def save(self, slug_max_length=-1, *args, **kwargs):
         if self.id is None:
             # generate slug only when creating an object to avoid broken links
@@ -76,11 +72,10 @@ class Song(models.Model):
 
         self.content = strip_whitespace_lines(self.content)
 
-        if self.old_published != self.published and self.published:
+        if self.published and self.pub_date is None:
             self.pub_date = timezone.now()
-        if self.old_published != self.published and not self.published:
+        elif not self.published and self.pub_date is not None:
             self.pub_date = None
-        self.old_published = self.published
 
         super(Song, self).save(*args, **kwargs)
 
