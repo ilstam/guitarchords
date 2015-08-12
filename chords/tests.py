@@ -19,7 +19,7 @@ def create_song(title='Random Song', artist=None, user=None, published=True):
     return song
 
 def create_user(username='username', password='password'):
-    user = User.objects.create_user('username', 'user@x.com', 'password')
+    user = User.objects.create_user(username=username, password=password)
     user.save()
     return user
 
@@ -358,7 +358,7 @@ class SongViewTests(TestCase):
 
 class AddSongViewTests(TestCase):
     def setUp(self):
-        self.user = create_user()
+        self.user = create_user(password='password')
         self.client.login(username=self.user.username, password='password')
 
     def test_redirects_when_not_logged_in(self):
@@ -408,7 +408,7 @@ class AddSongViewTests(TestCase):
 
 class VerifySongViewTests(TestCase):
     def setUp(self):
-        self.user = create_user()
+        self.user = create_user(password='password')
         self.client.login(username=self.user.username, password='password')
 
     def test_redirects_when_not_logged_in(self):
@@ -444,7 +444,7 @@ class VerifySongViewTests(TestCase):
 
 class SongSubmittedViewTests(TestCase):
     def setUp(self):
-        self.user = create_user()
+        self.user = create_user(password='password')
         self.client.login(username=self.user.username, password='password')
 
     def test_redirects_when_not_logged_in(self):
@@ -487,7 +487,7 @@ class SongSubmittedViewTests(TestCase):
 
 class UserBookmarksViewTests(TestCase):
     def setUp(self):
-        self.user = create_user()
+        self.user = create_user(password='password')
         self.client.login(username=self.user.username, password='password')
 
     def test_redirects_when_not_logged_in(self):
