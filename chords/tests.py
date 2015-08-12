@@ -13,11 +13,15 @@ def create_artist(name='Some Artist'):
     artist.save()
     return artist
 
-def create_song(title='Random Song', artist=None, published=True):
-    song = Song(title=title, artist=artist)
-    song.published = published
+def create_song(title='Random Song', artist=None, user=None, published=True):
+    song = Song(title=title, artist=artist, user=user, published=published)
     song.save()
     return song
+
+def create_user(username='username', password='password'):
+    user = User.objects.create_user('username', 'user@x.com', 'password')
+    user.save()
+    return user
 
 def create_bookmark(user, published_song=True):
     bookmark = Bookmark(user=user, song=create_song(published=published_song))
@@ -203,9 +207,7 @@ class ArtistViewTests(TestCase):
         """
         The artist view should return a 404 not found for invalid slugs.
         """
-        artist = create_artist()
-        response = self.client.get(reverse('chords:artist',
-                                   args=(artist.slug+'invalid',)))
+        response = self.client.get(reverse('chords:artist', args=('slug',)))
         self.assertEqual(response.status_code, 404)
 
     def test_artist_view_with_a_valid_slug(self):
@@ -238,7 +240,7 @@ class ArtistViewTests(TestCase):
         self.assertQuerysetEqual(response.context['songs'],
                                  ['<Song: Random Song>'])
 
-    def test_artist_view_with_a_unpublished_song(self):
+    def test_artist_view_with_an_unpublished_song(self):
         """
         The artist view should not display un-published songs.
         """
@@ -261,14 +263,72 @@ class ArtistViewTests(TestCase):
                                  ['<Song: Random Song>'])
 
 
+class UserViewTests(TestCase):
+    def test_user_view_with_an_invalid_username(self):
+        """
+        The user view should return a 404 not found for invalid usernames.
+        """
+        response = self.client.get(reverse('chords:user', args=('username',)))
+        self.assertEqual(response.status_code, 404)
+
+    def test_user_view_with_a_valid_username(self):
+        """
+        The user view should dislay the username for valid usernames.
+        """
+        user = create_user()
+        response = self.client.get(reverse('chords:user', args=(user.username,)))
+        self.assertContains(response, user.username, status_code=200)
+
+    def test_user_view_with_no_songs(self):
+        """
+        The user view should display an appropriate message when there are
+        no songs associated with the user.
+        """
+        user = create_user()
+        response = self.client.get(reverse('chords:user', args=(user.username,)))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response,
+                            "This user hasn't sent any songs yet.")
+        self.assertQuerysetEqual(response.context['songs'], [])
+
+    def test_user_view_with_a_published_song(self):
+        """
+        The user view should display published songs.
+        """
+        song = create_song(published=True, user=create_user())
+        response = self.client.get(reverse('chords:user',
+                                   args=(song.user.username,)))
+        self.assertQuerysetEqual(response.context['songs'],
+                                 ['<Song: Random Song>'])
+
+    def test_user_view_with_an_unpublished_song(self):
+        """
+        The user view should not display un-published songs.
+        """
+        song = create_song(published=False, user=create_user())
+        response = self.client.get(reverse('chords:user',
+                                   args=(song.user.username,)))
+        self.assertQuerysetEqual(response.context['songs'], [])
+
+    def test_user_view_with_published_and_unpublished_song(self):
+        """
+        Even if both published and un-published songs exist, only published
+        songs should be displayed on the user view.
+        """
+        user = create_user()
+        create_song(published=True, user=user)
+        create_song(published=False, user=user)
+        response = self.client.get(reverse('chords:user', args=(user.username,)))
+        self.assertQuerysetEqual(response.context['songs'],
+                                 ['<Song: Random Song>'])
+
+
 class SongViewTests(TestCase):
     def test_song_view_with_an_invalid_slug(self):
         """
         The song view should return a 404 not found for invalid slugs.
         """
-        song = create_song()
-        response = self.client.get(reverse('chords:song',
-                                   args=(song.slug+'invalid',)))
+        response = self.client.get(reverse('chords:song', args=('slug',)))
         self.assertEqual(response.status_code, 404)
 
     def test_song_view_with_a_valid_slug(self):
@@ -298,8 +358,8 @@ class SongViewTests(TestCase):
 
 class AddSongViewTests(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user('username', 'user@x.com', 'password')
-        self.client.login(username='username', password='password')
+        self.user = create_user()
+        self.client.login(username=self.user.username, password='password')
 
     def test_redirects_when_not_logged_in(self):
         """
@@ -348,8 +408,8 @@ class AddSongViewTests(TestCase):
 
 class VerifySongViewTests(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user('username', 'user@x.com', 'password')
-        self.client.login(username='username', password='password')
+        self.user = create_user()
+        self.client.login(username=self.user.username, password='password')
 
     def test_redirects_when_not_logged_in(self):
         """
@@ -384,8 +444,8 @@ class VerifySongViewTests(TestCase):
 
 class SongSubmittedViewTests(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user('username', 'user@x.com', 'password')
-        self.client.login(username='username', password='password')
+        self.user = create_user()
+        self.client.login(username=self.user.username, password='password')
 
     def test_redirects_when_not_logged_in(self):
         """
@@ -427,8 +487,8 @@ class SongSubmittedViewTests(TestCase):
 
 class UserBookmarksViewTests(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user('username', 'user@x.com', 'password')
-        self.client.login(username='username', password='password')
+        self.user = create_user()
+        self.client.login(username=self.user.username, password='password')
 
     def test_redirects_when_not_logged_in(self):
         """
