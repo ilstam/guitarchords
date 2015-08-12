@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.utils import timezone
 
-from .models import Artist, Song
+from .models import Artist, Song, Bookmark
 from .forms import AddSongForm
 from . import utils
 
@@ -18,6 +18,11 @@ def create_song(title='Random Song', artist=None, published=True):
     song.published = published
     song.save()
     return song
+
+def create_bookmark(user, published_song=True):
+    bookmark = Bookmark(user=user, song=create_song(published=published_song))
+    bookmark.save()
+    return bookmark
 
 def valid_song_data(title='Title', artist_txt='artist_txt', genre=Song.POP,
                     video='http://www.example.com', tabs=True, content='content'):
@@ -219,21 +224,23 @@ class ArtistViewTests(TestCase):
         artist = create_artist()
         response = self.client.get(reverse('chords:artist', args=(artist.slug,)))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'There are no registered songs for this artist.')
+        self.assertContains(response,
+                            'There are no registered songs for this artist.')
         self.assertQuerysetEqual(response.context['songs'], [])
 
     def test_artist_view_with_a_published_song(self):
         """
-        The artist view should display song title for published songs.
+        The artist view should display published songs.
         """
         song = create_song(published=True, artist=create_artist())
         response = self.client.get(reverse('chords:artist',
                                    args=(song.artist.slug,)))
-        self.assertContains(response, song.title, status_code=200)
+        self.assertQuerysetEqual(response.context['songs'],
+                                 ['<Song: Random Song>'])
 
     def test_artist_view_with_a_unpublished_song(self):
         """
-        The artist view should not display song title for un-published songs.
+        The artist view should not display un-published songs.
         """
         song = create_song(published=False, artist=create_artist())
         response = self.client.get(reverse('chords:artist',
@@ -291,7 +298,7 @@ class SongViewTests(TestCase):
 
 class AddSongViewTests(TestCase):
     def setUp(self):
-        user = User.objects.create_user('username', 'user@x.com', 'password')
+        self.user = User.objects.create_user('username', 'user@x.com', 'password')
         self.client.login(username='username', password='password')
 
     def test_redirects_when_not_logged_in(self):
@@ -341,7 +348,7 @@ class AddSongViewTests(TestCase):
 
 class VerifySongViewTests(TestCase):
     def setUp(self):
-        user = User.objects.create_user('username', 'user@x.com', 'password')
+        self.user = User.objects.create_user('username', 'user@x.com', 'password')
         self.client.login(username='username', password='password')
 
     def test_redirects_when_not_logged_in(self):
@@ -377,7 +384,7 @@ class VerifySongViewTests(TestCase):
 
 class SongSubmittedViewTests(TestCase):
     def setUp(self):
-        user = User.objects.create_user('username', 'user@x.com', 'password')
+        self.user = User.objects.create_user('username', 'user@x.com', 'password')
         self.client.login(username='username', password='password')
 
     def test_redirects_when_not_logged_in(self):
@@ -416,6 +423,59 @@ class SongSubmittedViewTests(TestCase):
         self.assertEqual(unpub_songs + 1,
                 Song.objects.filter(published=False).count())
         self.assertFalse('song_data' in self.client.session)
+
+
+class UserBookmarksViewTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user('username', 'user@x.com', 'password')
+        self.client.login(username='username', password='password')
+
+    def test_redirects_when_not_logged_in(self):
+        """
+        When no user is logged in, the user_bookmarks view must redirect to
+        the login page.
+        """
+        self.client.logout()
+        response = self.client.get(reverse('chords:user_bookmarks'))
+        self.assertRedirects(response,
+            reverse('auth_login') + '?next=' + reverse('chords:user_bookmarks'))
+
+    def test_userbookmarks_view_with_no_songs(self):
+        """
+        The user bookmarks view should display an appropriate message if
+        user has no bookmarks saved.
+        """
+        response = self.client.get(reverse('chords:user_bookmarks'))
+        self.assertContains(response, 'Your bookmarks are empty.', status_code=200)
+        self.assertQuerysetEqual(response.context['songs'], [])
+
+    def test_userbookmarks_view_with_a_published_song(self):
+        """
+        The user bookmarks view should display published songs.
+        """
+        create_bookmark(user=self.user, published_song=True)
+        response = self.client.get(reverse('chords:user_bookmarks'))
+        self.assertQuerysetEqual(response.context['songs'],
+                                 ['<Song: Random Song>'])
+
+    def test_userbookmarks_view_with_an_unpublished_song(self):
+        """
+        The user bookmarks view should not display un-published songs.
+        """
+        create_bookmark(user=self.user, published_song=False)
+        response = self.client.get(reverse('chords:user_bookmarks'))
+        self.assertQuerysetEqual(response.context['songs'], [])
+
+    def test_userbookmarks_view_with_published_and_unpublished_song(self):
+        """
+        Even if user have published and un-published bookmarks, only published
+        songs should be displayed on the user bookmark view.
+        """
+        create_bookmark(user=self.user, published_song=True)
+        create_bookmark(user=self.user, published_song=False)
+        response = self.client.get(reverse('chords:user_bookmarks'))
+        self.assertQuerysetEqual(response.context['songs'],
+                                 ['<Song: Random Song>'])
 
 
 class AddSongFormTests(TestCase):
