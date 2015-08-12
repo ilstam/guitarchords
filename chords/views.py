@@ -50,9 +50,6 @@ def verify_song(request):
 
 @login_required
 def song_submitted(request):
-    if not request.user.is_authenticated():
-        return redirect('chords:index')
-
     song_data = request.session.get('song_data', None)
     if song_data is None:
         return redirect('chords:add_song')
@@ -70,9 +67,6 @@ def song_submitted(request):
 
 @login_required
 def user_bookmarks(request):
-    if not request.user.is_authenticated():
-        return redirect('chords:index')
-
     user = request.user
     bookmarks = Bookmark.objects.filter(user=user, song__published=True).order_by('song__artist__name', 'song__title')
     songs = [bookmark.song for bookmark in bookmarks]
