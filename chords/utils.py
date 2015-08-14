@@ -70,3 +70,10 @@ def strip_whitespace_lines(string):
     lines = [l[0] for l in itertools.groupby(lines)]
 
     return '\n'.join(lines)
+
+def is_chord(s):
+    """
+    Return True, if the string represents a guitar chord.
+    It will return True for invalid chords like B# as well.
+    """
+    return bool(re.match(r'^[A-G][#b]?(maj|m|aug|dim)?[67]?$', s))

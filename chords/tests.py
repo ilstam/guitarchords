@@ -613,6 +613,39 @@ class TestUtils(SimpleTestCase):
         s2 =         '\t \tsome identation here\n\nlorem ipsum'
         self.assertEqual(utils.strip_whitespace_lines(s1), s2)
 
+    def test_is_chord(self):
+        """
+        Test is_chord functions with some valid and invalid chords.
+        """
+        self.assertTrue(utils.is_chord('G'))
+        self.assertTrue(utils.is_chord('Gm'))
+        self.assertTrue(utils.is_chord('G#'))
+        self.assertTrue(utils.is_chord('G#m'))
+        self.assertTrue(utils.is_chord('G#m7'))
+        self.assertTrue(utils.is_chord('G#m6'))
+        self.assertTrue(utils.is_chord('Bb'))
+        self.assertTrue(utils.is_chord('Bbm'))
+        self.assertTrue(utils.is_chord('Cmaj7'))
+        self.assertTrue(utils.is_chord('Ebmaj7'))
+        self.assertTrue(utils.is_chord('F#maj7'))
+        self.assertTrue(utils.is_chord('F7'))
+        self.assertTrue(utils.is_chord('Eb7'))
+        self.assertTrue(utils.is_chord('Ebm7'))
+        self.assertTrue(utils.is_chord('Cm6'))
+        self.assertTrue(utils.is_chord('Abm6'))
+        self.assertTrue(utils.is_chord('Ddim7'))
+        self.assertTrue(utils.is_chord('Ebdim7'))
+        self.assertTrue(utils.is_chord('Gaug'))
+        self.assertTrue(utils.is_chord('Ebaug'))
+
+        self.assertFalse(utils.is_chord(''))
+        self.assertFalse(utils.is_chord('invalid'))
+        self.assertFalse(utils.is_chord('Α')) # greek A letter
+        self.assertFalse(utils.is_chord('H'))
+        self.assertFalse(utils.is_chord('Am#'))
+        self.assertFalse(utils.is_chord('Fmaj7#'))
+        self.assertFalse(utils.is_chord('F7m'))
+
     def test_song_parsing(self):
         """
         A song must have all its chords enclosed in span tags after parsing and
