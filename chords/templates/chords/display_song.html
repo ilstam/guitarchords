@@ -13,4 +13,4 @@
         <li>Sent by: <a href="{% url 'chords:user' song.user.get_username %}">{{ song.user.get_username }}</a></li>
     {% endif %}
 </ul>
-<pre>{{ song.content }}</pre>
+<pre>{{ song.tohtml | safe }}</pre>
