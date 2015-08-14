@@ -1,9 +1,10 @@
-from django.test import TestCase, SimpleTestCase
+from django.test import TestCase, SimpleTestCase, RequestFactory
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.utils import timezone
 
 from .models import Artist, Song, Bookmark
+from .views import user as user_view
 from .forms import AddSongForm
 from . import utils
 
@@ -264,6 +265,9 @@ class ArtistViewTests(TestCase):
 
 
 class UserViewTests(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+
     def test_user_view_with_an_invalid_username(self):
         """
         The user view should return a 404 not found for invalid usernames.
@@ -321,6 +325,38 @@ class UserViewTests(TestCase):
         response = self.client.get(reverse('chords:user', args=(user.username,)))
         self.assertQuerysetEqual(response.context['songs'],
                                  ['<Song: Random Song>'])
+
+    def test_user_view_with_authenticated_user_looking_own_page(self):
+        """
+        An authenticated user should be able to see both published and
+        unpublished songs, on his own user page.
+        """
+        user = create_user()
+        create_song(title='Song_Published', published=True, user=user)
+        create_song(title='Song_Unpublished', published=False, user=user)
+
+        request = self.factory.get(reverse('chords:user', args=(user.username,)))
+        request.user = user
+        response = user_view(request, user.username)
+        self.assertContains(response, 'Song_Published')
+        self.assertContains(response, 'Song_Unpublished')
+
+    def test_user_view_with_authenticated_user_looking_other_user_page(self):
+        """
+        An authenticated user should be able to see only published songs,
+        when looking on another's user page.
+        """
+        user_viewer = create_user(username='user_viewer')
+        user_artist = create_user(username='user_artist')
+        create_song(title='Song Published', published=True, user=user_artist)
+        create_song(title='Song Unpublished', published=False, user=user_artist)
+
+        request = self.factory.get(reverse('chords:user',
+                                   args=(user_artist.username,)))
+        request.user = user_viewer
+        response = user_view(request, user_artist.username)
+        self.assertContains(response, 'Song Published')
+        self.assertNotContains(response, 'Song Unpublished')
 
 
 class SongViewTests(TestCase):

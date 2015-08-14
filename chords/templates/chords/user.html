@@ -1,10 +1,10 @@
 {% extends 'chords/base.html' %}
 
-{% block title %}{{ user.username }}{% endblock %}
+{% block title %}{{ theuser.username }}{% endblock %}
 
 {% block body_block %}
 
-<h2>Songs sent by {{ user.username }}.</h2>
+<h2>Songs sent by {{ theuser.username }}.</h2>
 {% if songs %}
     <ul>
     {% for song in songs %}

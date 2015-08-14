@@ -24,9 +24,13 @@ def artist(request, artist_slug):
 
 def user(request, username):
     user = get_object_or_404(User, username=username)
-    songs = Song.objects.filter(user=user, published=True
-        ).order_by('artist__name', 'title')
-    context = {'user' : user, 'songs' : songs}
+    if request.user.is_authenticated() and request.user == user:
+        songs = Song.objects.filter(user=user)
+    else:
+        songs = Song.objects.filter(user=user, published=True)
+
+    songs = songs.order_by('artist__name', 'title')
+    context = {'theuser' : user, 'songs' : songs}
     return render(request, 'chords/user.html', context)
 
 @login_required
