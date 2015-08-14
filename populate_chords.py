@@ -30,13 +30,13 @@ def add_song(title, artist, user=None, content='', genre='', video='',
     return s
 
 def create_user(username='username', password='password'):
-    user = User.objects.get_or_create(username=username)[0]
-    user.password = password
-    user.save()
-    return user
+    if not User.objects.filter(username=username):
+        user = User.objects.create_user(username=username, password=password)
+        user.save()
+        return user
 
 def populate():
-    user_bob = create_user(username='bob')
+    user_bob = create_user(username='bob', password='bob')
 
     artist_katsimixa = add_artist("Αδελφοί Κατσιμίχα")
 
