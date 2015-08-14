@@ -52,8 +52,8 @@ class Song(models.Model):
     )
 
     title = models.CharField(max_length=100)
-    artist = models.ForeignKey(Artist, null=True)
-    user = models.ForeignKey(User, null=True, blank=True)
+    artist = models.ForeignKey(Artist, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     content = models.TextField(default='')
     genre = models.CharField(max_length=3, choices=GENRE_CHOICES, default=ENTEXNO)
     video = models.URLField(blank=True)
@@ -93,8 +93,8 @@ class Song(models.Model):
 
 
 class Bookmark(models.Model):
-    user = models.ForeignKey(User)
-    song = models.ForeignKey(Song)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    song = models.ForeignKey(Song, on_delete=models.CASCADE)
 
     def __str__(self):
         return '{0} -> {1}'.format(self.user.username, self.song.full_title())
