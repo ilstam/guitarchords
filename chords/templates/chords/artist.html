@@ -1,16 +1,17 @@
 {% extends 'chords/base.html' %}
-
 {% block title %}{{ artist.name }}{% endblock %}
 
 {% block body_block %}
-    <h2>{{ artist.name }}</h2>
-    {% if songs %}
-        <ul>
-        {% for song in songs %}
-        <li><a href="{% url 'chords:song' song.slug %}">{{ song }}</a></li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <strong>There are no registered songs for this artist.</strong>
-    {% endif %}
+
+<h1>{{ artist.name }}</h1>
+{% if songs %}
+    <ul>
+    {% for song in songs %}
+    <li><a href="{% url 'chords:song' song.slug %}">{{ song }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <strong>There are no registered songs for this artist.</strong>
+{% endif %}
+
 {% endblock %}

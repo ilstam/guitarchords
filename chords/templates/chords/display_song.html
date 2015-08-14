@@ -1,4 +1,4 @@
-<h2>{{ song.title }}</h2>
+<h1>{{ song.title }}</h1>
 <ul>
     {% if song.artist %}
         <li>Artist: <a href="{% url 'chords:artist' song.artist.slug %}">{{ song.artist.name }}</a></li>

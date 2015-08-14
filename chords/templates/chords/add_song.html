@@ -1,12 +1,13 @@
 {% extends 'chords/base.html' %}
-
 {% block title %}Send a song!{% endblock %}
 
 {% block body_block %}
-    <form id="add_song_form" method="post" action="{% url 'chords:add_song' %}">
-        <h2>Send a song!</h2>
-        {% csrf_token %}
-        {% include "chords/form_snippet.html" %}
-        <input type="submit" id="submit" value="Verification" />
-    </form>
+
+<form id="add_song_form" method="post" action="{% url 'chords:add_song' %}">
+    <h1>Send a song!</h1>
+    {% csrf_token %}
+    {% include "chords/form_snippet.html" %}
+    <input type="submit" id="submit" value="Verification" />
+</form>
+
 {% endblock %}

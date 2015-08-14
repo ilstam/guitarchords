@@ -1,16 +1,17 @@
 {% extends 'chords/base.html' %}
-
 {% block title %}Song verification{% endblock %}
 
 {% block body_block %}
-    <h2>Song verification</h2>
-    Please verify the song.
-    <hr />
-    {% include "chords/display_song.html" %}
-    <form method="get" action="{% url 'chords:add_song' %}">
-        <input type="submit" id="goback_btn" value="Go back" />
-    </form>
-    <form method="get" action="{% url 'chords:song_submitted' %}">
-        <input type="submit" id="submit_btn" value="It's ok, submit song!" />
-    </form>
+
+<h1>Song verification</h1>
+Please verify the song.
+<hr />
+{% include "chords/display_song.html" %}
+<form method="get" action="{% url 'chords:add_song' %}">
+    <input type="submit" id="goback_btn" value="Go back" />
+</form>
+<form method="get" action="{% url 'chords:song_submitted' %}">
+    <input type="submit" id="submit_btn" value="It's ok, submit song!" />
+</form>
+
 {% endblock %}
