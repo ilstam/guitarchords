@@ -66,6 +66,8 @@ def song_submitted(request):
         return redirect('chords:add_song')
 
     artist = Artist.objects.get_or_create(name=song_data['artist_txt'])[0]
+    # sqlite does not do case-insensitime matching for Unicode strings
+    # artist = Artist.objects.get_or_create(name__iexact=song_data['artist_txt'])[0]
     artist.save()
     song = Song(
         title=song_data['title'], artist=artist, user=request.user,
