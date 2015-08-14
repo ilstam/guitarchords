@@ -1,7 +1,9 @@
 <!DOCTYPE html>
+{% load staticfiles %}
 <html>
     <head>
         <title>Chords - {% block title %}{% endblock %}</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'chords/css/style.css' %}" />
     </head>
 
     <body>
