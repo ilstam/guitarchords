@@ -47,7 +47,7 @@ def parse_song_chords(song):
     E.g. "lorem G#dim7 ipsum" should become "<span class="chord">G#dim7</span>"
     """
     return re.sub('([A-G][#b]?(maj|m|aug|dim)?[567]?)',
-                 r'<span class="chord">\1</span>', song)
+                 r'<span class="chord">\1<img src="http://placehold.it/100x120"></span>', song)
 
 def strip_whitespace_lines(string):
     """
