@@ -91,6 +91,9 @@ class Song(models.Model):
     def tohtml(self):
         return parse_song_chords(self.content)
 
+    def embed_video_url(self):
+        return self.video.replace('watch?v=', 'embed/')
+
 
 class Bookmark(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
