@@ -19,6 +19,8 @@ from django.contrib import admin
 from registration.backends.default.views import RegistrationView
 from registration.forms import RegistrationFormUniqueEmail
 
+from chords.views import login_user
+
 
 class RegistrationViewUniqueEmail(RegistrationView):
     form_class = RegistrationFormUniqueEmail
@@ -27,7 +29,8 @@ class RegistrationViewUniqueEmail(RegistrationView):
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^chords/', include('chords.urls', namespace='chords')),
-    url(r'^user/register', RegistrationViewUniqueEmail.as_view(),
-        name='registration_register'),
     url(r'^accounts/', include('registration.backends.default.urls')),
+    url(r'^accounts/login/$', login_user, name='auth_login'),
+    url(r'^accounts/register', RegistrationViewUniqueEmail.as_view(),
+        name='registration_register'),
 ]

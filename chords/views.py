@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
@@ -32,6 +33,14 @@ def user(request, username):
     songs = songs.order_by('artist__name', 'title')
     context = {'theuser' : user, 'songs' : songs}
     return render(request, 'chords/user.html', context)
+
+def login_user(request):
+    response = auth_views.login(request, 'registration/login.html')
+    if request.method == 'POST':
+        if request.POST.get('remember_me', None) is None:
+            # user's session cookie will expire when the browser is closed
+            request.session.set_expiry(0)
+    return response
 
 @login_required
 def add_song(request):
