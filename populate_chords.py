@@ -38,12 +38,13 @@ def create_user(username='username', password='password'):
 def populate():
     user_bob = create_user(username='bob', password='bob')
 
-    artist_katsimixa = add_artist("Αδελφοί Κατσιμίχα")
+    artist_katsimixa = add_artist('Αδελφοί Κατσιμίχα')
 
     add_song(
-        title="Ρίτα Ριτάκι",
+        title='Ρίτα Ριτάκι',
         artist=artist_katsimixa,
         user=user_bob,
+        video='https://www.youtube.com/watch?v=QMyEGJNv6j4',
         genre=Song.ENTEXNO,
         content="""
 G          Em        C             D
@@ -90,12 +91,13 @@ G      Em   Am         D
         published = True
             )
 
-    artist_xasma = add_artist("Χάσμα")
+    artist_xasma = add_artist('Χάσμα')
 
     add_song(
-        title="Δε με ελέγχω",
+        title='Δε με ελέγχω',
         artist=artist_xasma,
         user=user_bob,
+        video='https://www.youtube.com/watch?v=ltq7MVYz_XI',
         genre=Song.PUNK,
         content="""
                    Bm               D
@@ -159,7 +161,7 @@ Bm
             )
 
     add_song(
-        title="Ό,τι αγαπώ είναι για λίγο",
+        title='Ό,τι αγαπώ είναι για λίγο',
         artist=artist_xasma,
         user=user_bob,
         genre=Song.PUNK,
@@ -225,12 +227,13 @@ F#5 E5 D5
         published = True
             )
 
-    artist_spathia = add_artist("Ξύλινα Σπαθιά")
+    artist_spathia = add_artist('Ξύλινα Σπαθιά')
 
     add_song(
         title="Ρίτα",
         artist=artist_spathia,
         user=user_bob,
+        video='https://www.youtube.com/watch?v=O1dPCBoTUcI',
         genre=Song.ROCK,
         content="""
 Em                          G D
@@ -277,5 +280,5 @@ D            A
 
 
 if __name__ == '__main__':
-    print("starting chords population script...\n")
+    print('starting chords population script...\n')
     populate()
