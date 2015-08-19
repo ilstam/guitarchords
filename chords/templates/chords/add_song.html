@@ -3,8 +3,8 @@
 
 {% block body_block %}
 
+<h1>Send a song!</h1>
 <form id="add_song_form" method="post" action="{% url 'chords:add_song' %}">
-    <h1>Send a song!</h1>
     {% csrf_token %}
     {% include "chords/form_snippet.html" %}
     <input type="submit" id="submit" value="Verification" />
