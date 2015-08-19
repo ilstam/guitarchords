@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db.models import Q
 
 from .models import Artist, Song, Bookmark
 from .forms import AddSongForm
@@ -33,6 +34,16 @@ def user(request, username):
     songs = songs.order_by('artist__name', 'title')
     context = {'theuser' : user, 'songs' : songs}
     return render(request, 'chords/user.html', context)
+
+def search(request):
+    query = request.GET.get('search', None)
+    context = {}
+    if query:
+        results = Song.objects.filter(Q(title__contains=query) |
+                                      Q(artist__name__contains=query))
+        context = {'query' : query, 'results' : results,
+                   'results_count' : results.count()}
+    return render(request, 'chords/search.html', context)
 
 def login_user(request):
     if not 'remember_me' in request.POST:

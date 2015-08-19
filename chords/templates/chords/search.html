@@ -1,0 +1,26 @@
+{% extends 'chords/base.html' %}
+{% block title %}Search{% endblock %}
+
+{% block body_block %}
+
+{% if query %}
+    <h3>Search results for "{{ query }}"...</h3>
+{% else %}
+    <h3>Search for a song title or artist</h3>
+{% endif %}
+<form action="{% url 'chords:search' %}" method="get">
+    <input type="text" name="search" placeholder="Search...">
+    <input type="submit" value="Go!">
+</form>
+{% if results %}
+    <ul>
+    {% for song in results %}
+    <li><a href="{% url 'chords:song' song.slug %}">{{ song.full_title }}</a></li>
+    {% endfor %}
+    </ul>
+    <p><strong>We found {{ results_count }} relative result{{ results_count|pluralize }}.</strong></p>
+{% elif query %}
+    <p><strong>No results found.</strong></p>
+{% endif %}
+
+{% endblock %}

@@ -11,5 +11,6 @@ urlpatterns = [
     url(r'^verify_song/$', views.verify_song, name='verify_song'),
     url(r'^song_submitted/$', views.song_submitted, name='song_submitted'),
     url(r'^user/(?P<username>[\w]+)/$', views.user, name='user'),
+    url(r'^search/$', views.search, name='search'),
     url(r'^bookmarks/$', views.user_bookmarks, name='user_bookmarks'),
 ]

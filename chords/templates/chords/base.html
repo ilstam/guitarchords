@@ -26,6 +26,9 @@
                     <li><a href="{% url 'auth_login' %}">Login</a></li>
                 {% endif %}
             </ul>
+            <form action="{% url 'chords:search' %}" method="get">
+                <input type="text" name="search" placeholder="Search...">
+            </form>
         </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
