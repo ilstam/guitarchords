@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Q
@@ -44,11 +43,6 @@ def search(request):
         context = {'query' : query, 'results' : results,
                    'results_count' : results.count()}
     return render(request, 'chords/search.html', context)
-
-def login_user(request):
-    if not 'remember_me' in request.POST:
-        request.session.set_expiry(0)
-    return auth_views.login(request, 'registration/login.html')
 
 @login_required
 def add_song(request):

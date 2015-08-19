@@ -14,16 +14,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
 from django.conf.urls import include, url
-from django.contrib import admin
+from django.contrib import admin, auth
 
 from registration.backends.default.views import RegistrationView
 from registration.forms import RegistrationFormUniqueEmail
 
-from chords.views import login_user
-
 
 class RegistrationViewUniqueEmail(RegistrationView):
     form_class = RegistrationFormUniqueEmail
+
+
+def login_user(request):
+    if not 'remember_me' in request.POST:
+        request.session.set_expiry(0)
+    return auth.views.login(request, 'registration/login.html')
 
 
 urlpatterns = [
