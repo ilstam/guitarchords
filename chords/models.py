@@ -2,8 +2,8 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
-from .utils import generate_unique_slug, greek_to_english_letters
-from .utils import strip_whitespace_lines, parse_song_chords
+from .utils import (generate_unique_slug, strip_whitespace_lines,
+                    parse_song_chords)
 
 
 class Artist(models.Model):
@@ -14,9 +14,7 @@ class Artist(models.Model):
 
     def save(self, slug_max_length=-1, *args, **kwargs):
         if self.id is None:
-            # generate slug only when creating an object to avoid broken links
-            slug_text = greek_to_english_letters(self.name)
-            self.slug = generate_unique_slug(Artist, slug_text, slug_max_length)
+            self.slug = generate_unique_slug(Artist, self.name, slug_max_length)
 
         super(Artist, self).save(*args, **kwargs)
 
@@ -66,9 +64,7 @@ class Song(models.Model):
 
     def save(self, slug_max_length=-1, *args, **kwargs):
         if self.id is None:
-            # generate slug only when creating an object to avoid broken links
-            slug_text = greek_to_english_letters(self.title)
-            self.slug = generate_unique_slug(Song, slug_text, slug_max_length)
+            self.slug = generate_unique_slug(Song, self.title, slug_max_length)
 
         self.content = strip_whitespace_lines(self.content)
 
