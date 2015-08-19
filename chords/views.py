@@ -35,12 +35,9 @@ def user(request, username):
     return render(request, 'chords/user.html', context)
 
 def login_user(request):
-    response = auth_views.login(request, 'registration/login.html')
-    if request.method == 'POST':
-        if request.POST.get('remember_me', None) is None:
-            # user's session cookie will expire when the browser is closed
-            request.session.set_expiry(0)
-    return response
+    if not 'remember_me' in request.POST:
+        request.session.set_expiry(0)
+    return auth_views.login(request, 'registration/login.html')
 
 @login_required
 def add_song(request):
