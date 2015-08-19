@@ -4,10 +4,10 @@ from .models import Artist, Song, Bookmark
 
 
 class ArtistAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug':('name',)}
+    exclude = ['slug']
 
 class SongAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug':('title',)}
+    exclude = ['slug']
 
 
 admin.site.register(Artist, ArtistAdmin)
