@@ -38,8 +38,8 @@ def search(request):
     query = request.GET.get('search', None)
     context = {}
     if query:
-        results = Song.objects.filter(Q(title__contains=query) |
-                                      Q(artist__name__contains=query))
+        results = Song.objects.filter(Q(published=True),
+            Q(title__contains=query) | Q(artist__name__contains=query))
         context = {'query' : query, 'results' : results,
                    'results_count' : results.count()}
     return render(request, 'chords/search.html', context)
