@@ -5,6 +5,7 @@ from django.db.models import Q
 
 from .models import Artist, Song, Bookmark
 from .forms import AddSongForm
+from .utils import slugify_greek
 
 
 def index(request):
@@ -35,11 +36,12 @@ def user(request, username):
     return render(request, 'chords/user.html', context)
 
 def search(request):
-    query = request.GET.get('search', None)
+    query = request.GET.get('search', '')
+    query_slug = slugify_greek(query)
     context = {}
     if query:
         results = Song.objects.filter(Q(published=True),
-            Q(title__contains=query) | Q(artist__name__contains=query))
+            Q(slug__contains=query_slug) | Q(artist__slug__contains=query_slug))
         context = {'query' : query, 'results' : results,
                    'results_count' : results.count()}
     return render(request, 'chords/search.html', context)
@@ -76,9 +78,8 @@ def song_submitted(request):
     if song_data is None:
         return redirect('chords:add_song')
 
-    artist = Artist.objects.get_or_create(name=song_data['artist_txt'])[0]
-    # sqlite does not do case-insensitime matching for Unicode strings
-    # artist = Artist.objects.get_or_create(name__iexact=song_data['artist_txt'])[0]
+    artist = Artist.objects.get_or_create(
+            slug=slugify_greek(song_data['artist_txt']))[0]
     artist.save()
     song = Song(
         title=song_data['title'], artist=artist, user=request.user,
