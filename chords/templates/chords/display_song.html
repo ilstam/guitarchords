@@ -5,8 +5,10 @@
     {% else %}
         <li>Artist: {{ artist_txt }}</li>
     {% endif %}
-    {% if song.reg_date %}
-        <li>Registered: {{ song.reg_date }}</li>
+    {% if song.pub_date %}
+        <li>Published: {{ song.pub_date }}</li>
+    {% else %}
+        <li>Published: Unpublished</li>
     {% endif %}
     <li>Genre: {{ song.genre_str }}</li>
     {% if song.user %}

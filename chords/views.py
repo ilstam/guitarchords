@@ -15,7 +15,12 @@ def index(request):
     return render(request, 'chords/index.html', {'songs' : recent_songs})
 
 def song(request, song_slug):
-    song = get_object_or_404(Song, slug=song_slug, published=True)
+    if request.user.is_authenticated():
+        song = get_object_or_404(Song, Q(slug=song_slug),
+            Q(published=True) | Q(user=request.user))
+    else:
+        song = get_object_or_404(Song, slug=song_slug, published=True)
+
     return render(request, 'chords/song.html', {'song' : song})
 
 def artist(request, artist_slug):
