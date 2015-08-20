@@ -7,6 +7,7 @@ from django.utils import timezone
 from .models import Artist, Song, Bookmark
 from .views import user as user_view
 from .views import song as song_view
+from .views import search as search_view
 from .forms import AddSongForm
 from . import utils
 
@@ -172,7 +173,7 @@ class IndexViewTests(TestCase):
         self.assertQuerysetEqual(response.context['songs'],
                                  ['<Song: Random Song>'])
 
-    def test_index_view_with_a_unpublished_song(self):
+    def test_index_view_with_an_unpublished_song(self):
         """
         Recently un-published songs should not be displayed on the index page.
         """
@@ -567,6 +568,63 @@ class SongSubmittedViewTests(TestCase):
         self.assertFalse('song_data' in self.client.session)
 
 
+class SearchViewTests(TestCase):
+    def test_search_view_without_query(self):
+        """
+        Search view should display published songs.
+        """
+        response = self.client.get(reverse('chords:search'))
+        self.assertContains(response, 'Search for a song title or artist')
+
+    def test_search_view_with_a_published_song(self):
+        """
+        Search view should display published songs.
+        """
+        create_song(title='Random Song', published=True)
+        response = self.client.get(reverse('chords:search') +
+            '?search=Random Song')
+        self.assertQuerysetEqual(response.context['results'],
+                                 ['<Song: Random Song>'])
+        self.assertContains(response, '1 relative result')
+
+    def test_search_view_with_an_unpublished_song(self):
+        """
+        Search view should not display unpublished songs.
+        """
+        create_song(title='Random Song', published=False)
+        response = self.client.get(reverse('chords:search') +
+            '?search=Random Song')
+        self.assertQuerysetEqual(response.context['results'], [])
+        self.assertContains(response, 'No results found')
+
+    def test_search_view_with_published_song_and_unpublished_song(self):
+        """
+        Search view should display only published songs.
+        """
+        create_song(title='Published Song1', published=True)
+        create_song(title='Published Song2', published=True)
+        create_song(title='Unpublished Song', published=False)
+        response = self.client.get(reverse('chords:search') + '?search=Song')
+        self.assertQuerysetEqual(response.context['results'].order_by('title'),
+            ['<Song: Published Song1>', '<Song: Published Song2>'])
+        self.assertContains(response, '2 relative results')
+
+    def test_search_view_results_matching(self):
+        """
+        Search view should display songs that contain the query string in
+        title or artist name. The match must be case insensitive and greek
+        letters must be converted in english first.
+        """
+        create_song(title='Random Song', published=True)
+        create_song(title='Tυχαίο Σόνγ', published=True)
+        create_song(title='Some', artist=create_artist(name='Song Artist'),
+            published=True)
+        response = self.client.get(reverse('chords:search') +
+            '?search=ΣόnG')
+        self.assertQuerysetEqual(response.context['results'].order_by('title'),
+            ['<Song: Random Song>', '<Song: Some>', '<Song: Tυχαίο Σόνγ>'])
+
+
 class UserBookmarksViewTests(TestCase):
     def setUp(self):
         self.user = create_user(password='password')
@@ -659,12 +717,3 @@ class TestUtils(SimpleTestCase):
         s1 = '  \t\n\n\t \tsome identation here\n\n\n\nlorem ipsum\n\n'
         s2 =         '\t \tsome identation here\n\nlorem ipsum'
         self.assertEqual(utils.strip_whitespace_lines(s1), s2)
-
-    # def test_parse_song_chords(self):
-        # """
-        # A song must have all its chords enclosed in span tags after parsing.
-        # """
-        # orig = '    Am  G#\nLorem ipsum, lorem ipsum'
-        # result =  '    <span class="chord">Am</span>  <span class="chord">G#</span>'
-        # result += '\nLorem ipsum, lorem ipsum'
-        # self.assertEqual(utils.parse_song_chords(orig), result)
