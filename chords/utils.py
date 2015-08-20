@@ -61,15 +61,6 @@ def generate_unique_slug(cls, string, max_length=-1):
 
     return slug
 
-def parse_song_chords(song):
-    """
-    Parse song and enclose every chord in span tags of class "chord".
-
-    E.g. "lorem G#dim7 ipsum" should become "<span class="chord">G#dim7</span>"
-    """
-    return re.sub('([A-G][#b]?(maj|m|aug|dim)?[567]?)',
-                 r'<span class="chord">\1<img src="http://placehold.it/100x120"></span>', song)
-
 def strip_whitespace_lines(string):
     """
     Remove whitespace lines from the beginning and the end of the string,
@@ -88,9 +79,11 @@ def strip_whitespace_lines(string):
 
     return '\n'.join(lines)
 
-def is_chord(s):
+def parse_song_chords(song):
     """
-    Return True, if the string represents a guitar chord.
-    It will return True for invalid chords like B# as well.
+    Parse song and enclose every chord in span tags of class "chord".
+
+    E.g. "lorem G#dim7 ipsum" should become "<span class="chord">G#dim7</span>"
     """
-    return bool(re.match(r'^[A-G][#b]?(maj|m|aug|dim)?[567]?$', s))
+    return re.sub('([A-G][#b]?(maj|m|aug|dim)?[567]?)',
+                 r'<span class="chord">\1<img src="http://placehold.it/100x120"></span>', song)
