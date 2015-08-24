@@ -1,14 +1,22 @@
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
 .chord {
-	color: purple;
-	position: relative;
-	z-index: 0;
+    color: purple;
+    position: relative;
+    z-index: 0;
 }
 
 .chord img {
-	position: absolute;
-	bottom: 15px;
-	left: 15px;
-	border-radius: 10px;
-	z-index: 1;
-	visibility: hidden;
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    border-radius: 10px;
+    z-index: 1;
+    visibility: hidden;
 }
