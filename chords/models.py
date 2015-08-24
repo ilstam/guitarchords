@@ -2,8 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
-from .utils import (generate_unique_slug, strip_whitespace_lines,
-                    parse_song_chords)
+from .utils import generate_unique_slug, strip_whitespace_lines
 
 
 class Artist(models.Model):
@@ -83,9 +82,6 @@ class Song(models.Model):
 
     def __str__(self):
         return self.title
-
-    def tohtml(self):
-        return parse_song_chords(self.content)
 
     def embed_video_url(self):
         return self.video.replace('watch?v=', 'embed/')
