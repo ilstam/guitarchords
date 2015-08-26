@@ -15,7 +15,6 @@ $('#hide_chords').click(function() {
 $('#semiton_change').change(function() {
     var semitonsMove = parseInt($(this).find(':selected').text(), 10);
     $('.chord').each(function() {
-        //changeSemiton($(this), semitonsMove);
         $(this).text(changeSemiton($(this).attr('origchord'), semitonsMove));
     });
 })
@@ -29,12 +28,22 @@ $('#semiton_change').change(function() {
  * @return {String} the changed chord
  */
 function changeSemiton(chord, semitonsMove) {
+    if (semitonsMove === 0)
+        return chord;
+
     var semitons = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+
     var regex = /([A-G][#b]?)((maj|m|aug|dim|sus)?[245679]?)/;
 
     var match = regex.exec(chord);
     var origSemiton = match[1];
     var restChord = match[2];
+
+    if (origSemiton.charAt(1) === 'b') {
+        var map = {'Ab' : 'G#', 'Bb' : 'A#', 'Cb' : 'B', 'Db' : 'C#',
+                   'Eb' : 'F#', 'Fb' : 'E', 'Gb' : 'F#'};
+        var origSemiton = map[origSemiton];
+    }
 
     var index = semitons.indexOf(origSemiton) + semitonsMove;
     if (index >= semitons.length)
