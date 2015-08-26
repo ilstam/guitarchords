@@ -62,7 +62,7 @@ function parseSong() {
     var newlines = "";
 
     for (i = 0; i < lines.length; i++) {
-        if (lines[i].indexOf('<span class="chord">') != -1)
+        if (lines[i].indexOf('<span class="chord"') != -1)
             newlines += '<div class="chordline">' + lines[i] + '</div>';
         else
             newlines += lines[i] + "\n";
