@@ -1,4 +1,6 @@
 {% extends 'chords/base.html' %}
+{% load staticfiles %}
+
 {% block title %}Song verification{% endblock %}
 
 {% block body_block %}
@@ -14,4 +16,8 @@ Please verify the song.
     <input type="submit" id="submit_btn" value="It's ok, submit song!" />
 </form>
 
+{% endblock %}
+
+{% block scripts_block %}
+    <script src="{% static "chords/js/song.js" %}"></script>
 {% endblock %}

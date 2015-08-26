@@ -1,6 +1,12 @@
 {% extends 'chords/base.html' %}
+{% load staticfiles %}
+
 {% block title %}{{ song.title }}{% endblock %}
 
 {% block body_block %}
     {% include "chords/display_song.html" %}
+{% endblock %}
+
+{% block scripts_block %}
+    <script src="{% static "chords/js/song.js" %}"></script>
 {% endblock %}
