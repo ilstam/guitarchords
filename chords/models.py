@@ -74,17 +74,18 @@ class Song(models.Model):
 
         super(Song, self).save(*args, **kwargs)
 
-    def full_title(self):
-        return '{0} - {1}'.format(self.artist, self.title)
+    def embed_video_url(self):
+        return self.video.replace('watch?v=', 'embed/')
 
     def genre_str(self):
         return self.get_genre_display()
 
-    def __str__(self):
-        return self.title
+    def full_title(self):
+        full_title = '{0} - {1}'.format(self.artist, self.title)
+        return full_title + ' (+t)' if self.tabs else full_title
 
-    def embed_video_url(self):
-        return self.video.replace('watch?v=', 'embed/')
+    def __str__(self):
+        return self.title + ' (+t)' if self.tabs else self.title
 
 
 class Bookmark(models.Model):
