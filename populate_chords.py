@@ -30,10 +30,13 @@ def add_song(title, artist, user=None, content='', genre='', video='',
     return s
 
 def create_user(username='username', password='password'):
-    if not User.objects.filter(username=username):
+    try:
+        user = User.objects.filter(username=username)[0]
+    except IndexError:
         user = User.objects.create_user(username=username, password=password)
         user.save()
-        return user
+
+    return user
 
 def populate():
     user_bob = create_user(username='bob', password='bob')
@@ -293,6 +296,10 @@ e|---------------------------------------1---1---1---1---0-----5---
 
  Am    Bbsus4    Fb
 Some lyrics lorem ipsum
+lorem ipsum some other lyrics
+
+    G11        F#dim13
+lorem ipsum some other lyrics
 lorem ipsum some other lyrics
 """,
         published=True
