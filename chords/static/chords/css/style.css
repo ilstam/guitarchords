@@ -9,7 +9,6 @@ a:hover {
 .chord {
     color: purple;
     position: relative;
-    z-index: 0;
 }
 
 .chord img {
@@ -17,8 +16,13 @@ a:hover {
     bottom: 15px;
     left: 15px;
     border-radius: 10px;
-    z-index: 1;
     visibility: hidden;
+
+    width: 90px;
+    height: 110px;
+    padding: 5px 4px 10px 4px;
+    background-color: white;
+    border: 2px solid gray;
 }
 
 .tabsline {
