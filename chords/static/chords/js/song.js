@@ -42,7 +42,7 @@ function changeSemiton(chord, semitonsMove) {
 
     var semitons = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 
-    var regex = /([A-G][#b]?)((maj|m|aug|dim|sus)?[245679]?)/;
+    var regex = /([A-G][#b]?)((maj|m|aug|dim|sus)?([245679]|11|13)?)/;
 
     var match = regex.exec(chord);
     var origSemiton = match[1];
@@ -104,7 +104,7 @@ function parseSong() {
         }
 
         lines[i] = lines[i].replace(
-            /([A-G][#b]?(maj|m|aug|dim|sus)?[245679]?)/g,
+            /([A-G][#b]?(maj|m|aug|dim|sus)?([245679]|11|13)?)/g,
             function($0, $1) {
                 return '<span class="chord" origchord="' + $1 +
                     '"><span class="chordname">' + $1 + '</span>' +
