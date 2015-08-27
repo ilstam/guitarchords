@@ -21,7 +21,8 @@ $('#hide_tabs').click(function() {
 $('#semiton_change').change(function() {
     var semitonsMove = parseInt($(this).find(':selected').text(), 10);
     $('.chord').each(function() {
-        $(this).text(changeSemiton($(this).attr('origchord'), semitonsMove));
+        $(this).children('.chordname').text(
+            changeSemiton($(this).attr('origchord'), semitonsMove));
     });
 })
 
@@ -94,7 +95,7 @@ function parseSong() {
 
         lines[i] = lines[i].replace(
             /([A-G][#b]?(maj|m|aug|dim|sus)?[245679]?)/g,
-            '<span class="chord" origchord="$1">$1' +
+            '<span class="chord" origchord="$1"><span class="chordname">$1</span>' +
             '<img src="http://placehold.it/100x120"></span>'
         );
 
