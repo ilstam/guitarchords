@@ -21,8 +21,10 @@ $('#hide_tabs').click(function() {
 $('#semiton_change').change(function() {
     var semitonsMove = parseInt($(this).find(':selected').text(), 10);
     $('.chord').each(function() {
-        $(this).children('.chordname').text(
-            changeSemiton($(this).attr('origchord'), semitonsMove));
+        var newSemiton = changeSemiton($(this).attr('origchord'), semitonsMove);
+        $(this).children('.chordname').text(newSemiton);
+        $(this).children('img').attr(
+            'src', '/static/chords/img/chords/' + encodeURIComponent(newSemiton) + '.png');
     });
 })
 
@@ -63,9 +65,17 @@ function changeSemiton(chord, semitonsMove) {
 
 /**
  * Encloses each chord in a span tag of class "chord", and assigns an
- * appropriate image to it. Additionally it encloses each line containing
+ * appropriate image to it. Additionally, it encloses each line containing
  * chords in a div tag of class "chordline" and each line containing tabs
  * in a div tag of class "tabsline".
+ *
+ * eg. "Am" becomes ->
+ * <div class="chordline">
+ *     <span class="chord" origchord="Am">
+ *         <span class="chordname">Am</span>
+ *         <img src="Am.png">
+ *     </span>
+ * </div>
  */
 function parseSong() {
     var content = $("#song_content");
@@ -95,8 +105,12 @@ function parseSong() {
 
         lines[i] = lines[i].replace(
             /([A-G][#b]?(maj|m|aug|dim|sus)?[245679]?)/g,
-            '<span class="chord" origchord="$1"><span class="chordname">$1</span>' +
-            '<img src="http://placehold.it/100x120"></span>'
+            function($0, $1) {
+                return '<span class="chord" origchord="' + $1 +
+                    '"><span class="chordname">' + $1 + '</span>' +
+                    '<img src="/static/chords/img/chords/' +
+                    encodeURIComponent($1) + '.png" alt=""></span>'
+            }
         );
 
         if (lines[i].indexOf('<span class="chord"') != -1)
