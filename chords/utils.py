@@ -64,17 +64,16 @@ def generate_unique_slug(cls, string, max_length=-1):
 def strip_whitespace_lines(string):
     """
     Remove whitespace lines from the beginning and the end of the string,
-    as well as adjacent whitespace lines inside.
+    as well as adjacent whitespace lines inside. Also strip every line from
+    whitespace.
     """
-    lines = [(l.strip() if not l.strip() else l) for l in string.splitlines()]
+    string = re.sub('\n\n+', '\n\n', string)
+    lines = [('' if not l.strip() else l) for l in string.splitlines()]
 
     # remove whitespace lines from beginning and end
     while lines and not lines[0]:
         lines.pop(0)
     while lines and not lines[-1]:
         lines.pop()
-
-    # remove any adjacent whitespace lines
-    lines = [l[0] for l in itertools.groupby(lines)]
 
     return '\n'.join(lines)
