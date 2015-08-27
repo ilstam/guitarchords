@@ -20,3 +20,7 @@ a:hover {
     z-index: 1;
     visibility: hidden;
 }
+
+.tabsline {
+    color: blue;
+}

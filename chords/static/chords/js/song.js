@@ -55,29 +55,52 @@ function changeSemiton(chord, semitonsMove) {
 }
 
 /**
- * Each chord must be enclosed in a span tag of class "chord", and an
- * appropriate image must be assigned to it. Additionally, each line of
- * song content containing chords should be enclosed in div tags of class
- * "chordline"".
+ * Encloses each chord in a span tag of class "chord", and assigns an
+ * appropriate image to it. Additionally it encloses each line containing
+ * chords in a div tag of class "chordline" and each line containing tabs
+ * in a div tag of class "tabsline".
  */
 function parseSong() {
     var content = $("#song_content");
-    var result = content.html().replace(
-        /([A-G][#b]?(maj|m|aug|dim|sus)?[245679]?)/g,
-        '<span class="chord" origchord="$1">$1<img src="http://placehold.it/100x120"></span>'
-    );
 
-    var lines = result.split('\n');
-    var newlines = "";
+    // parse tabs
+    var regex = /^[A-Ga-g]\|?[1-9-]{3,}/;
+    var lines = content.html().split('\n');
+    var newlines = [];
+    for (i = 0; i < lines.length; i++) {
+        if (regex.test(lines[i]))
+            lines[i] = '<div class="tabsline">' + lines[i] + '</div>';
+        else
+            lines[i] += '\n'
+        newlines.push(lines[i]);
+    }
+
+    // parse chords
+    var lines = newlines;
+    var finallines = "";
 
     for (i = 0; i < lines.length; i++) {
+        if (lines[i].indexOf('<div class="tabsline">') != -1) {
+            // don't parse tab lines for chords
+            finallines += lines[i];
+            continue;
+        }
+
+        lines[i] = lines[i].replace(
+            /([A-G][#b]?(maj|m|aug|dim|sus)?[245679]?)/g,
+            '<span class="chord" origchord="$1">$1' +
+            '<img src="http://placehold.it/100x120"></span>'
+        );
+
         if (lines[i].indexOf('<span class="chord"') != -1)
-            newlines += '<div class="chordline">' + lines[i] + '</div>';
+            finallines += '<div class="chordline">' + lines[i] + '</div>';
         else
-            newlines += lines[i] + "\n";
+            finallines += lines[i];
     }
-    content.html(newlines);
+
+    content.html(finallines);
 }
+
 
 /**
  * Fills the semiton_change select object, with the values from -5 to 6
