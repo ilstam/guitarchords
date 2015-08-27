@@ -12,6 +12,12 @@ $('#hide_chords').click(function() {
         $('#hide_chords').text() == 'Hide chords' ? 'Show chords' : 'Hide chords');
 })
 
+$('#hide_tabs').click(function() {
+    $('.tabsline').toggle();
+    $('#hide_tabs').text(
+        $('#hide_tabs').text() == 'Hide tabs' ? 'Show tabs' : 'Hide tabs');
+})
+
 $('#semiton_change').change(function() {
     var semitonsMove = parseInt($(this).find(':selected').text(), 10);
     $('.chord').each(function() {

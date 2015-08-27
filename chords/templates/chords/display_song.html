@@ -23,7 +23,9 @@
 {% endif %}
 <ul>
     <li><a href="javascript:;" id="hide_chords">Hide chords</a></li>
-    <li><a href="javascript:;" id="hide_tabs">Hide tabs</a></li>
+    {% if song.tabs %}
+        <li><a href="javascript:;" id="hide_tabs">Hide tabs</a></li>
+    {% endif %}
 </ul>
 
 Semiton change:
