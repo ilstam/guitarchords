@@ -1,1 +1,26 @@
-this site is under development
+Chords is a responsive web app supporting user authentication.
+Users can view and send song lyrics, guitar chords and tabs.
+
+***This site is under heavy development!***
+
+Requires/uses
+--------------
+requires: python3 and django (tested with 1.8 version only)
+uses: html5, jquery, bootstrap
+
+Get started
+------------
+Make migrations:
+`./manage.py makemigrations chords`
+`./manage.py migrate`
+
+Populate some test data (optional):
+`./populate_chords.py`
+
+Create a superuser for the admin site (optional):
+`./manage.py createsuperuser`
+
+Run the development server:
+`./manage.py runserver`
+
+You can now visit the site on http://localhost:8000/chords/.
