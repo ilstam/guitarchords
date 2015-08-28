@@ -22,19 +22,19 @@ class AddSongForm(ModelForm):
             'title' : 'Title',
             'genre' : 'Genre',
             'video' : 'Video',
-            'tabs' : 'Tabs',
+            'tabs'  : 'Contain tabs',
             'content' : '',
         }
         help_texts = {
             'title' : 'required',
             'video' : 'Youtube etc.',
-            'tabs' : 'does this version contain tabs?',
         }
         error_messages = {
             'content' : {
                 'required' : "Remember to include the song!"
             },
         }
+
 
     def clean(self):
         if 'content' in self.cleaned_data:
