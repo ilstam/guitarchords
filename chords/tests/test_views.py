@@ -154,9 +154,9 @@ class UserViewTests(TestCase):
         """
         The user view should display published songs.
         """
-        song = create_song(published=True, user=create_user())
+        song = create_song(published=True, sender=create_user())
         response = self.client.get(reverse('chords:user',
-                                   args=(song.user.username,)))
+                                   args=(song.sender.username,)))
         self.assertQuerysetEqual(response.context['songs'],
                                  ['<Song: Random Song>'])
 
@@ -164,9 +164,9 @@ class UserViewTests(TestCase):
         """
         The user view should not display un-published songs.
         """
-        song = create_song(published=False, user=create_user())
+        song = create_song(published=False, sender=create_user())
         response = self.client.get(reverse('chords:user',
-                                   args=(song.user.username,)))
+                                   args=(song.sender.username,)))
         self.assertQuerysetEqual(response.context['songs'], [])
 
     def test_user_view_with_published_and_unpublished_song(self):
@@ -175,8 +175,8 @@ class UserViewTests(TestCase):
         songs should be displayed on the user view.
         """
         user = create_user()
-        create_song(published=True, user=user)
-        create_song(published=False, user=user)
+        create_song(published=True, sender=user)
+        create_song(published=False, sender=user)
         response = self.client.get(reverse('chords:user', args=(user.username,)))
         self.assertQuerysetEqual(response.context['songs'],
                                  ['<Song: Random Song>'])
@@ -187,8 +187,8 @@ class UserViewTests(TestCase):
         unpublished songs, on his own user page.
         """
         user = create_user()
-        create_song(title='Song_Published', published=True, user=user)
-        create_song(title='Song_Unpublished', published=False, user=user)
+        create_song(title='Song_Published', published=True, sender=user)
+        create_song(title='Song_Unpublished', published=False, sender=user)
 
         request = RequestFactory().get(reverse('chords:user',
                                        args=(user.username,)))
@@ -204,8 +204,8 @@ class UserViewTests(TestCase):
         """
         user_viewer = create_user(username='user_viewer')
         user_artist = create_user(username='user_artist')
-        create_song(title='Song Published', published=True, user=user_artist)
-        create_song(title='Song Unpublished', published=False, user=user_artist)
+        create_song(title='Song Published', published=True, sender=user_artist)
+        create_song(title='Song Unpublished',published=False,sender=user_artist)
 
         request = RequestFactory().get(reverse('chords:user',
                                        args=(user_artist.username,)))
@@ -253,9 +253,9 @@ class SongViewTests(TestCase):
         unpublished songs sent by him.
         """
         user = create_user()
-        song_pub = create_song(title='Song_Published', published=True, user=user)
+        song_pub = create_song(title='Song_Published',published=True,sender=user)
         song_unpub = create_song(title='Song_Unpublished', published=False,
-                                 user=user)
+                                 sender=user)
 
         request = RequestFactory().get(reverse('chords:song',
                                        args=(song_pub.slug,)))
@@ -277,9 +277,9 @@ class SongViewTests(TestCase):
         user_viewer = create_user(username='user_viewer')
         user_artist = create_user(username='user_artist')
         song_pub = create_song(title='Song Published', published=True,
-                               user=user_artist)
+                               sender=user_artist)
         song_unpub = create_song(title='Song Unpublished', published=False,
-                                 user=user_artist)
+                                 sender=user_artist)
 
         request = RequestFactory().get(reverse('chords:song',
                                        args=(song_pub.slug,)))

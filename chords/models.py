@@ -50,7 +50,7 @@ class Song(models.Model):
 
     title = models.CharField(max_length=100)
     artist = models.ForeignKey(Artist, on_delete=models.SET_NULL, null=True)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    sender = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     content = models.TextField(default='')
     genre = models.CharField(max_length=3, choices=GENRE_CHOICES, default=ENTEXNO)
     video = models.URLField(blank=True)

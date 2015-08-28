@@ -11,8 +11,8 @@
         <li>Published: Unpublished</li>
     {% endif %}
     <li>Genre: {{ song.genre_str }}</li>
-    {% if song.user %}
-        <li>Sent by: <a href="{% url 'chords:user' song.user.get_username %}">{{ song.user.get_username }}</a></li>
+    {% if song.sender %}
+        <li>Sent by: <a href="{% url 'chords:user' song.sender.get_username %}">{{ song.sender.get_username }}</a></li>
     {% endif %}
 </ul>
 <pre id="song_content">{{ song.content }}</pre>

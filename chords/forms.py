@@ -18,7 +18,6 @@ class AddSongForm(ModelForm):
         widgets = {
             'content' : Textarea(attrs={'cols': 70, 'rows': 35}),
         }
-
         labels = {
             'title' : 'Title',
             'genre' : 'Genre',
@@ -26,13 +25,11 @@ class AddSongForm(ModelForm):
             'tabs' : 'Tabs',
             'content' : '',
         }
-
         help_texts = {
             'title' : 'required',
             'video' : 'Youtube etc.',
             'tabs' : 'does this version contain tabs?',
         }
-
         error_messages = {
             'content' : {
                 'required' : "Remember to include the song!"

@@ -8,8 +8,8 @@ def create_artist(name='Some Artist'):
     artist.save()
     return artist
 
-def create_song(title='Random Song', artist=None, user=None, published=True):
-    song = Song(title=title, artist=artist, user=user, published=published)
+def create_song(title='Random Song', artist=None, sender=None, published=True):
+    song = Song(title=title, artist=artist, sender=sender, published=published)
     song.save()
     return song
 

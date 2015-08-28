@@ -17,10 +17,10 @@ def add_artist(name):
     a.save()
     return a
 
-def add_song(title, artist, user=None, content='', genre='', video='',
+def add_song(title, artist, sender=None, content='', genre='', video='',
              tabs=False, published=False):
     s = Song.objects.get_or_create(title=title, artist=artist)[0]
-    s.user = user
+    s.sender = sender
     s.content = content
     s.genre = genre
     s.video = video
@@ -46,7 +46,7 @@ def populate():
     add_song(
         title='Ρίτα Ριτάκι',
         artist=artist_katsimixa,
-        user=user_bob,
+        sender=user_bob,
         video='https://www.youtube.com/watch?v=QMyEGJNv6j4',
         genre=Song.ENTEXNO,
         content="""
@@ -99,7 +99,7 @@ G      Em   Am         D
     add_song(
         title='Δε με ελέγχω',
         artist=artist_xasma,
-        user=user_bob,
+        sender=user_bob,
         video='https://www.youtube.com/watch?v=ltq7MVYz_XI',
         genre=Song.PUNK,
         content="""
@@ -166,7 +166,7 @@ Bm
     add_song(
         title='Ό,τι αγαπώ είναι για λίγο',
         artist=artist_xasma,
-        user=user_bob,
+        sender=user_bob,
         genre=Song.PUNK,
         content="""
 F#5       A5               D5
@@ -235,7 +235,7 @@ F#5 E5 D5
     add_song(
         title='Ρίτα',
         artist=artist_spathia,
-        user=user_bob,
+        sender=user_bob,
         video='https://www.youtube.com/watch?v=O1dPCBoTUcI',
         genre=Song.ROCK,
         content="""
@@ -274,7 +274,7 @@ D            A
     add_song(
         title='Test Song',
         artist=artist_xasma,
-        user=user_bob,
+        sender=user_bob,
         genre=Song.ROCK,
         tabs=True,
         content="""

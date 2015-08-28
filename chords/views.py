@@ -17,7 +17,7 @@ def index(request):
 def song(request, song_slug):
     if request.user.is_authenticated():
         song = get_object_or_404(Song, Q(slug=song_slug),
-            Q(published=True) | Q(user=request.user))
+            Q(published=True) | Q(sender=request.user))
     else:
         song = get_object_or_404(Song, slug=song_slug, published=True)
 
@@ -32,9 +32,9 @@ def artist(request, artist_slug):
 def user(request, username):
     user = get_object_or_404(User, username=username)
     if request.user.is_authenticated() and request.user == user:
-        songs = Song.objects.filter(user=user)
+        songs = Song.objects.filter(sender=user)
     else:
-        songs = Song.objects.filter(user=user, published=True)
+        songs = Song.objects.filter(sender=user, published=True)
 
     songs = songs.order_by('artist__name', 'title')
     context = {'theuser' : user, 'songs' : songs}
@@ -87,7 +87,7 @@ def song_submitted(request):
             slug=slugify_greek(song_data['artist_txt']))[0]
     artist.save()
     song = Song(
-        title=song_data['title'], artist=artist, user=request.user,
+        title=song_data['title'], artist=artist, sender=request.user,
         video=song_data['video'], genre=song_data['genre'],
         tabs=song_data['tabs'], content=song_data['content'])
     song.save()
