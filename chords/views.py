@@ -96,10 +96,7 @@ def song_submitted(request):
     return render(request, 'chords/song_submitted.html', {})
 
 @login_required
-def user_bookmarks(request):
-    pass
-    # user = request.user
-    # bookmarks = Bookmark.objects.filter(user=user, song__published=True
-        # ).order_by('song__artist__name', 'song__title')
-    # songs = [bookmark.song for bookmark in bookmarks]
-    # return render(request, 'chords/user_bookmarks.html', {'songs' : songs})
+def bookmarks(request):
+    songs = request.user.bookmarks.filter(published=True
+            ).order_by('artist__name', 'title')
+    return render(request, 'chords/bookmarks.html', {'songs' : songs})
