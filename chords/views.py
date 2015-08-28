@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Q
 
-from .models import Artist, Song, Bookmark
+from .models import Artist, Song
 from .forms import AddSongForm
 from .utils import slugify_greek
 
@@ -97,8 +97,9 @@ def song_submitted(request):
 
 @login_required
 def user_bookmarks(request):
-    user = request.user
-    bookmarks = Bookmark.objects.filter(user=user, song__published=True
-        ).order_by('song__artist__name', 'song__title')
-    songs = [bookmark.song for bookmark in bookmarks]
-    return render(request, 'chords/user_bookmarks.html', {'songs' : songs})
+    pass
+    # user = request.user
+    # bookmarks = Bookmark.objects.filter(user=user, song__published=True
+        # ).order_by('song__artist__name', 'song__title')
+    # songs = [bookmark.song for bookmark in bookmarks]
+    # return render(request, 'chords/user_bookmarks.html', {'songs' : songs})

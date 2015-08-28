@@ -5,7 +5,7 @@ from django.http.response import Http404
 from chords.models import Song
 from chords.views import user as user_view, song as song_view
 from .helper_functions import (create_artist, create_song, create_user,
-                               create_bookmark, valid_song_data)
+                               valid_song_data)
 
 
 class IndexViewTests(TestCase):
@@ -480,55 +480,55 @@ class SearchViewTests(TestCase):
             ['<Song: Random Song>', '<Song: Some>', '<Song: Tυχαίο Σόνγ>'])
 
 
-class UserBookmarksViewTests(TestCase):
-    def setUp(self):
-        self.user = create_user(password='password')
-        self.client.login(username=self.user.username, password='password')
+# class UserBookmarksViewTests(TestCase):
+    # def setUp(self):
+        # self.user = create_user(password='password')
+        # self.client.login(username=self.user.username, password='password')
 
-    def test_redirects_when_not_logged_in(self):
-        """
-        When no user is logged in, the user_bookmarks view must redirect to
-        the login page.
-        """
-        self.client.logout()
-        response = self.client.get(reverse('chords:user_bookmarks'))
-        self.assertRedirects(response,
-            reverse('auth_login') + '?next=' + reverse('chords:user_bookmarks'))
+    # def test_redirects_when_not_logged_in(self):
+        # """
+        # When no user is logged in, the user_bookmarks view must redirect to
+        # the login page.
+        # """
+        # self.client.logout()
+        # response = self.client.get(reverse('chords:user_bookmarks'))
+        # self.assertRedirects(response,
+            # reverse('auth_login') + '?next=' + reverse('chords:user_bookmarks'))
 
-    def test_userbookmarks_view_with_no_songs(self):
-        """
-        The user bookmarks view should display an appropriate message if
-        user has no bookmarks saved.
-        """
-        response = self.client.get(reverse('chords:user_bookmarks'))
-        self.assertContains(response, 'Your bookmarks are empty.',
-                            status_code=200)
-        self.assertQuerysetEqual(response.context['songs'], [])
+    # def test_userbookmarks_view_with_no_songs(self):
+        # """
+        # The user bookmarks view should display an appropriate message if
+        # user has no bookmarks saved.
+        # """
+        # response = self.client.get(reverse('chords:user_bookmarks'))
+        # self.assertContains(response, 'Your bookmarks are empty.',
+                            # status_code=200)
+        # self.assertQuerysetEqual(response.context['songs'], [])
 
-    def test_userbookmarks_view_with_a_published_song(self):
-        """
-        The user bookmarks view should display published songs.
-        """
-        create_bookmark(user=self.user, published_song=True)
-        response = self.client.get(reverse('chords:user_bookmarks'))
-        self.assertQuerysetEqual(response.context['songs'],
-                                 ['<Song: Random Song>'])
+    # def test_userbookmarks_view_with_a_published_song(self):
+        # """
+        # The user bookmarks view should display published songs.
+        # """
+        # create_bookmark(user=self.user, published_song=True)
+        # response = self.client.get(reverse('chords:user_bookmarks'))
+        # self.assertQuerysetEqual(response.context['songs'],
+                                 # ['<Song: Random Song>'])
 
-    def test_userbookmarks_view_with_an_unpublished_song(self):
-        """
-        The user bookmarks view should not display un-published songs.
-        """
-        create_bookmark(user=self.user, published_song=False)
-        response = self.client.get(reverse('chords:user_bookmarks'))
-        self.assertQuerysetEqual(response.context['songs'], [])
+    # def test_userbookmarks_view_with_an_unpublished_song(self):
+        # """
+        # The user bookmarks view should not display un-published songs.
+        # """
+        # create_bookmark(user=self.user, published_song=False)
+        # response = self.client.get(reverse('chords:user_bookmarks'))
+        # self.assertQuerysetEqual(response.context['songs'], [])
 
-    def test_userbookmarks_view_with_published_and_unpublished_song(self):
-        """
-        Even if user have published and un-published bookmarks, only published
-        songs should be displayed on the user bookmark view.
-        """
-        create_bookmark(user=self.user, published_song=True)
-        create_bookmark(user=self.user, published_song=False)
-        response = self.client.get(reverse('chords:user_bookmarks'))
-        self.assertQuerysetEqual(response.context['songs'],
-                                 ['<Song: Random Song>'])
+    # def test_userbookmarks_view_with_published_and_unpublished_song(self):
+        # """
+        # Even if user have published and un-published bookmarks, only published
+        # songs should be displayed on the user bookmark view.
+        # """
+        # create_bookmark(user=self.user, published_song=True)
+        # create_bookmark(user=self.user, published_song=False)
+        # response = self.client.get(reverse('chords:user_bookmarks'))
+        # self.assertQuerysetEqual(response.context['songs'],
+                                 # ['<Song: Random Song>'])

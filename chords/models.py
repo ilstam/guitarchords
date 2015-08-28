@@ -60,6 +60,7 @@ class Song(models.Model):
     pub_date = models.DateTimeField('date published', null=True, blank=True)
     mod_date = models.DateTimeField('last modified', auto_now=True)
     slug = models.SlugField(unique=True)
+    # bookmarked = models.ManyToManyField(User)
 
     def save(self, slug_max_length=-1, *args, **kwargs):
         if self.id is None:
@@ -86,11 +87,3 @@ class Song(models.Model):
 
     def __str__(self):
         return self.title + ' (+t)' if self.tabs else self.title
-
-
-class Bookmark(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    song = models.ForeignKey(Song, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return '{0} -> {1}'.format(self.user.username, self.song.full_title())
