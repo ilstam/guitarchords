@@ -58,7 +58,7 @@ class Song(models.Model):
     content = models.TextField(default='')
     genre = models.CharField(max_length=3, choices=GENRE_CHOICES, default=ENTEXNO)
     video = models.URLField(blank=True)
-    tabs = models.BooleanField('tablatures', default=False)
+    tabs = models.BooleanField('Contain tabs', default=False)
     published = models.BooleanField(default=False)
     reg_date = models.DateTimeField('date registered', auto_now_add=True)
     pub_date = models.DateTimeField('date published', null=True, blank=True)
