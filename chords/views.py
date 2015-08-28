@@ -25,16 +25,16 @@ def song(request, song_slug):
 
 def artist(request, artist_slug):
     artist = get_object_or_404(Artist, slug=artist_slug)
-    songs = Song.objects.filter(artist=artist, published=True).order_by('title')
+    songs = artist.songs.filter(published=True).order_by('title')
     context = {'artist' : artist, 'songs' : songs}
     return render(request, 'chords/artist.html', context)
 
 def user(request, username):
     user = get_object_or_404(User, username=username)
     if request.user.is_authenticated() and request.user == user:
-        songs = Song.objects.filter(sender=user)
+        songs = user.songs.all()
     else:
-        songs = Song.objects.filter(sender=user, published=True)
+        songs = user.songs.filter(published=True)
 
     songs = songs.order_by('artist__name', 'title')
     context = {'theuser' : user, 'songs' : songs}

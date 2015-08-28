@@ -49,8 +49,12 @@ class Song(models.Model):
     )
 
     title = models.CharField(max_length=100)
-    artist = models.ForeignKey(Artist, on_delete=models.SET_NULL, null=True)
-    sender = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    artist = models.ForeignKey(Artist, on_delete=models.SET_NULL, null=True,
+                               related_name='songs')
+    sender = models.ForeignKey(User, on_delete=models.SET_NULL, null=True,
+                               blank=True, related_name='songs')
+    bookmarkedBy = models.ManyToManyField(User, related_name='bookmarks',
+                                          verbose_name='Bookmarked by')
     content = models.TextField(default='')
     genre = models.CharField(max_length=3, choices=GENRE_CHOICES, default=ENTEXNO)
     video = models.URLField(blank=True)
@@ -60,7 +64,6 @@ class Song(models.Model):
     pub_date = models.DateTimeField('date published', null=True, blank=True)
     mod_date = models.DateTimeField('last modified', auto_now=True)
     slug = models.SlugField(unique=True)
-    # bookmarked = models.ManyToManyField(User)
 
     def save(self, slug_max_length=-1, *args, **kwargs):
         if self.id is None:
