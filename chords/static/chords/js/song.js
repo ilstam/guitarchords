@@ -24,10 +24,35 @@ $('#semiton_change').change(function() {
         var newSemiton = changeSemiton($(this).attr('origchord'), semitonsMove);
         $(this).children('.chordname').text(newSemiton);
         $(this).children('img').attr(
-            'src', '/static/chords/img/chords/' + encodeURIComponent(newSemiton) + '.png');
+            'src', '/static/chords/img/chords/' +
+            encodeURIComponent(alterFlatChords(newSemiton)) + '.png');
     });
 })
 
+
+/**
+ * If chord is a flat chord, return its non-flat equivalent.
+ * Else, return the chord unchanged.
+ *
+ * eg. "Ab" -> "G#", "Cb" -> "B", "G" -> "G"
+ *
+ * @param {String} chord a string representing a chord, eg. "Ab"
+ */
+function alterFlatChords(chord) {
+    var regex = /([A-G]b)(.*)/;
+    var match = regex.exec(chord);
+    if (!match)
+        return chord;
+
+    var chordBase = match[1];
+    var restChord = match[2];
+
+    var map = {'Ab' : 'G#', 'Bb' : 'A#', 'Cb' : 'B', 'Db' : 'C#', 'Eb' : 'F#',
+               'Fb' : 'E', 'Gb' : 'F#'};
+    var chordBase = map[chordBase];
+
+    return chordBase + restChord;
+}
 
 /**
  * Return the given chord, changed by semitonsMove semitons.
@@ -40,21 +65,14 @@ function changeSemiton(chord, semitonsMove) {
     if (semitonsMove === 0)
         return chord;
 
-    var semitons = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-
     var regex = /([A-G][#b]?)((maj|m|aug|dim|sus)?([245679]|11|13)?)/;
-
-    var match = regex.exec(chord);
+    var match = regex.exec(alterFlatChords(chord));
     var origSemiton = match[1];
     var restChord = match[2];
 
-    if (origSemiton.charAt(1) === 'b') {
-        var map = {'Ab' : 'G#', 'Bb' : 'A#', 'Cb' : 'B', 'Db' : 'C#',
-                   'Eb' : 'F#', 'Fb' : 'E', 'Gb' : 'F#'};
-        var origSemiton = map[origSemiton];
-    }
-
+    var semitons = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
     var index = semitons.indexOf(origSemiton) + semitonsMove;
+
     if (index >= semitons.length)
         index = index % semitons.length;
     else if (index < 0)
@@ -109,7 +127,7 @@ function parseSong() {
                 return '<span class="chord" origchord="' + $1 +
                     '"><span class="chordname">' + $1 + '</span>' +
                     '<img src="/static/chords/img/chords/' +
-                    encodeURIComponent($1) + '.png" alt=""></span>'
+                    encodeURIComponent(alterFlatChords($1)) + '.png" alt=""></span>'
             }
         );
 
