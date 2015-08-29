@@ -1,5 +1,6 @@
 from django.test import TestCase, RequestFactory
 from django.core.urlresolvers import reverse
+from django.http import JsonResponse
 from django.http.response import Http404
 
 from chords.models import Song
@@ -49,7 +50,7 @@ class IndexViewTests(TestCase):
         self.assertQuerysetEqual(response.context['songs'],
                                  ['<Song: Random Song>'])
 
-    def test_erase_song_data(self):
+    def test_index_view_erase_song_data(self):
         """
         Index view must remove song_data from the session.
         """
@@ -223,14 +224,6 @@ class SongViewTests(TestCase):
         response = self.client.get(reverse('chords:song', args=('slug',)))
         self.assertEqual(response.status_code, 404)
 
-    def test_song_view_with_a_valid_slug(self):
-        """
-        The song view should display song title for valid slugs.
-        """
-        song = create_song(published=True)
-        response = self.client.get(reverse('chords:song', args=(song.slug,)))
-        self.assertContains(response, song.title, status_code=200)
-
     def test_song_view_with_a_published_song(self):
         """
         The song view should display song title for published songs.
@@ -294,12 +287,38 @@ class SongViewTests(TestCase):
             song_view(request, song_unpub.slug)
 
 
+class SongJsonViewTests(TestCase):
+    def test_songjson_view_with_an_invalid_slug(self):
+        """
+        The song_json view should return a 404 not found for invalid slugs.
+        """
+        response = self.client.get(reverse('chords:song_json', args=('slug',)))
+        self.assertEqual(response.status_code, 404)
+
+    def test_songjson_view_with_a_published_song(self):
+        """
+        The song json view should display song title for published songs.
+        """
+        song = create_song(published=True)
+        response = self.client.get(reverse('chords:song_json', args=(song.slug,)))
+        self.assertContains(response, JsonResponse(song.tojson()).content,
+                status_code=200)
+
+    def test_songjson_view_with_an_unpublished_song(self):
+        """
+        The song json view should return a 404 not found for unpublished songs.
+        """
+        song = create_song(published=False)
+        response = self.client.get(reverse('chords:song_json', args=(song.slug,)))
+        self.assertEqual(response.status_code, 404)
+
+
 class AddSongViewTests(TestCase):
     def setUp(self):
         self.user = create_user(password='password')
         self.client.login(username=self.user.username, password='password')
 
-    def test_redirects_when_not_logged_in(self):
+    def test_addsong_view_redirects_when_not_logged_in(self):
         """
         When no user is logged in, the add_song view must redirect to the
         login page.
@@ -349,7 +368,7 @@ class VerifySongViewTests(TestCase):
         self.user = create_user(password='password')
         self.client.login(username=self.user.username, password='password')
 
-    def test_redirects_when_not_logged_in(self):
+    def test_verifysong_view_redirects_when_not_logged_in(self):
         """
         When no user is logged in, the verify_song view must redirect to the
         login page.
@@ -359,7 +378,7 @@ class VerifySongViewTests(TestCase):
         self.assertRedirects(response,
             reverse('auth_login') + '?next=' + reverse('chords:verify_song'))
 
-    def test_redirects_with_no_song_data(self):
+    def test_verifysong_view_redirects_with_no_song_data(self):
         """
         When there are no song_data on the session the verify_song view must
         redirect to the add_song view.
@@ -368,7 +387,7 @@ class VerifySongViewTests(TestCase):
         self.assertFalse('song_data' in self.client.session)
         self.assertRedirects(response, reverse('chords:add_song'))
 
-    def test_with_song_data(self):
+    def test_verifysong_view_with_song_data(self):
         """
         When there are valid song_data stored on the session the verify_song
         view must display the song.
@@ -385,7 +404,7 @@ class SongSubmittedViewTests(TestCase):
         self.user = create_user(password='password')
         self.client.login(username=self.user.username, password='password')
 
-    def test_redirects_when_not_logged_in(self):
+    def test_songsubmitted_view_redirects_when_not_logged_in(self):
         """
         When no user is logged in, the song_submitted view must redirect to
         the login page.
@@ -395,7 +414,7 @@ class SongSubmittedViewTests(TestCase):
         self.assertRedirects(response,
             reverse('auth_login') + '?next=' + reverse('chords:song_submitted'))
 
-    def test_redirects_with_no_song_data(self):
+    def test_songsubmitted_view_redirects_with_no_song_data(self):
         """
         When there are no song_data on the session the song_submitted view
         must redirect to the add_song view.
@@ -404,7 +423,7 @@ class SongSubmittedViewTests(TestCase):
         self.assertFalse('song_data' in self.client.session)
         self.assertRedirects(response, reverse('chords:add_song'))
 
-    def test_with_song_data(self):
+    def test_songsubmitted_view_with_song_data(self):
         """
         When there are valid song_data stored on the session, one more
         _unpublished_ song must be added to the database.
@@ -485,7 +504,7 @@ class BookmarksViewTests(TestCase):
         self.user = create_user(password='password')
         self.client.login(username=self.user.username, password='password')
 
-    def test_redirects_when_not_logged_in(self):
+    def test_userbookmarks_view_redirects_when_not_logged_in(self):
         """
         When no user is logged in, the bookmarks view must redirect to
         the login page.
