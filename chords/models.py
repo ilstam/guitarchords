@@ -88,5 +88,21 @@ class Song(models.Model):
         full_title = '{0} - {1}'.format(self.artist, self.title)
         return full_title + ' (+t)' if self.tabs else full_title
 
+    def tojson(self):
+        artist = self.artist.name if self.artist else None
+        sender = self.sender.username if self.sender else None
+        return {
+            'title'         : self.title,
+            'artist'        : artist,
+            'sender'        : sender,
+            'content'       : self.content,
+            'genre'         : self.genre_str(),
+            'video'         : self.video,
+            'tabs'          : self.tabs,
+            'registered'    : self.reg_date,
+            'published'     : self.pub_date,
+            'last_modified' : self.mod_date,
+            }
+
     def __str__(self):
         return self.title + ' (+t)' if self.tabs else self.title

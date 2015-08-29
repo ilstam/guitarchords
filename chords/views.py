@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Q
@@ -22,6 +23,10 @@ def song(request, song_slug):
         song = get_object_or_404(Song, slug=song_slug, published=True)
 
     return render(request, 'chords/song.html', {'song' : song})
+
+def song_json(request, song_slug):
+    song = get_object_or_404(Song, slug=song_slug, published=True)
+    return JsonResponse(song.tojson())
 
 def artist(request, artist_slug):
     artist = get_object_or_404(Artist, slug=artist_slug)
