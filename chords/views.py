@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.db.models import Q
+from django.db.models import Count, Q
 
 from .models import Artist, Song
 from .forms import AddSongForm
@@ -13,7 +13,10 @@ def index(request):
     if 'song_data' in request.session:
         del request.session['song_data']
     recent_songs = Song.objects.filter(published=True).order_by('-pub_date')[:5]
-    return render(request, 'chords/index.html', {'songs' : recent_songs})
+    popular_songs = Song.objects.filter(published=True).annotate(
+        views=Count('viewedBy')).order_by('-views')[:5]
+    context = {'recent_songs' : recent_songs, 'popular_songs' : popular_songs}
+    return render(request, 'chords/index.html', context)
 
 def song(request, song_slug):
     if request.user.is_authenticated():

@@ -79,6 +79,9 @@ class Song(models.Model):
 
         super(Song, self).save(*args, **kwargs)
 
+    def popularity(self):
+        return viewedBy.count() + bookmarkedBy.count() * 2
+
     def embed_video_url(self):
         return self.video.replace('watch?v=', 'embed/')
 

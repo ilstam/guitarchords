@@ -9,15 +9,23 @@
     <h1>Hi! This is index!</h1>
 {% endif %}
 
-{% if songs %}
+{% if recent_songs %}
     <h2>Recently added songs</h2>
     <ul>
-    {% for song in songs %}
+    {% for song in recent_songs %}
     <li><a href="{% url 'chords:song' song.slug %}">{{ song.full_title }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
-    <strong>There are no songs present at the moment.</strong>
+    <p><strong>There are no songs present at the moment.</strong></p>
+{% endif %}
+{% if popular_songs %}
+    <h2>Most popular songs</h2>
+    <ul>
+    {% for song in popular_songs %}
+    <li><a href="{% url 'chords:song' song.slug %}">{{ song.full_title }}</a></li>
+    {% endfor %}
+    </ul>
 {% endif %}
 
 {% if user.is_authenticated %}
