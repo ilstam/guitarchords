@@ -13,8 +13,9 @@ def index(request):
     if 'song_data' in request.session:
         del request.session['song_data']
     recent_songs = Song.objects.filter(published=True).order_by('-pub_date')[:5]
-    popular_songs = Song.objects.filter(published=True).annotate(
-        views=Count('viewedBy')).order_by('-views')[:5]
+    popular_songs = Song.objects.filter(published=True)\
+            .annotate(popularity=Count('viewedBy') + 2 * Count('bookmarkedBy'))\
+            .order_by('-popularity')[:5]
     context = {'recent_songs' : recent_songs, 'popular_songs' : popular_songs}
     return render(request, 'chords/index.html', context)
 
