@@ -19,6 +19,7 @@ def song(request, song_slug):
     if request.user.is_authenticated():
         song = get_object_or_404(Song, Q(slug=song_slug),
             Q(published=True) | Q(sender=request.user))
+        song.viewedBy.add(request.user)
     else:
         song = get_object_or_404(Song, slug=song_slug, published=True)
 

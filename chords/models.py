@@ -55,6 +55,7 @@ class Song(models.Model):
                                blank=True, related_name='songs')
     bookmarkedBy = models.ManyToManyField(User, related_name='bookmarks',
                                           verbose_name='Bookmarked by')
+    viewedBy = models.ManyToManyField(User, related_name='viewed')
     content = models.TextField(default='')
     genre = models.CharField(max_length=3, choices=GENRE_CHOICES, default=ENTEXNO)
     video = models.URLField(blank=True)
