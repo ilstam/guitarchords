@@ -52,6 +52,25 @@ class IndexViewTests(TestCase):
         self.assertQuerysetEqual(response.context['recent_songs'],
                                  ['<Song: Random Song>'])
 
+    def test_index_view_display_more_popular_songs_first(self):
+        """
+        More popular songs should be displayed first in the index view.
+        """
+        song1 = create_song(title='Song1', published=True)
+        song2 = create_song(title='Song2', published=True)
+        song1.viewedBy.add(create_user(username='user1'))
+
+        response = self.client.get(reverse('chords:index'))
+        self.assertQuerysetEqual(response.context['popular_songs'],
+                                 ['<Song: Song1>', '<Song: Song2>'])
+
+        song2.viewedBy.add(create_user(username='user2'))
+        song2.viewedBy.add(create_user(username='user3'))
+
+        response = self.client.get(reverse('chords:index'))
+        self.assertQuerysetEqual(response.context['popular_songs'],
+                                 ['<Song: Song2>', '<Song: Song1>'])
+
     def test_index_view_erase_song_data(self):
         """
         Index view must remove song_data from the session.
