@@ -93,9 +93,12 @@ def song_submitted(request):
     if song_data is None:
         return redirect('chords:add_song')
 
-    artist = Artist.objects.get_or_create(
-            slug=slugify_greek(song_data['artist_txt']))[0]
-    artist.save()
+    try:
+        artist = Artist.objects.get(slug=slugify_greek(song_data['artist_txt']))
+    except Artist.DoesNotExist:
+        artist = Artist(name=song_data['artist_txt'])
+        artist.save()
+
     song = Song(
         title=song_data['title'], artist=artist, sender=request.user,
         video=song_data['video'], genre=song_data['genre'],
