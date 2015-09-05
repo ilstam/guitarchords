@@ -27,12 +27,14 @@ class Song(models.Model):
     CHANT = 'CHA'
     ENTEXNO = 'EDE'
     LAIKO = 'LAI'
+    METAL = 'MET'
     POP = 'POP'
     PUNK = 'PUN'
     RAP = 'RAP'
     REGGAE = 'REG'
     ROCK = 'ROC'
     TRADITIONAL = 'TRA'
+    OTHER = 'OTH'
 
     GENRE_CHOICES = (
         (BLUES, 'Blues'),
@@ -40,12 +42,14 @@ class Song(models.Model):
         (CHANT, 'Chant'),
         (ENTEXNO, 'Entexno'),
         (LAIKO, 'Laiko'),
+        (METAL, 'Metal'),
         (POP, 'Pop'),
         (PUNK, 'Punk'),
         (RAP, 'Rap'),
         (REGGAE, 'Reggae'),
         (ROCK, 'Rock'),
         (TRADITIONAL, 'Traditional'),
+        (OTHER, 'Other'),
     )
 
     title = models.CharField(max_length=100)
