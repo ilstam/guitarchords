@@ -3,12 +3,6 @@
 
 {% block body_block %}
 
-{% if user.is_authenticated %}
-    <h1>Hi {{ user.username }}! This is index!</h1>
-{% else %}
-    <h1>Hi! This is index!</h1>
-{% endif %}
-
 {% if recent_songs %}
     <h2>Recently added songs</h2>
     <ul>
@@ -26,10 +20,6 @@
     <li><a href="{% url 'chords:song' song.slug %}">{{ song.full_title }}</a></li>
     {% endfor %}
     </ul>
-{% endif %}
-
-{% if user.is_authenticated %}
-    <li><a href="{% url 'chords:add_song' %}">Send us a song!</a></li>
 {% endif %}
 
 {% endblock %}
