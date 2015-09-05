@@ -96,11 +96,14 @@ function changeSemiton(chord, semitonsMove) {
  * </div>
  */
 function parseSong() {
-    var content = $("#song_content");
+    var content = $('#song_content').html();
+
+    //parse comments
+    content = content.replace(/&lt;em&gt;/g, '<em>').replace(/&lt;\/em&gt;/g, '</em>');
 
     // parse tabs
     var regex = /^[A-Ga-g]\|?[1-9-]{3,}/;
-    var lines = content.html().split('\n');
+    var lines = content.split('\n');
     var newlines = [];
     for (i = 0; i < lines.length; i++) {
         if (regex.test(lines[i]))
@@ -111,8 +114,8 @@ function parseSong() {
     }
 
     // parse chords
-    var lines = newlines;
-    var finallines = "";
+    lines = newlines;
+    var finallines = '';
 
     for (i = 0; i < lines.length; i++) {
         if (lines[i].indexOf('<div class="tabsline">') != -1) {
@@ -137,7 +140,7 @@ function parseSong() {
             finallines += lines[i];
     }
 
-    content.html(finallines);
+    $('#song_content').html(finallines);
 }
 
 
