@@ -15,7 +15,9 @@
         <li>Sent by: <a href="{% url 'chords:user' song.sender.get_username %}">{{ song.sender.get_username }}</a></li>
     {% endif %}
 </ul>
-<pre id="song_content">{{ song.content }}</pre>
+
+<div id="song_content">{{ song.content }}</div> <br />
+
 {% if song.video %}
     <iframe width="480" height="360" src="{{ song.embed_video_url }}?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
 {% endif %}

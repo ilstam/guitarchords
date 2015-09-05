@@ -28,3 +28,7 @@ a:hover {
 .tabsline {
     color: blue;
 }
+
+#song_content {
+    white-space: pre;
+}
