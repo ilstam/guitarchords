@@ -7,7 +7,7 @@
 <p>
     {% trans "Your account is now activated." %}
     {% if not user.is_authenticated %}
-    {% trans "You can log in." %}
+        {% trans "You may now" %} <a href="{% url 'auth_login' %}">{% trans "log in" %}</a>.
     {% endif %}
 </p>
 {% endblock %}
