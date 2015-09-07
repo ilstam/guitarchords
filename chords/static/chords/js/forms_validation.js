@@ -41,7 +41,17 @@ $('#password_change_form').submit(function(event) {
 
     if (! applyValidationGlyphicon(pass1, pass1.val().length >= 5))
         event.preventDefault();
-    if (! applyValidationGlyphicon(pass2, pass2.val().length >= 5 && pass2.val() == $('#new_password2').val()))
+    if (! applyValidationGlyphicon(pass2, pass2.val().length >= 5 && pass2.val() == $('#new_password1').val()))
+        event.preventDefault();
+});
+
+$('#password_reset_form').submit(function(event) {
+    var pass1 = $('#new_password1');
+    var pass2 = $('#new_password2');
+
+    if (! applyValidationGlyphicon(pass1, pass1.val().length >= 5))
+        event.preventDefault();
+    if (! applyValidationGlyphicon(pass2, pass2.val().length >= 5 && pass2.val() == $('#new_password1').val()))
         event.preventDefault();
 });
 
