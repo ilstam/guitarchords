@@ -1,5 +1,13 @@
 $(function() {
 
+function applyValidationError(obj, validates) {
+    if (validates)
+        obj.parent().removeClass('has-error');
+    else
+        obj.parent().addClass('has-error');
+    return validates;
+}
+
 function applyValidationGlyphicon(obj, validates) {
     if (validates) {
         obj.parent().addClass('has-success has-feedback');
@@ -17,14 +25,47 @@ function applyValidationGlyphicon(obj, validates) {
     return validates;
 }
 
+
+/**
+ * @param {String} password
+ * @return True if password is valid, else False
+ */
+function passwordIsValid(password) {
+    return password.length >= 5;
+}
+
+/**
+ * @param {Object} pass1
+ * @return True if password is valid, else False
+ */
+function validatePassword1(pass1, pass2) {
+    validatePassword2(pass1, pass2);
+    return applyValidationGlyphicon(pass1, passwordIsValid(pass1.val()));
+}
+
+/**
+ * @param {Object} pass1
+ * @param {Object} pass2
+ * @return True if passwords are valid, else False
+ */
+function validatePassword2(pass1, pass2) {
+    return applyValidationGlyphicon(pass2, passwordIsValid(pass1.val()) && pass1.val() == pass2.val());
+}
+
 $('#new_password1').keyup(function() {
-    var pass1 = $('#new_password1');
-    applyValidationGlyphicon(pass1, pass1.val().length >= 5);
+    validatePassword1($(this), $('#new_password2'));
 });
 
 $('#new_password2').keyup(function() {
-    var pass2 = $('#new_password2');
-    applyValidationGlyphicon(pass2, pass2.val().length >= 5 && pass2.val() == $('#new_password1').val());
+    validatePassword2($('#new_password1'), $(this));
+});
+
+$('#password1').keyup(function() {
+    validatePassword1($(this), $('#password2'));
+});
+
+$('#password2').keyup(function() {
+    validatePassword2($('#password1'), $(this));
 });
 
 $('#password_change_form').submit(function(event) {
@@ -32,16 +73,13 @@ $('#password_change_form').submit(function(event) {
     var pass2 = $('#new_password2');
     var oldpass = $('#old_password');
 
-    if (oldpass.val() == "") {
-        oldpass.parent().addClass('has-error');
+    if (! applyValidationError(oldpass, oldpass.val() != ''))
         event.preventDefault();
-    } else {
-        oldpass.parent().removeClass('has-error');
-    }
 
-    if (! applyValidationGlyphicon(pass1, pass1.val().length >= 5))
+    if (! validatePassword1(pass1, pass2))
         event.preventDefault();
-    if (! applyValidationGlyphicon(pass2, pass2.val().length >= 5 && pass2.val() == $('#new_password1').val()))
+
+    if (! validatePassword2(pass1, pass2))
         event.preventDefault();
 });
 
@@ -49,9 +87,29 @@ $('#password_reset_form').submit(function(event) {
     var pass1 = $('#new_password1');
     var pass2 = $('#new_password2');
 
-    if (! applyValidationGlyphicon(pass1, pass1.val().length >= 5))
+    if (! validatePassword1(pass1, pass2))
         event.preventDefault();
-    if (! applyValidationGlyphicon(pass2, pass2.val().length >= 5 && pass2.val() == $('#new_password1').val()))
+
+    if (! validatePassword2(pass1, pass2))
+        event.preventDefault();
+});
+
+$('#registration_form').submit(function(event) {
+    var username = $('#username');
+    var email = $('#email');
+    var pass1 = $('#password1');
+    var pass2 = $('#password2');
+
+    if (! applyValidationError(username, /^[\w@+-.]{1,30}$/.test(username.val())))
+        event.preventDefault();
+
+    if (! applyValidationError(email, email.val() != ''))
+        event.preventDefault();
+
+    if (! validatePassword1(pass1, pass2))
+        event.preventDefault();
+
+    if (! validatePassword2(pass1, pass2))
         event.preventDefault();
 });
 
