@@ -1,3 +1,5 @@
+$(function() {
+
 $('#song_content').on('mouseover', '.chord', function() {
     $(this).children('img').css('visibility', 'visible');
 })
@@ -166,8 +168,7 @@ function fillSemitonChange() {
     }
 }
 
+parseSong();
+fillSemitonChange();
 
-$().ready(function() {
-    parseSong();
-    fillSemitonChange();
 });
