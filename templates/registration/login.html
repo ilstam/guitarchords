@@ -11,9 +11,9 @@
 <form method="post" action="">
     {% csrf_token %}
 
-    {% if form.errors %}
-        <div class="alert alert-danger">{% trans "Incorrect username or password." %}</div>
-    {% endif %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% endfor %}
 
     <div class="row">
         <div class="form-group col-md-3">
