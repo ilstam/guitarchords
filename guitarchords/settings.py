@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'registration',
+    'password_validation',
     'chords',
 )
 
@@ -87,6 +88,14 @@ DATABASES = {
     }
 }
 
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 5,
+        }
+    },
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/

@@ -15,13 +15,21 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin, auth
+from django.core.urlresolvers import reverse_lazy
 
 from registration.backends.default.views import RegistrationView
 from registration.forms import RegistrationFormUniqueEmail
+from password_validation import validate_password
 
 
-class RegistrationViewUniqueEmail(RegistrationView):
-    form_class = RegistrationFormUniqueEmail
+class RegistrationViewUniqueEmailPasswordValidation(RegistrationView):
+    class ValidatingRegistrationFormUniqueEmail(RegistrationFormUniqueEmail):
+        def clean_password1(self):
+            password1 = self.cleaned_data.get('password1')
+            validate_password(password1)
+            return password1
+
+    form_class = ValidatingRegistrationFormUniqueEmail
 
 
 def login_user(request):
@@ -33,8 +41,12 @@ def login_user(request):
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^chords/', include('chords.urls', namespace='chords')),
-    url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^accounts/login/$', login_user, name='auth_login'),
-    url(r'^accounts/register', RegistrationViewUniqueEmail.as_view(),
-        name='registration_register'),
+    url(r'^accounts/register/$', RegistrationViewUniqueEmailPasswordValidation.as_view(), name='registration_register'),
+    url(r'^accounts/password/change/$', 'password_validation.views.password_change',
+        {'post_change_redirect': reverse_lazy('auth_password_change_done')}, name='auth_password_change'),
+    url(r'^accounts/password/reset/confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>.+)/$',
+        'password_validation.views.password_reset_confirm',
+        {'post_reset_redirect': reverse_lazy('auth_password_reset_complete')}, name='auth_password_reset_confirm'),
+    url(r'^accounts/', include('registration.backends.default.urls')),
 ]
