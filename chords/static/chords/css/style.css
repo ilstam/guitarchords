@@ -33,6 +33,12 @@ a:hover {
     white-space: pre;
 }
 
+/* apply to bootstrap classes */
+
 .glyphicon {
     right: 10px;
+}
+
+.help-block {
+    margin: 2px 0px 0px 0px;
 }
