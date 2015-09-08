@@ -1,4 +1,5 @@
 {% extends 'chords/base.html' %}
+{% load staticfiles %}
 {% load bootstrap %}
 
 {% block title %}Send a song!{% endblock %}
@@ -14,4 +15,8 @@
     <button type="submit" class="btn btn-primary">Go to verification</button>
 </form>
 
+{% endblock %}
+
+{% block scripts_block %}
+    <script src="{% static "chords/js/forms_validation.js" %}"></script>
 {% endblock %}

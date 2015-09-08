@@ -113,4 +113,19 @@ $('#registration_form').submit(function(event) {
         event.preventDefault();
 });
 
+$('#add_song_form').submit(function(event) {
+    var title = $('#id_title');
+    var artist = $('#id_artist_txt');
+    var content = $('#id_content');
+
+    if (! applyValidationError(title, title.val() != ''))
+        event.preventDefault();
+
+    if (! applyValidationError(artist, artist.val() != ''))
+        event.preventDefault();
+
+    if (! applyValidationError(content, content.val() != ''))
+        event.preventDefault();
+});
+
 });
