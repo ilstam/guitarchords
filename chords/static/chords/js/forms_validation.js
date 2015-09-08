@@ -2,22 +2,22 @@ $(function() {
 
 function applyValidationError(obj, validates) {
     if (validates)
-        obj.parent().removeClass('has-error');
+        obj.closest('.form-group').removeClass('has-error');
     else
-        obj.parent().addClass('has-error');
+        obj.closest('.form-group').addClass('has-error');
     return validates;
 }
 
 function applyValidationGlyphicon(obj, validates) {
     if (validates) {
-        obj.parent().addClass('has-success has-feedback');
-        obj.parent().removeClass('has-error');
+        obj.closest('.form-group').addClass('has-success has-feedback');
+        obj.closest('.form-group').removeClass('has-error');
         obj.siblings('span.glyphicon').addClass('glyphicon-ok');
         obj.siblings('span.glyphicon').removeClass('glyphicon-remove');
         obj.siblings('span.sr-only').text('(success)');
     } else {
-        obj.parent().addClass('has-error has-feedback');
-        obj.parent().removeClass('has-success');
+        obj.closest('.form-group').addClass('has-error has-feedback');
+        obj.closest('.form-group').removeClass('has-success');
         obj.siblings('span.glyphicon').addClass('glyphicon-remove');
         obj.siblings('span.glyphicon').removeClass('glyphicon-ok');
         obj.siblings('span.sr-only').text('(error)');
