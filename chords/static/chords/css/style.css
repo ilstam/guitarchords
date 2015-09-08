@@ -1,9 +1,32 @@
+/* general */
+
 a {
     text-decoration: none;
 }
 
 a:hover {
     text-decoration: underline;
+}
+
+/* forms */
+
+form {
+    margin: 0 auto;
+}
+
+#login_form, #password_change_form,
+#password_reset_form, #password_reset_confirm_form {
+    max-width: 325px;
+}
+
+#registration_form {
+    max-width: 400px;
+}
+
+/* song */
+
+#song_content {
+    white-space: pre;
 }
 
 .chord {
@@ -29,8 +52,10 @@ a:hover {
     color: blue;
 }
 
-#song_content {
-    white-space: pre;
+/* footer */
+
+.footer {
+    max-width: 525px;
 }
 
 /* apply to bootstrap classes */

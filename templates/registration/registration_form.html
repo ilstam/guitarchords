@@ -6,41 +6,33 @@
 
 {% block body_block %}
 
-<h3>{% trans "Sign up" %}</h3>
-<hr />
-
 <form id="registration_form" method="post" action="">
     {% csrf_token %}
-    <div class="row">
-        <div class="form-group col-md-4">
-            <label class="control-label" for="username">{% trans "Username" %}</label>
-            <input type="text" class="form-control" id="username" name="username">
-            <span class="help-block">{% trans "May contain up to 30 letters, numbers or @.+-_ symbols." %}</span>
-        </div>
+    <h3>{% trans "Sign up" %}</h3>
+    <hr />
+
+    <div class="form-group">
+        <label class="control-label" for="username">{% trans "Username" %}</label>
+        <input type="text" class="form-control" id="username" name="username">
+        <span class="help-block">{% trans "May contain up to 30 letters, numbers or @.+-_ symbols." %}</span>
     </div>
-    <div class="row">
-        <div class="form-group col-md-4">
-            <label class="control-label" for="email">{% trans "Email address" %}</label>
-            <input type="email" class="form-control" id="email" name="email">
-            <span class="help-block">{% trans "We hate spam as much as you do." %}</span>
-        </div>
+    <div class="form-group">
+        <label class="control-label" for="email">{% trans "Email address" %}</label>
+        <input type="email" class="form-control" id="email" name="email">
+        <span class="help-block">{% trans "We hate spam as much as you do." %}</span>
     </div>
-    <div class="row">
-        <div class="form-group col-md-4">
-            <label for="password1" class="control-label">{% trans "Password" %}</label>
-            <input type="password" class="form-control" id="password1" name="password1" aria-describedby="inputStatus">
-            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-            <span id="inputStatus" class="sr-only"></span>
-            <span class="help-block">{% trans "Must contain at least 5 characters." %}</span>
-        </div>
+    <div class="form-group">
+        <label for="password1" class="control-label">{% trans "Password" %}</label>
+        <input type="password" class="form-control" id="password1" name="password1" aria-describedby="inputStatus">
+        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+        <span id="inputStatus" class="sr-only"></span>
+        <span class="help-block">{% trans "Must contain at least 5 characters." %}</span>
     </div>
-    <div class="row">
-        <div class="form-group col-md-4">
-            <label for="password2" class="control-label">{% trans "Confirm your password" %}</label>
-            <input type="password" class="form-control" id="password2" name="password2" aria-describedby="inputStatus">
-            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-            <span id="inputStatus" class="sr-only"></span>
-        </div>
+    <div class="form-group">
+        <label for="password2" class="control-label">{% trans "Confirm your password" %}</label>
+        <input type="password" class="form-control" id="password2" name="password2" aria-describedby="inputStatus">
+        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+        <span id="inputStatus" class="sr-only"></span>
     </div>
 
     <button type="submit" class="btn btn-primary">{% trans "Create account" %}</button>

@@ -83,7 +83,7 @@ $('#password_change_form').submit(function(event) {
         event.preventDefault();
 });
 
-$('#password_reset_form').submit(function(event) {
+$('#password_reset_confirm_form').submit(function(event) {
     var pass1 = $('#new_password1');
     var pass2 = $('#new_password2');
 
