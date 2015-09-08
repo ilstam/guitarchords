@@ -14,15 +14,13 @@ label[for=id_content] {
 
 /* forms */
 
-#login_form, #password_change_form,
-#password_reset_form, #password_reset_confirm_form {
-    max-width: 325px;
-    margin: 0 auto;
+.panel#registration_panel {
+    max-width: 425px;
 }
 
-#registration_form {
-    max-width: 400px;
-    margin: 0 auto;
+.panel#login_panel,#password_change_panel,
+#password_reset_panel,#password_reset_confirm_panel {
+    max-width: 350px;
 }
 
 #add_song_form {

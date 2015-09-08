@@ -5,35 +5,35 @@
 
 {% block body_block %}
 
-<form id="login_form" method="post" action="">
-    {% csrf_token %}
-    <h3>{% trans "Log in" %}</h3>
-    <hr />
+{% include "chords/panel_form_snippet.html" with title="Log in" panel_id="login_panel" %}
+    <form id="login_form" method="post" action="">
+        {% csrf_token %}
 
-    {% if form.non_field_errors %}
-        {% for error in form.non_field_errors %}
-            <div class="alert alert-danger">{{ error }}</div>
-        {% endfor %}
-    {% elif form.errors %}
-        <div class="alert alert-danger">{% trans "Incorrect username or password." %}</div>
-    {% endif %}
+        {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+                <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+        {% elif form.errors %}
+            <div class="alert alert-danger">{% trans "Incorrect username or password." %}</div>
+        {% endif %}
 
-    <div class="form-group">
-        <label for="username">{% trans "Username" %}</label>
-        <input type="text" class="form-control" name="username">
-    </div>
-    <div class="form-group">
-        <label for="password">{% trans "Password" %} <a href="{% url 'auth_password_reset' %}">{% trans "(forgot password)" %}</a></label>
-        <input type="password" class="form-control" name="password">
-    </div>
-    <div class="checkbox">
-        <label>
-            <input type="checkbox" name="remember_me" /> {% trans "Remember Me" %}
-        </label>
-    </div>
+        <div class="form-group">
+            <label for="username">{% trans "Username" %}</label>
+            <input type="text" class="form-control" name="username">
+        </div>
+        <div class="form-group">
+            <label for="password">{% trans "Password" %} <a href="{% url 'auth_password_reset' %}">{% trans "(forgot password)" %}</a></label>
+            <input type="password" class="form-control" name="password">
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" name="remember_me" /> {% trans "Remember Me" %}
+            </label>
+        </div>
 
-    <button type="submit" class="btn btn-primary">{% trans 'Log in' %}</button>
-    <input type="hidden" name="next" value="{{ next }}" />
-</form>
+        <button type="submit" class="btn btn-primary">{% trans 'Log in' %}</button>
+        <input type="hidden" name="next" value="{{ next }}" />
+    </form>
+</div></div> <!--closing divs from panel_form_snippet-->
 
 {% endblock %}
