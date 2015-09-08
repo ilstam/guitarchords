@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load staticfiles %}
+
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -14,67 +15,57 @@
 
     <body>
 
-    <div class="container">
-
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="{% url 'chords:index' %}">Guitar Chords</a>
-                </div>
-                <div id="navbar" class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li><a href="#">By Title</a></li>
-                        <li><a href="#">By Artist</a></li>
-                        <li><a href="#">By Genre</a></li>
-                        <li><a href="#">Recent</a></li>
-                        <li><a href="#">Popular</a></li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="{% url 'chords:add_song' %}">Send a song!</a></li>
-                        {% if user.is_authenticated %}
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ user.username}} <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="{% url 'chords:bookmarks' %}">My bookmarks</a></li>
-                                    <li><a href="{% url 'chords:user' user.username %}">My songs</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="{% url 'auth_password_change' %}">Change Password</a></li>
-                                    <li><a href="{% url 'auth_logout' %}?next=/chords/">Logout</a></li>
-                                </ul>
-                            </li>
-                        {% else %}
-                            <li><a href="{% url 'registration_register' %}">Sign up</a></li>
-                            <li><a href="{% url 'auth_login' %}">Log in</a></li>
-                        {% endif %}
-                    </ul>
-                    <form class="navbar-form navbar-right" action="{% url 'chords:search' %}" method="get">
-                        <input class="form-control" type="text" name="search" placeholder="Search...">
-                    </form>
-                </div><!--/.nav-collapse -->
-            </div><!--/.container-fluid -->
-        </nav>
-
-        <div>
-            {% block body_block %}{% endblock %}
-        </div>
-
-        <hr />
+    <nav class="navbar navbar-default">
         <div class="container">
-            <footer class="footer">
-                <p class="text-muted">Copyright © 2015 Ilias Stamatis. All rights reserved.<p>
-            </footer>
-        </div>
+            <div class="navbar-header">
+                <a class="navbar-brand" href="{% url 'chords:index' %}">Guitar Chords</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">By Title</a></li>
+                    <li><a href="#">By Artist</a></li>
+                    <li><a href="#">By Genre</a></li>
+                    <li><a href="#">Recent</a></li>
+                    <li><a href="#">Popular</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{% url 'chords:add_song' %}">Send a song!</a></li>
+                    {% if user.is_authenticated %}
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ user.username}} <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{% url 'chords:bookmarks' %}">My bookmarks</a></li>
+                                <li><a href="{% url 'chords:user' user.username %}">My songs</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="{% url 'auth_password_change' %}">Change Password</a></li>
+                                <li><a href="{% url 'auth_logout' %}?next=/chords/">Logout</a></li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li><a href="{% url 'registration_register' %}">Sign up</a></li>
+                        <li><a href="{% url 'auth_login' %}">Log in</a></li>
+                    {% endif %}
+                </ul>
+                <form class="navbar-form navbar-right" action="{% url 'chords:search' %}" method="get">
+                    <input class="form-control" type="text" name="search" placeholder="Search...">
+                </form>
+            </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+    </nav>
 
-    </div> <!-- /container -->
+    <div class="container">
+        {% block body_block %}{% endblock %}
+    </div>
+
+    <div class="container">
+        <hr />
+        <footer class="footer">
+            <p class="text-muted">Copyright © 2015 Ilias Stamatis. All rights reserved.<p>
+        </footer>
+    </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
     {% block scripts_block %}{% endblock %}
 
     </body>
