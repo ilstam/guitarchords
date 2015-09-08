@@ -17,9 +17,11 @@
 
     <nav class="navbar navbar-default">
         <div class="container">
+
             <div class="navbar-header">
                 <a class="navbar-brand" href="{% url 'chords:index' %}">Guitar Chords</a>
             </div>
+
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="#">By Title</a></li>
@@ -28,6 +30,7 @@
                     <li><a href="#">Recent</a></li>
                     <li><a href="#">Popular</a></li>
                 </ul>
+
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="{% url 'chords:add_song' %}">Send a song!</a></li>
                     {% if user.is_authenticated %}
@@ -46,11 +49,13 @@
                         <li><a href="{% url 'auth_login' %}">Log in</a></li>
                     {% endif %}
                 </ul>
+
                 <form class="navbar-form navbar-right" action="{% url 'chords:search' %}" method="get">
                     <input class="form-control" type="text" name="search" placeholder="Search...">
                 </form>
+
             </div><!--/.nav-collapse -->
-        </div><!--/.container-fluid -->
+        </div><!--/.container -->
     </nav>
 
     <div class="container">
@@ -59,9 +64,9 @@
 
     <div class="container footer">
         <hr />
-        <footer class="text-center">
-                <p class="text-muted">Copyright © 2015 Ilias Stamatis. All rights reserved.<p>
-        </div>
+        <footer class="text-center text-muted">
+                <p>Copyright © 2015 Ilias Stamatis. All rights reserved.<p>
+        </footer>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
