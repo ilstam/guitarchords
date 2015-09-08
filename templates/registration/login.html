@@ -19,11 +19,11 @@
 
         <div class="form-group">
             <label for="username">{% trans "Username" %}</label>
-            <input type="text" class="form-control" name="username">
+            <input type="text" class="form-control" name="username" id="username">
         </div>
         <div class="form-group">
             <label for="password">{% trans "Password" %} <a href="{% url 'auth_password_reset' %}">{% trans "(forgot password)" %}</a></label>
-            <input type="password" class="form-control" name="password">
+            <input type="password" class="form-control" name="password" id="password">
         </div>
         <div class="checkbox">
             <label>
