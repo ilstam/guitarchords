@@ -1,13 +1,17 @@
 {% extends 'chords/base.html' %}
+{% load bootstrap %}
+
 {% block title %}Send a song!{% endblock %}
 
 {% block body_block %}
 
-<h1>Send a song!</h1>
 <form id="add_song_form" method="post" action="{% url 'chords:add_song' %}">
     {% csrf_token %}
-    {% include "chords/form_snippet.html" %}
-    <input type="submit" id="submit" value="Verification" />
+    <h3>Send a song!</h3>
+    <hr />
+
+    {{ form|bootstrap }}
+    <button type="submit" class="btn btn-primary">Go to verification</button>
 </form>
 
 {% endblock %}

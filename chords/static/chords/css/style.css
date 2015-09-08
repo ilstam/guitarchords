@@ -8,19 +8,25 @@ a:hover {
     text-decoration: underline;
 }
 
-/* forms */
-
-form {
-    margin: 0 auto;
+label[for=id_content] {
+    display: none;
 }
+
+/* forms */
 
 #login_form, #password_change_form,
 #password_reset_form, #password_reset_confirm_form {
     max-width: 325px;
+    margin: 0 auto;
 }
 
 #registration_form {
     max-width: 400px;
+    margin: 0 auto;
+}
+
+#add_song_form {
+    max-width: 700px;
 }
 
 /* song */

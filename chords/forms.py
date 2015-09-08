@@ -8,12 +8,12 @@ class AddSongForm(ModelForm):
     artist_txt = CharField(
             max_length=100,
             label='Artist',
-            help_text='Surname Name format, required'
+            help_text='In Surname Name format.'
     )
 
     class Meta:
         model = Song
-        fields = ['title', 'artist_txt', 'genre', 'video', 'tabs', 'content']
+        fields = ['title', 'artist_txt', 'genre', 'video', 'content', 'tabs']
 
         widgets = {
             'content' : Textarea(attrs={'cols': 70, 'rows': 35}),
@@ -22,12 +22,11 @@ class AddSongForm(ModelForm):
             'title' : 'Title',
             'genre' : 'Genre',
             'video' : 'Video',
-            'tabs'  : 'Contain tabs',
-            'content' : '',
+            'tabs'  : 'This version contain tabs',
         }
         help_texts = {
-            'title' : 'required',
-            'video' : 'Youtube etc.',
+            'genre' : 'Pick the closest, or Other.',
+            'video' : 'Optional. Youtube etc.',
         }
         error_messages = {
             'content' : {

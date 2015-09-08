@@ -3,11 +3,19 @@ Users can view and send song lyrics, guitar chords and tabs.
 
 ***This site is under heavy development!***
 
-Requires/uses
---------------
-requires: python3, django (tested with 1.8 version only)
-required apps: django-registration-redux, django-password-validation
-uses: html5, jquery, bootstrap
+Requires
+---------
+python3,
+django (tested with 1.8 version only)
+django-registration-redux
+django-password-validation
+django-bootstrap-form
+
+Uses
+-----
+html5
+jquery
+bootstrap
 
 Get started
 ------------

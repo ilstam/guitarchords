@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'registration',
     'password_validation',
+    'bootstrapform',
     'chords',
 )
 
