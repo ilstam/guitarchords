@@ -3,23 +3,29 @@
 
 {% block body_block %}
 
-{% if recent_songs %}
-    <h2>Recently added songs</h2>
-    <ul>
-    {% for song in recent_songs %}
-    <li><a href="{% url 'chords:song' song.slug %}">{{ song.full_title }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p><strong>There are no songs present at the moment.</strong></p>
-{% endif %}
-{% if popular_songs %}
-    <h2>Most popular songs</h2>
-    <ul>
-    {% for song in popular_songs %}
-    <li><a href="{% url 'chords:song' song.slug %}">{{ song.full_title }}</a></li>
-    {% endfor %}
-    </ul>
-{% endif %}
+<div class="row">
+    <div class="col-md-4 col-md-offset-1">
+        {% if recent_songs %}
+            <h2>Recently added songs</h2>
+            <ul>
+            {% for song in recent_songs %}
+                <li><a href="{% url 'chords:song' song.slug %}">{{ song.full_title }}</a></li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p><strong>There are no songs present at the moment.</strong></p>
+        {% endif %}
+    </div>
+    <div class="col-md-5 col-md-offset-2">
+        {% if popular_songs %}
+            <h2>Most popular songs</h2>
+            <ul>
+            {% for song in popular_songs %}
+                <li><a href="{% url 'chords:song' song.slug %}">{{ song.full_title }}</a></li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</div>
 
 {% endblock %}
