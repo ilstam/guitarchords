@@ -9,12 +9,12 @@
     <form id="login_form" method="post" action="">
         {% csrf_token %}
 
-        {% if form.non_field_errors %}
-            {% for error in form.non_field_errors %}
-                <div class="alert alert-danger">{{ error }}</div>
-            {% endfor %}
-        {% elif form.errors %}
-            <div class="alert alert-danger">{% trans "Incorrect username or password." %}</div>
+        {% if form.errors %}
+            {% if "This account is inactive." in form.non_field_errors %}
+                <div class="alert alert-danger">{{ form.non_field_errors.0 }}</div>
+            {% else %}
+                <div class="alert alert-danger">{% trans "Incorrect username or password." %}</div>
+            {% endif %}
         {% endif %}
 
         <div class="form-group">
