@@ -5,14 +5,13 @@
 
 {% block body_block %}
 
-{% if query %}
-    <h3>Search results for "{{ query }}"...</h3>
-{% else %}
-    <h3>Search for a song title or artist</h3>
+{% if not query %}
+    <h3>Search for songs, users and artists</h3>
+    <br />
 {% endif %}
-<hr />
 
 <form id="search_form" class="form-inline" action="{% url 'chords:search' %}" method="get">
+
     {% for field in form.visible_fields %}
         <div class="form-group">
             <label for="{{ field.auto_id }}">{{ field.label }}</label>
@@ -21,21 +20,20 @@
     {% endfor %}
     <div class="form-group">
         <label id="submit_label">Go</label>
-        <button type="submit" class="btn btn-primary">{% trans 'Go!' %}</button>
+        <button type="submit" class="btn btn-primary">{% trans 'Search' %}</button>
     </div>
 </form>
+<br />
 
-{% comment %}
 {% if results %}
     <ul>
-    {% for song in results %}
-    <li><a href="{% url 'chords:song' song.slug %}">{{ song.full_title }}</a></li>
+    {% for result in results %}
+        <li>{{ result }}</li>
     {% endfor %}
     </ul>
-    <p><strong>We found {{ results_count }} relative result{{ results_count|pluralize }}.</strong></p>
+    <p><strong>We found {{ results.count }} relative result{{ results.count|pluralize }}.</strong></p>
 {% elif query %}
     <p><strong>No results found.</strong></p>
 {% endif %}
-{% endcomment %}
 
 {% endblock %}

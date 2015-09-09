@@ -74,10 +74,11 @@ def search(request):
 
             if tabs == SearchForm.CHORDS_ONLY:
                 results = results.filter(tabs=False)
-        # else:
+        else:
+            results = User.objects.all()
             # results = User.objects.filter(slug__contains=keyword_slug, published=True)
 
-        context['results'] = results
+        context.update({'results' : results, 'query' : keywords})
 
     return render(request, 'chords/search.html', context)
 
