@@ -463,61 +463,61 @@ class SongSubmittedViewTests(TestCase):
         self.assertFalse('song_data' in self.client.session)
 
 
-class SearchViewTests(TestCase):
-    def test_search_view_without_query(self):
-        """
-        Search view should display published songs.
-        """
-        response = self.client.get(reverse('chords:search'))
-        self.assertContains(response, 'Search for a song title or artist')
+# class SearchViewTests(TestCase):
+    # def test_search_view_without_query(self):
+        # """
+        # Search view should display published songs.
+        # """
+        # response = self.client.get(reverse('chords:search'))
+        # self.assertContains(response, 'Search for a song title or artist')
 
-    def test_search_view_with_a_published_song(self):
-        """
-        Search view should display published songs.
-        """
-        create_song(title='Random Song', published=True)
-        response = self.client.get(reverse('chords:search') +
-            '?search=Random Song')
-        self.assertQuerysetEqual(response.context['results'],
-                                 ['<Song: Random Song>'])
-        self.assertContains(response, '1 relative result')
+    # def test_search_view_with_a_published_song(self):
+        # """
+        # Search view should display published songs.
+        # """
+        # create_song(title='Random Song', published=True)
+        # response = self.client.get(reverse('chords:search') +
+            # '?search=Random Song')
+        # self.assertQuerysetEqual(response.context['results'],
+                                 # ['<Song: Random Song>'])
+        # self.assertContains(response, '1 relative result')
 
-    def test_search_view_with_an_unpublished_song(self):
-        """
-        Search view should not display unpublished songs.
-        """
-        create_song(title='Random Song', published=False)
-        response = self.client.get(reverse('chords:search') +
-            '?search=Random Song')
-        self.assertQuerysetEqual(response.context['results'], [])
-        self.assertContains(response, 'No results found')
+    # def test_search_view_with_an_unpublished_song(self):
+        # """
+        # Search view should not display unpublished songs.
+        # """
+        # create_song(title='Random Song', published=False)
+        # response = self.client.get(reverse('chords:search') +
+            # '?search=Random Song')
+        # self.assertQuerysetEqual(response.context['results'], [])
+        # self.assertContains(response, 'No results found')
 
-    def test_search_view_with_published_song_and_unpublished_song(self):
-        """
-        Search view should display only published songs.
-        """
-        create_song(title='Published Song1', published=True)
-        create_song(title='Published Song2', published=True)
-        create_song(title='Unpublished Song', published=False)
-        response = self.client.get(reverse('chords:search') + '?search=Song')
-        self.assertQuerysetEqual(response.context['results'].order_by('title'),
-            ['<Song: Published Song1>', '<Song: Published Song2>'])
-        self.assertContains(response, '2 relative results')
+    # def test_search_view_with_published_song_and_unpublished_song(self):
+        # """
+        # Search view should display only published songs.
+        # """
+        # create_song(title='Published Song1', published=True)
+        # create_song(title='Published Song2', published=True)
+        # create_song(title='Unpublished Song', published=False)
+        # response = self.client.get(reverse('chords:search') + '?search=Song')
+        # self.assertQuerysetEqual(response.context['results'].order_by('title'),
+            # ['<Song: Published Song1>', '<Song: Published Song2>'])
+        # self.assertContains(response, '2 relative results')
 
-    def test_search_view_results_matching(self):
-        """
-        Search view should display songs that contain the query string in
-        title or artist name. The match must be case insensitive and greek
-        letters must be converted in english first.
-        """
-        create_song(title='Random Song', published=True)
-        create_song(title='Tυχαίο Σόνγ', published=True)
-        create_song(title='Some', artist=create_artist(name='Song Artist'),
-            published=True)
-        response = self.client.get(reverse('chords:search') +
-            '?search=ΣόnG')
-        self.assertQuerysetEqual(response.context['results'].order_by('title'),
-            ['<Song: Random Song>', '<Song: Some>', '<Song: Tυχαίο Σόνγ>'])
+    # def test_search_view_results_matching(self):
+        # """
+        # Search view should display songs that contain the query string in
+        # title or artist name. The match must be case insensitive and greek
+        # letters must be converted in english first.
+        # """
+        # create_song(title='Random Song', published=True)
+        # create_song(title='Tυχαίο Σόνγ', published=True)
+        # create_song(title='Some', artist=create_artist(name='Song Artist'),
+            # published=True)
+        # response = self.client.get(reverse('chords:search') +
+            # '?search=ΣόnG')
+        # self.assertQuerysetEqual(response.context['results'].order_by('title'),
+            # ['<Song: Random Song>', '<Song: Some>', '<Song: Tυχαίο Σόνγ>'])
 
 
 class BookmarksViewTests(TestCase):
