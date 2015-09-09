@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.db.models import Count, Q
 
 from .models import Artist, Song
-from .forms import AddSongForm
+from .forms import AddSongForm, SearchForm
 from .utils import slugify_greek
 
 
@@ -51,14 +51,15 @@ def user(request, username):
     return render(request, 'chords/user.html', context)
 
 def search(request):
-    query = request.GET.get('search', '')
-    query_slug = slugify_greek(query)
-    context = {}
-    if query:
-        results = Song.objects.filter(Q(published=True),
-            Q(slug__contains=query_slug) | Q(artist__slug__contains=query_slug))
-        context = {'query' : query, 'results' : results,
-                   'results_count' : results.count()}
+    # query = request.GET.get('search', '')
+    # query_slug = slugify_greek(query)
+    form = SearchForm()
+    context = {'form' : form}
+    # if query:
+        # results = Song.objects.filter(Q(published=True),
+            # Q(slug__contains=query_slug) | Q(artist__slug__contains=query_slug))
+        # context = {'query' : query, 'results' : results,
+                   # 'results_count' : results.count()}
     return render(request, 'chords/search.html', context)
 
 @login_required
