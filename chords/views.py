@@ -55,16 +55,30 @@ def search(request):
     keywords = request.GET.get('keywords', '')
     genre = request.GET.get('genre', SearchForm.GENRE_ALL)
     tabs = request.GET.get('tabs', SearchForm.INCLUDE_TABS)
-    sortBy = request.GET.get('sortBy', SearchForm.SORT_NAME)
-    form = SearchForm()
 
+    form = SearchForm(initial={'searchBy' : searchBy, 'keywords' : keywords,
+                               'genre' : genre, 'tabs' : tabs})
     context = {'form' : form}
-    # query_slug = slugify_greek(query)
-    # if query:
-        # results = Song.objects.filter(Q(published=True),
-            # Q(slug__contains=query_slug) | Q(artist__slug__contains=query_slug))
-        # context = {'query' : query, 'results' : results,
-                   # 'results_count' : results.count()}
+
+    if keywords:
+        keyword_slug = slugify_greek(keywords)
+
+        if searchBy == SearchForm.SEARCH_ARTIST:
+            results = Artist.objects.filter(slug__contains=keyword_slug)
+
+        elif searchBy == SearchForm.SEARCH_SONG:
+            results = Song.objects.filter(slug__contains=keyword_slug, published=True)
+
+            if genre != SearchForm.GENRE_ALL:
+                results = results.filter(genre=genre)
+
+            if tabs == SearchForm.CHORDS_ONLY:
+                results = results.filter(tabs=False)
+        # else:
+            # results = User.objects.filter(slug__contains=keyword_slug, published=True)
+
+        context['results'] = results
+
     return render(request, 'chords/search.html', context)
 
 @login_required

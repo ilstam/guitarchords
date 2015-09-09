@@ -64,25 +64,13 @@ class SearchForm(forms.Form):
             (CHORDS_ONLY, 'Chords only'),
     )
 
-    SORT_NAME = 'NA'
-    SORT_POPULARITY = 'PO'
-    SORT_AGE = 'AG'
-
-    SORT_CHOICES = (
-            (SORT_NAME, 'Name'),
-            (SORT_POPULARITY, 'Popularity'),
-            (SORT_AGE, 'Age'),
-    )
-
     searchBy = forms.ChoiceField(label='Search by', choices=SEARCHBY_CHOICES)
     keywords = forms.CharField(label='Keywords', max_length=100, required=False)
     genre = forms.ChoiceField(label='Genre', choices=GENRE_CHOICES, required=False)
     tabs = forms.ChoiceField(label='Tabs', choices=TABS_CHOICES, required=False)
-    sortBy = forms.ChoiceField(label='Sort by', choices=SORT_CHOICES, required=False)
 
     def __init__(self, *args, **kwargs):
         super(SearchForm, self).__init__(*args, **kwargs)
-        self.initial['searchBy'] = self.SEARCH_SONG
         self.fields['keywords'].widget.attrs['placeholder'] = 'Search for...'
 
         for field_name, field in self.fields.items():
