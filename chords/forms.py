@@ -43,18 +43,18 @@ class AddSongForm(forms.ModelForm):
 
 
 class SearchForm(forms.Form):
-    ARTIST = 'AR'
-    SONG = 'SO'
-    USER = 'US'
+    SEARCH_ARTIST = 'AR'
+    SEARCH_SONG = 'SO'
+    SEARCH_USER = 'US'
 
     SEARCHBY_CHOICES = (
-        (ARTIST, 'Artist'),
-        (SONG, 'Song'),
-        (USER, 'User'),
+        (SEARCH_ARTIST, 'Artist'),
+        (SEARCH_SONG, 'Song'),
+        (SEARCH_USER, 'User'),
     )
 
-    ALL = 'ALL'
-    GENRE_CHOICES = ((ALL, 'All'),) + Song.GENRE_CHOICES
+    GENRE_ALL = 'ALL'
+    GENRE_CHOICES = ((GENRE_ALL, 'All'),) + Song.GENRE_CHOICES
 
     INCLUDE_TABS = 'IT'
     CHORDS_ONLY = 'CO'
@@ -64,14 +64,14 @@ class SearchForm(forms.Form):
             (CHORDS_ONLY, 'Chords only'),
     )
 
-    NAME = 'NA'
-    POPULARITY = 'PO'
-    AGE = 'AG'
+    SORT_NAME = 'NA'
+    SORT_POPULARITY = 'PO'
+    SORT_AGE = 'AG'
 
     SORT_CHOICES = (
-            (NAME, 'Name'),
-            (POPULARITY, 'Popularity'),
-            (AGE, 'Age'),
+            (SORT_NAME, 'Name'),
+            (SORT_POPULARITY, 'Popularity'),
+            (SORT_AGE, 'Age'),
     )
 
     searchBy = forms.ChoiceField(label='Search by', choices=SEARCHBY_CHOICES)
@@ -82,7 +82,7 @@ class SearchForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(SearchForm, self).__init__(*args, **kwargs)
-        self.initial['searchBy'] = self.SONG
+        self.initial['searchBy'] = self.SEARCH_SONG
         self.fields['keywords'].widget.attrs['placeholder'] = 'Search for...'
 
         for field_name, field in self.fields.items():

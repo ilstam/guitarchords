@@ -51,10 +51,15 @@ def user(request, username):
     return render(request, 'chords/user.html', context)
 
 def search(request):
-    # query = request.GET.get('search', '')
-    # query_slug = slugify_greek(query)
+    searchBy = request.GET.get('searchBy', SearchForm.SEARCH_SONG)
+    keywords = request.GET.get('keywords', '')
+    genre = request.GET.get('genre', SearchForm.GENRE_ALL)
+    tabs = request.GET.get('tabs', SearchForm.INCLUDE_TABS)
+    sortBy = request.GET.get('sortBy', SearchForm.SORT_NAME)
     form = SearchForm()
+
     context = {'form' : form}
+    # query_slug = slugify_greek(query)
     # if query:
         # results = Song.objects.filter(Q(published=True),
             # Q(slug__contains=query_slug) | Q(artist__slug__contains=query_slug))

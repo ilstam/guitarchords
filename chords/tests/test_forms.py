@@ -38,13 +38,12 @@ class SearchFormTests(TestCase):
         """
         Form must be valid with sensible data.
         """
-        form = SearchForm(data={'searchBy': SearchForm.SONG})
+        form = SearchForm(data={'searchBy': SearchForm.SEARCH_SONG})
         self.assertTrue(form.is_valid())
 
     def test_form_with_invalid_data(self):
         """
         Form cannot be valid if searchBy field is missing.
         """
-
         form = SearchForm()
         self.assertFalse(form.is_valid())
