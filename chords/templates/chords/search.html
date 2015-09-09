@@ -1,4 +1,6 @@
 {% extends 'chords/base.html' %}
+{% load i18n %}
+
 {% block title %}Search{% endblock %}
 
 {% block body_block %}
@@ -8,10 +10,58 @@
 {% else %}
     <h3>Search for a song title or artist</h3>
 {% endif %}
-<form action="{% url 'chords:search' %}" method="get">
-    <input type="text" name="search" placeholder="Search...">
-    <input type="submit" value="Go!">
+<hr />
+
+<form id="search_form" class="form-inline" action="{% url 'chords:search' %}" method="get">
+    <div class="form-group">
+        <label for="search_by">Search by</label>
+        <select class="form-control" id="search_by" name="search_by">
+            <option>Artist</option>
+            <option selected>Song</option>
+            <option>User</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="search">Keywords</label>
+        <input type="text" class="form-control" id="search" name="search" placeholder="Search for...">
+    </div>
+    <div class="form-group">
+        <label for="genre">Genre</label>
+        <select class="form-control" id="genre" name="genre">
+            <option>All</option>
+            <option>Genre1</option>
+            <option>Genre2</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="tabs">Tabs</label>
+        <select class="form-control" id="tabs" name="tabs">
+            <option>Include tabs</option>
+            <option>Chords only</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="sort_by">Sort by</label>
+        <select class="form-control" id="sort_by" name="sort_by">
+            <option>Name</option>
+            <option>Popularity</option>
+            <option>Age</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="sort_order">Sort order</label>
+        <select class="form-control" id="sort_order" name="sort_order">
+            <option>Ascending</option>
+            <option>Descending</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label id="submit_label">Go</label>
+        <button type="submit" class="btn btn-primary">{% trans 'Go!' %}</button>
+    </div>
 </form>
+
+{% comment %}
 {% if results %}
     <ul>
     {% for song in results %}
@@ -22,5 +72,6 @@
 {% elif query %}
     <p><strong>No results found.</strong></p>
 {% endif %}
+{% endcomment %}
 
 {% endblock %}

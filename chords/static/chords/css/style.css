@@ -27,6 +27,18 @@ label[for=id_content] {
     max-width: 700px;
 }
 
+#search_form label {
+    display: block;
+}
+
+#search_form .form-group {
+    margin-right: 10px;
+}
+
+#search_form #submit_label {
+    visibility: hidden;
+}
+
 /* song */
 
 #song_content {
