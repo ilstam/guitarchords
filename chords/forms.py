@@ -75,10 +75,10 @@ class SearchForm(forms.Form):
     )
 
     searchBy = forms.ChoiceField(label='Search by', choices=SEARCHBY_CHOICES)
-    keywords = forms.CharField(label='Keywords', max_length=100)
-    genre = forms.ChoiceField(label='Genre', choices=GENRE_CHOICES)
-    tabs = forms.ChoiceField(label='Tabs', choices=TABS_CHOICES)
-    sortBy = forms.ChoiceField(label='Sort by', choices=SORT_CHOICES)
+    keywords = forms.CharField(label='Keywords', max_length=100, required=False)
+    genre = forms.ChoiceField(label='Genre', choices=GENRE_CHOICES, required=False)
+    tabs = forms.ChoiceField(label='Tabs', choices=TABS_CHOICES, required=False)
+    sortBy = forms.ChoiceField(label='Sort by', choices=SORT_CHOICES, required=False)
 
     def __init__(self, *args, **kwargs):
         super(SearchForm, self).__init__(*args, **kwargs)
