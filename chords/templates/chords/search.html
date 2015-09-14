@@ -26,14 +26,37 @@
 <br />
 
 {% if results %}
-    <ul>
-    {% for result in results %}
-        <li>{{ result }}</li>
-    {% endfor %}
-    </ul>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                {% if searchBy == 'song' %}
+                    <th>Artist</th>
+                    <th>Genre</th>
+                    <th>Tabs</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in results %}
+                <tr>
+                    {% if searchBy == 'song' %}
+                        <td><a href="{% url 'chords:song' result.slug %}">{{ result }}</a></td>
+                        <td><a href="{% url 'chords:artist' result.artist.slug %}">{{ result.artist.name }}</a></td>
+                        <td>{{ result.genre_str }}</td>
+                        <td>{% if result.tabs %}Yes{% else %}No{% endif %}</td>
+                    {% elif searchBy == 'artist' %}
+                        <td><a href="{% url 'chords:artist' result.slug %}">{{ result }}</a></td>
+                    {% else %}
+                        <td><a href="{% url 'chords:user' result.get_username %}">{{ result }}</a></td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     <p><strong>We found {{ results.count }} relative result{{ results.count|pluralize }}.</strong></p>
 {% elif query %}
-    <p><strong>No results found.</strong></p>
+    <p><strong>No results matched your search criteria.</strong></p>
 {% endif %}
 
 {% endblock %}

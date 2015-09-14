@@ -64,9 +64,11 @@ def search(request):
         keyword_slug = slugify_greek(keywords)
 
         if searchBy == SearchForm.SEARCH_ARTIST:
+            context['searchBy'] = 'artist'
             results = Artist.objects.filter(slug__contains=keyword_slug)
 
         elif searchBy == SearchForm.SEARCH_SONG:
+            context['searchBy'] = 'song'
             results = Song.objects.filter(slug__contains=keyword_slug, published=True)
 
             if genre != SearchForm.GENRE_ALL:
@@ -75,6 +77,7 @@ def search(request):
             if tabs == SearchForm.CHORDS_ONLY:
                 results = results.filter(tabs=False)
         else:
+            context['searchBy'] = 'user'
             results = User.objects.all()
             # results = User.objects.filter(slug__contains=keyword_slug, published=True)
 
