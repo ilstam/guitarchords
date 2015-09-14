@@ -109,6 +109,8 @@ def verify_song(request):
         title=song_data['title'], artist=None, video=song_data['video'],
         genre=song_data['genre'], tabs=song_data['tabs'],
         content=song_data['content'])
+    if song.video:
+        song.video = song.get_embed_video_url()
 
     context = {'song' : song, 'artist_txt' : song_data['artist_txt'],
                'user_txt' : song_data['user_txt']}

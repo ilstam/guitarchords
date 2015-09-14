@@ -81,9 +81,12 @@ class Song(models.Model):
         elif not self.published and self.pub_date is not None:
             self.pub_date = None
 
+        if self.video:
+            self.video = self.get_embed_video_url()
+
         super(Song, self).save(*args, **kwargs)
 
-    def embed_video_url(self):
+    def get_embed_video_url(self):
         if 'www.youtube.com' in self.video:
             if '/embed/' in self.video:
                 return self.video
