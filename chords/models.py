@@ -84,11 +84,19 @@ class Song(models.Model):
         super(Song, self).save(*args, **kwargs)
 
     def embed_video_url(self):
-        if '/embed/' in self.video:
-            return self.video
+        if 'youtube' in self.video:
+            if '/embed/' in self.video:
+                return self.video
 
-        video_id = self.video.split('watch?')[1].split('v=')[1].split('&')[0]
-        return 'https://www.youtube.com/embed/{0}?feature=player_detailpage'.format(video_id)
+            video_id = self.video.split('watch?')[1].split('v=')[1].split('&')[0]
+            return 'https://www.youtube.com/embed/{0}?feature=player_detailpage'.format(video_id)
+
+        elif 'dailymotion' in self.video:
+            if '/embed/' in self.video:
+                return self.video
+
+            video_id = self.video.split('video/')[1].split('_')[0]
+            return 'http://www.dailymotion.com/embed/video/{0}'.format(video_id)
 
 
     def genre_str(self):
