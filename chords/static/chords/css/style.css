@@ -39,6 +39,10 @@ label[for=id_content] {
     visibility: hidden;
 }
 
+#form_submit, #form_goback {
+    display: inline;
+}
+
 /* song */
 
 #song_content {
@@ -66,6 +70,19 @@ label[for=id_content] {
 
 .tabsline {
     color: blue;
+}
+
+.video iframe {
+    margin-top: 80px;
+}
+
+#info-column {
+    margin-top: 70px;
+}
+
+#info-column ul {
+    list-style-type: none;
+    padding-left: 0;
 }
 
 /* footer */

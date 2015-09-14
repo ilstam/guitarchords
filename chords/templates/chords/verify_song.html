@@ -5,15 +5,14 @@
 
 {% block body_block %}
 
-<h1>Song verification</h1>
-Please verify the song.
+<p>Please verify the song.</p>
 <hr />
 {% include "chords/display_song.html" %}
-<form method="get" action="{% url 'chords:add_song' %}">
-    <input type="submit" id="goback_btn" value="Go back" />
+<form id="form_goback" method="get" action="{% url 'chords:add_song' %}">
+    <button type="submit" class="btn btn-primary">Go back</button>
 </form>
-<form method="get" action="{% url 'chords:song_submitted' %}">
-    <input type="submit" id="submit_btn" value="It's ok, submit song!" />
+<form id="form_submit" method="get" action="{% url 'chords:song_submitted' %}">
+    <button type="submit" class="btn btn-primary">It's ok, submit song!</button>
 </form>
 
 {% endblock %}

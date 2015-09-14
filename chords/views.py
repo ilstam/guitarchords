@@ -69,7 +69,8 @@ def search(request):
 
         elif searchBy == SearchForm.SEARCH_SONG:
             context['searchBy'] = 'song'
-            results = Song.objects.filter(slug__contains=keyword_slug, published=True)
+            results = Song.objects.filter(
+                    slug__contains=keyword_slug, published=True)
 
             if genre != SearchForm.GENRE_ALL:
                 results = results.filter(genre=genre)
@@ -91,6 +92,7 @@ def add_song(request):
         form = AddSongForm(request.POST)
         if form.is_valid():
             request.session['song_data'] = form.cleaned_data
+            request.session['song_data']['user_txt'] = request.user.get_username()
             return redirect('chords:verify_song')
     else:
         form = AddSongForm(initial=request.session.get('song_data', None))
@@ -108,7 +110,8 @@ def verify_song(request):
         genre=song_data['genre'], tabs=song_data['tabs'],
         content=song_data['content'])
 
-    context = {'song' : song, 'artist_txt' : song_data['artist_txt']}
+    context = {'song' : song, 'artist_txt' : song_data['artist_txt'],
+               'user_txt' : song_data['user_txt']}
     return render(request, 'chords/verify_song.html', context)
 
 @login_required
