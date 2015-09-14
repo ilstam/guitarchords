@@ -21,12 +21,12 @@ class AddSongForm(forms.ModelForm):
         labels = {
             'title' : 'Title',
             'genre' : 'Genre',
-            'video' : 'Video',
+            'video' : 'Video (optional)',
             'tabs'  : 'This version contain tabs',
         }
         help_texts = {
             'genre' : 'Pick the closest, or Other.',
-            'video' : 'Optional. Youtube etc.',
+            'video' : 'Youtube, Vimeo, Dailymotion.',
         }
         error_messages = {
             'content' : {
