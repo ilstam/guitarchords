@@ -8,8 +8,17 @@ a:hover {
     text-decoration: underline;
 }
 
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
 label[for=id_content] {
     display: none;
+}
+
+.header {
+    margin-bottom: 20px;
 }
 
 /* forms */
@@ -78,11 +87,6 @@ label[for=id_content] {
 
 #info-column {
     margin-top: 70px;
-}
-
-#info-column ul {
-    list-style-type: none;
-    padding-left: 0;
 }
 
 /* footer */

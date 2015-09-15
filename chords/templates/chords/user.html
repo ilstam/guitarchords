@@ -1,17 +1,30 @@
 {% extends 'chords/base.html' %}
+{% load staticfiles %}
+
 {% block title %}{{ theuser.username }}{% endblock %}
 
 {% block body_block %}
 
-<h1>Songs sent by {{ theuser.username }}.</h1>
-{% if songs %}
-    <ul>
-    {% for song in songs %}
-    <li><a href="{% url 'chords:song' song.slug %}">{{ song.full_title }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <strong>This user hasn't sent any songs yet.</strong>
-{% endif %}
+<div class="row header text-center">
+    <h3>Songs sent by {{ theuser.username }}</h3>
+</div>
 
+<div class="row" id="present_songs">
+    {% if songs %}
+        {% for song in songs %}
+            <li><a href="{% url 'chords:song' song.slug %}">{{ song.full_title }}</a></li>
+        {% endfor %}
+
+        <div id="col1" class="col-md-4"> <ul> </ul> </div>
+        <div id="col2" class="col-md-4"> <ul> </ul> </div>
+        <div id="col3" class="col-md-4"> <ul> </ul> </div>
+    {% else %}
+        <p class="text-center">This user hasn't sent any songs yet.</p>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+{% block scripts_block %}
+    <script src="{% static "chords/js/present.js" %}"></script>
 {% endblock %}
