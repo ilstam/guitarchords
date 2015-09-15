@@ -73,13 +73,11 @@ $('#password_change_form').submit(function(event) {
     var pass2 = $('#new_password2');
     var oldpass = $('#old_password');
 
-    if (! applyValidationError(oldpass, oldpass.val() != ''))
-        event.preventDefault();
+    var v1 = (! applyValidationError(oldpass, oldpass.val() != ''))
+    var v2 = (! validatePassword1(pass1, pass2))
+    var v3 = (! validatePassword2(pass1, pass2))
 
-    if (! validatePassword1(pass1, pass2))
-        event.preventDefault();
-
-    if (! validatePassword2(pass1, pass2))
+    if (v1 || v2 || v3)
         event.preventDefault();
 });
 
@@ -100,16 +98,12 @@ $('#registration_form').submit(function(event) {
     var pass1 = $('#password1');
     var pass2 = $('#password2');
 
-    if (! applyValidationError(username, /^[\w@+-.]{1,30}$/.test(username.val())))
-        event.preventDefault();
+    var v1 = (! applyValidationError(username, /^[\w@+-.]{1,30}$/.test(username.val())))
+    var v2 = (! applyValidationError(email, email.val() != ''))
+    var v3 = (! validatePassword1(pass1, pass2))
+    var v4 = (! validatePassword2(pass1, pass2))
 
-    if (! applyValidationError(email, email.val() != ''))
-        event.preventDefault();
-
-    if (! validatePassword1(pass1, pass2))
-        event.preventDefault();
-
-    if (! validatePassword2(pass1, pass2))
+    if (v1 || v2 || v3 || v4)
         event.preventDefault();
 });
 
@@ -118,14 +112,23 @@ $('#add_song_form').submit(function(event) {
     var artist = $('#id_artist_txt');
     var content = $('#id_content');
 
-    if (! applyValidationError(title, title.val() != ''))
+    if (! applyValidationError(content, content.val() != '')) {
         event.preventDefault();
+        var _top = content.position().top;
+        $(window).scrollTop(_top);
+    }
 
-    if (! applyValidationError(artist, artist.val() != ''))
+    if (! applyValidationError(artist, artist.val() != '')) {
         event.preventDefault();
+        var _top = artist.parent().siblings('label').position().top;
+        $(window).scrollTop(_top);
+    }
 
-    if (! applyValidationError(content, content.val() != ''))
+    if (! applyValidationError(title, title.val() != '')) {
         event.preventDefault();
+        var _top = title.parent().siblings('label').position().top;
+        $(window).scrollTop(_top);
+    }
 });
 
 });
