@@ -168,7 +168,9 @@ function fillSemitonChange() {
     }
 }
 
-parseSong();
-fillSemitonChange();
+if ($('#song_content').length)
+    parseSong();
+if ($('#semiton_change').length)
+    fillSemitonChange();
 
 });
