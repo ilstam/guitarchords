@@ -43,11 +43,13 @@
         <p>Semiton change: <select id="semiton_change"></select></p>
 
         {% if user.is_authenticated and not preview %}
-            {% if not bookmarked %}
-                <p><a href="javascript:;" bookmarked="False">(+) Add to bookmarks</a></p>
-            {% else %}
-                <p><a href="javascript:;" bookmarked="True">(-) Remove from bookmarks</a></p>
-            {% endif %}
+            <p><a id="bookmark" href="javascript:;">
+                {% if not bookmarked %}
+                    (+) Add to bookmarks
+                {% else %}
+                    (-) Remove from bookmarks
+                {% endif %}
+            </a></p>
         {% endif %}
     </div>
 </div>
