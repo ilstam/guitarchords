@@ -2,7 +2,48 @@ from django.test import TestCase
 from django.utils import timezone
 
 from chords.models import Artist, Song
-from .helper_functions import create_artist, create_song
+from .helper_functions import create_artist, create_song, create_user
+
+
+class UserModelTests(TestCase):
+    def test_cannot_bookmark_same_song_twice(self):
+        """
+        User must not be able to bookmark the same song more than one time.
+        """
+        user = create_user()
+        song = create_song()
+        user.bookmarks.add(song)
+        num_bookmarks = user.bookmarks.count()
+
+        user.bookmarks.add(song)
+        self.assertEqual(user.bookmarks.count(), num_bookmarks)
+
+    def test_song_deleted_bookmark_deleted(self):
+        """
+        If any of user's bookmarked songs get deleted, it should also removed
+        from the bookmarks.
+        """
+        user = create_user()
+        song = create_song()
+        user.bookmarks.add(song)
+        num_bookmarks = user.bookmarks.count()
+
+        song.delete()
+        self.assertEqual(user.bookmarks.count(), num_bookmarks - 1)
+
+    def test_song_unpublished_bookmark_unchanged(self):
+        """
+        If any of user's bookmarked songs get unpublished, it should remain
+        in the bookmarks.
+        """
+        user = create_user()
+        song = create_song(published=True)
+        user.bookmarks.add(song)
+        num_bookmarks = user.bookmarks.count()
+
+        song.published = False
+        song.save()
+        self.assertEqual(user.bookmarks.count(), num_bookmarks)
 
 
 class ArtistModelTests(TestCase):
