@@ -105,7 +105,8 @@ def remove_bookmark(request, song_slug):
 
 @login_required
 def bookmarks(request):
-    songs = request.user.bookmarks.filter(published=True
+    songs = request.user.bookmarks.filter(
+            Q(published=True) | Q(sender=request.user)
             ).order_by('artist__name', 'title')
     return render(request, 'chords/bookmarks.html', {'songs' : songs})
 
