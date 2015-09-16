@@ -14,4 +14,6 @@ urlpatterns = [
     url(r'^user/(?P<username>[\w]+)/$', views.user, name='user'),
     url(r'^search/$', views.search, name='search'),
     url(r'^bookmarks/$', views.bookmarks, name='bookmarks'),
+    url(r'^song/(?P<song_slug>[\w\-]+)/add_bookmark/$', views.add_bookmark, name='add_bookmark'),
+    url(r'^song/(?P<song_slug>[\w\-]+)/remove_bookmark/$', views.remove_bookmark, name='remove_bookmark'),
 ]

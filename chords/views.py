@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Count, Q
@@ -87,6 +87,25 @@ def search(request):
     return render(request, 'chords/search.html', context)
 
 @login_required
+def add_bookmark(request, song_slug):
+    song = get_object_or_404(Song, Q(slug=song_slug),
+        Q(published=True) | Q(sender=request.user))
+    request.user.bookmarks.add(song)
+    return HttpResponse()
+
+@login_required
+def remove_bookmark(request, song_slug):
+    song = get_object_or_404(Song, slug=song_slug)
+    request.user.bookmarks.remove(song)
+    return HttpResponse()
+
+@login_required
+def bookmarks(request):
+    songs = request.user.bookmarks.filter(published=True
+            ).order_by('artist__name', 'title')
+    return render(request, 'chords/bookmarks.html', {'songs' : songs})
+
+@login_required
 def add_song(request):
     if request.method == 'POST':
         form = AddSongForm(request.POST)
@@ -136,9 +155,3 @@ def song_submitted(request):
 
     del request.session['song_data']
     return render(request, 'chords/song_submitted.html', {})
-
-@login_required
-def bookmarks(request):
-    songs = request.user.bookmarks.filter(published=True
-            ).order_by('artist__name', 'title')
-    return render(request, 'chords/bookmarks.html', {'songs' : songs})
