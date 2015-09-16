@@ -18,9 +18,10 @@ def create_user(username='username', password='password'):
     user.save()
     return user
 
-def valid_song_data(title='Title', artist_txt='artist_txt', genre=Song.POP,
-                    video='http://www.example.com', tabs=True, content='content'):
+def valid_song_data(title='Title', artist_txt='artist_txt', user_txt='user_txt',
+                    genre=Song.POP, video='http://www.example.com', tabs=True,
+                    content='content'):
     return {
-        'title' : title, 'artist_txt' : artist_txt, 'genre' : genre,
-        'video' : video, 'tabs' : tabs, 'content' : content
+        'title' : title, 'artist_txt' : artist_txt, 'user_txt' : user_txt,
+        'genre' : genre, 'video' : video, 'tabs' : tabs, 'content' : content
     }

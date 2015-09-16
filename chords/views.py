@@ -20,15 +20,17 @@ def index(request):
     return render(request, 'chords/index.html', context)
 
 def song(request, song_slug):
+    context = {}
     if request.user.is_authenticated():
         song = get_object_or_404(Song, Q(slug=song_slug),
             Q(published=True) | Q(sender=request.user))
         song.viewedBy.add(request.user)
+
+        context['bookmarked'] = bool(request.user.bookmarks.filter(slug=song.slug))
     else:
         song = get_object_or_404(Song, slug=song_slug, published=True)
 
-    bookmarked = bool(request.user.bookmarks.filter(slug=song.slug))
-    context = {'song' : song, 'preview' : False, 'bookmarked' : bookmarked}
+    context.update({'song' : song, 'preview' : False})
     return render(request, 'chords/song.html', context)
 
 def song_json(request, song_slug):

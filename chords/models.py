@@ -108,6 +108,8 @@ class Song(models.Model):
             video_id = self.video.split('vimeo.com/')[1].split('?')[0]
             return 'http://player.vimeo.com/video/{0}'.format(video_id)
 
+        else:
+            return self.video
 
     def genre_str(self):
         return self.get_genre_display()
