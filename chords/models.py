@@ -92,24 +92,24 @@ class Song(models.Model):
                 return self.video
 
             video_id = self.video.split('watch?')[1].split('v=')[1].split('&')[0]
-            return 'https://www.youtube.com/embed/{0}?feature=player_detailpage'.format(video_id)
+            return 'https://www.youtube.com/embed/{0}?feature=player_detailpage'\
+                .format(video_id)
 
-        elif 'www.dailymotion.com' in self.video:
+        if 'www.dailymotion.com' in self.video:
             if '/embed/' in self.video:
                 return self.video
 
             video_id = self.video.split('video/')[1].split('_')[0]
             return 'http://www.dailymotion.com/embed/video/{0}'.format(video_id)
 
-        elif 'vimeo.com' in self.video:
+        if 'vimeo.com' in self.video:
             if 'player.vimeo.com' in self.video:
                 return self.video
 
             video_id = self.video.split('vimeo.com/')[1].split('?')[0]
             return 'http://player.vimeo.com/video/{0}'.format(video_id)
 
-        else:
-            return self.video
+        return self.video
 
     def genre_str(self):
         return self.get_genre_display()
