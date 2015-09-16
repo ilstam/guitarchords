@@ -572,3 +572,47 @@ class BookmarksViewTests(TestCase):
         response = self.client.get(reverse('chords:bookmarks'))
         self.assertQuerysetEqual(response.context['songs'],
                                  ['<Song: Random Song>'])
+
+class AddBookmarkViewTests(TestCase):
+    def setUp(self):
+        self.user = create_user(password='password')
+        self.client.login(username=self.user.username, password='password')
+
+    def test_add_bookmark_view_with_an_invalid_slug(self):
+        """
+        The add_bookmark view should return a 404 not found for invalid slugs.
+        """
+        response = self.client.get(reverse('chords:add_bookmark', args=('slug',)))
+        self.assertEqual(response.status_code, 404)
+
+    def test_add_bookmark_view_with_a_valid_slug(self):
+        """
+        After calling add_bookmark view, the user must have one bookmark more.
+        """
+        num_bookmarks = self.user.bookmarks.count()
+        self.user.bookmarks.add(create_song(published=True))
+        self.assertTrue(self.user.bookmarks.count(), num_bookmarks + 1)
+
+
+class RemoveBookmarkViewTests(TestCase):
+    def setUp(self):
+        self.user = create_user(password='password')
+        self.client.login(username=self.user.username, password='password')
+
+    def test_remove_bookmark_view_with_an_invalid_slug(self):
+        """
+        The add_bookmark view should return a 404 not found for invalid slugs.
+        """
+        response = self.client.get(reverse('chords:remove_bookmark', args=('slug',)))
+        self.assertEqual(response.status_code, 404)
+
+    def test_remove_bookmark_view_with_a_valid_slug(self):
+        """
+        After calling remove_bookmark view, the user must have one bookmark less.
+        """
+        song = create_song(published=True)
+        self.user.bookmarks.add(create_song())
+        num_bookmarks = self.user.bookmarks.count()
+
+        self.user.bookmarks.remove(song)
+        self.assertTrue(self.user.bookmarks.count(), num_bookmarks - 1)
