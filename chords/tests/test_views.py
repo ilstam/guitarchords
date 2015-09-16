@@ -9,6 +9,12 @@ from .helper_functions import (create_artist, create_song, create_user,
                                valid_song_data)
 
 
+class LoginedTestCase(TestCase):
+    def setUp(self):
+        self.user = create_user(password='password')
+        self.client.login(username=self.user.username, password='password')
+
+
 class IndexViewTests(TestCase):
     def test_index_view_with_no_songs(self):
         """
@@ -334,11 +340,7 @@ class SongJsonViewTests(TestCase):
         self.assertEqual(response.status_code, 404)
 
 
-class AddSongViewTests(TestCase):
-    def setUp(self):
-        self.user = create_user(password='password')
-        self.client.login(username=self.user.username, password='password')
-
+class AddSongViewTests(LoginedTestCase):
     def test_addsong_view_redirects_when_not_logged_in(self):
         """
         When no user is logged in, the add_song view must redirect to the
@@ -384,11 +386,7 @@ class AddSongViewTests(TestCase):
         self.assertContains(response, 'Enter a valid URL.')
 
 
-class VerifySongViewTests(TestCase):
-    def setUp(self):
-        self.user = create_user(password='password')
-        self.client.login(username=self.user.username, password='password')
-
+class VerifySongViewTests(LoginedTestCase):
     def test_verifysong_view_redirects_when_not_logged_in(self):
         """
         When no user is logged in, the verify_song view must redirect to the
@@ -420,11 +418,7 @@ class VerifySongViewTests(TestCase):
         self.assertContains(response, session['song_data']['title'])
 
 
-class SongSubmittedViewTests(TestCase):
-    def setUp(self):
-        self.user = create_user(password='password')
-        self.client.login(username=self.user.username, password='password')
-
+class SongSubmittedViewTests(LoginedTestCase):
     def test_songsubmitted_view_redirects_when_not_logged_in(self):
         """
         When no user is logged in, the song_submitted view must redirect to
@@ -520,11 +514,7 @@ class SongSubmittedViewTests(TestCase):
             # ['<Song: Random Song>', '<Song: Some>', '<Song: Tυχαίο Σόνγ>'])
 
 
-class BookmarksViewTests(TestCase):
-    def setUp(self):
-        self.user = create_user(password='password')
-        self.client.login(username=self.user.username, password='password')
-
+class BookmarksViewTests(LoginedTestCase):
     def test_userbookmarks_view_redirects_when_not_logged_in(self):
         """
         When no user is logged in, the bookmarks view must redirect to
@@ -573,11 +563,7 @@ class BookmarksViewTests(TestCase):
         self.assertQuerysetEqual(response.context['songs'],
                                  ['<Song: Random Song>'])
 
-class AddBookmarkViewTests(TestCase):
-    def setUp(self):
-        self.user = create_user(password='password')
-        self.client.login(username=self.user.username, password='password')
-
+class AddBookmarkViewTests(LoginedTestCase):
     def test_add_bookmark_view_with_an_invalid_slug(self):
         """
         The add_bookmark view should return a 404 not found for invalid slugs.
@@ -593,12 +579,7 @@ class AddBookmarkViewTests(TestCase):
         self.user.bookmarks.add(create_song(published=True))
         self.assertTrue(self.user.bookmarks.count(), num_bookmarks + 1)
 
-
-class RemoveBookmarkViewTests(TestCase):
-    def setUp(self):
-        self.user = create_user(password='password')
-        self.client.login(username=self.user.username, password='password')
-
+class RemoveBookmarkViewTests(LoginedTestCase):
     def test_remove_bookmark_view_with_an_invalid_slug(self):
         """
         The add_bookmark view should return a 404 not found for invalid slugs.
