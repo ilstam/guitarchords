@@ -10,6 +10,10 @@ from .helper_functions import (create_artist, create_song, create_user,
 
 
 class LoginedTestCase(TestCase):
+    """
+    All test cases that requires user authentication should inherit from
+    this class.
+    """
     def setUp(self):
         self.user = create_user(password='password')
         self.client.login(username=self.user.username, password='password')
