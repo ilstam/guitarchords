@@ -12,10 +12,10 @@ class ArtistAdmin(admin.ModelAdmin):
 
 class SongAdmin(admin.ModelAdmin):
     fieldsets = [
-        ('General',               {'fields': ['title', 'artist', 'genre']}),
+        ('General',          {'fields': ['title', 'artist', 'genre']}),
         ('User information', {'fields': ['sender'], 'classes': ['collapse']}),
-        ('Content',               {'fields': ['content', 'tabs', 'video']}),
-        ('Published', {'fields': ['published']}),
+        ('Content',          {'fields': ['content', 'tabs', 'video']}),
+        ('Published',        {'fields': ['published']}),
     ]
 
     list_display = ['full_title', 'reg_date', 'pub_date', 'published']
@@ -24,11 +24,17 @@ class SongAdmin(admin.ModelAdmin):
     actions = ['publish_songs', 'unpublish_songs']
 
     def publish_songs(self, request, queryset):
-        queryset.update(published=True)
+        for song in queryset:
+            song.published = True
+            song.save()
+
     publish_songs.short_description = 'Publish all selected songs'
 
     def unpublish_songs(self, request, queryset):
-        queryset.update(published=False)
+        for song in queryset:
+            song.published = False
+            song.save()
+
     unpublish_songs.short_description = 'Unpublish all selected songs'
 
 
