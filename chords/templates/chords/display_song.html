@@ -40,6 +40,14 @@
             <li><a href="javascript:;">Get pdf</a></li>
         </ul>
 
-        Semiton change: <select id="semiton_change"></select>
+        <p>Semiton change: <select id="semiton_change"></select></p>
+
+        {% if user.is_authenticated and not preview %}
+            {% if not bookmarked %}
+                <p><a href="javascript:;" bookmarked="False">(+) Add to bookmarks</a></p>
+            {% else %}
+                <p><a href="javascript:;" bookmarked="True">(-) Remove from bookmarks</a></p>
+            {% endif %}
+        {% endif %}
     </div>
 </div>

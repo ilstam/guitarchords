@@ -27,7 +27,9 @@ def song(request, song_slug):
     else:
         song = get_object_or_404(Song, slug=song_slug, published=True)
 
-    return render(request, 'chords/song.html', {'song' : song})
+    bookmarked = bool(request.user.bookmarks.filter(slug=song.slug))
+    context = {'song' : song, 'preview' : False, 'bookmarked' : bookmarked}
+    return render(request, 'chords/song.html', context)
 
 def song_json(request, song_slug):
     song = get_object_or_404(Song, slug=song_slug, published=True)
@@ -132,7 +134,7 @@ def verify_song(request):
         song.video = song.get_embed_video_url()
 
     context = {'song' : song, 'artist_txt' : song_data['artist_txt'],
-               'user_txt' : song_data['user_txt']}
+               'user_txt' : song_data['user_txt'], 'preview' : True}
     return render(request, 'chords/verify_song.html', context)
 
 @login_required
