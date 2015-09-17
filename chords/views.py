@@ -83,8 +83,7 @@ def search(request):
                 results = results.filter(tabs=False)
         else:
             context['searchBy'] = 'user'
-            results = User.objects.all()
-            # results = User.objects.filter(slug__contains=keyword_slug, published=True)
+            results = User.objects.filter(username__icontains=keywords)
 
         context.update({'results' : results, 'query' : keywords})
 
