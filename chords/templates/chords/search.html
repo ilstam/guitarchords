@@ -26,14 +26,14 @@
 <br />
 
 {% if results %}
-    <table class="table">
+    <table class="table" id="search_table">
         <thead>
             <tr>
-                <th>Name</th>
+                <th><a href="javascript:;">Name</a></th>
                 {% if searchBy == 'song' %}
-                    <th>Artist</th>
-                    <th>Genre</th>
-                    <th>Tabs</th>
+                    <th><a href="javascript:;">Artist</a></th>
+                    <th><a href="javascript:;">Genre</a></th>
+                    <th><a href="javascript:;">Tabs</a></th>
                 {% endif %}
             </tr>
         </thead>
