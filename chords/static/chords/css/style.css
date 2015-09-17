@@ -37,6 +37,10 @@ label[for=id_content] {
 
 /* forms */
 
+.panel {
+    margin-top: 10px;
+}
+
 .panel#registration_panel {
     max-width: 425px;
 }
