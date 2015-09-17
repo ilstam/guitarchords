@@ -25,15 +25,17 @@ class SongAdmin(admin.ModelAdmin):
 
     def publish_songs(self, request, queryset):
         for song in queryset:
-            song.published = True
-            song.save()
+            if not song.published:
+                song.published = True
+                song.save()
 
     publish_songs.short_description = 'Publish all selected songs'
 
     def unpublish_songs(self, request, queryset):
         for song in queryset:
-            song.published = False
-            song.save()
+            if song.published:
+                song.published = False
+                song.save()
 
     unpublish_songs.short_description = 'Unpublish all selected songs'
 
