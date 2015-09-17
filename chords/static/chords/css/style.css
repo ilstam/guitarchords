@@ -18,7 +18,12 @@ label[for=id_content] {
 }
 
 .header {
+    margin-top: 0px;
     margin-bottom: 20px;
+}
+
+#popular_table_container {
+    max-width: 50%;
 }
 
 /* forms */

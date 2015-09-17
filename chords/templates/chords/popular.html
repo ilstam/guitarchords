@@ -1,0 +1,33 @@
+{% extends 'chords/base.html' %}
+
+{% block title %}Popular content{% endblock %}
+
+{% block body_block %}
+
+<div class="row">
+    <div class="center-block" id="popular_table_container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th class="text-center"><h2 class="header">Most Popular Songs</h2></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for song in songs %}
+                    <tr class="list-group text-center">
+                        <td>{{ forloop.counter }}.</td>
+                        <td><a href="{% url 'chords:song' song.slug %}">{{ song.title }}</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts_block %}
+    <script> $(function() { $('#nav_popular').addClass('active'); }); </script>
+{% endblock %}

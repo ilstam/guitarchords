@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Count
 from django.utils import timezone
 from django.contrib.auth.models import User
 
@@ -136,3 +137,9 @@ class Song(models.Model):
 
     def __str__(self):
         return self.title + ' (+t)' if self.tabs else self.title
+
+    @staticmethod
+    def get_popular_songs():
+        return Song.objects.filter(published=True).annotate(
+                popularity=Count('viewedBy') + 2 * Count('bookmarkedBy')
+               ).order_by('-popularity')
