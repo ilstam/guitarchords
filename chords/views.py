@@ -65,6 +65,7 @@ def search(request):
     keywords = request.GET.get('keywords', '')
     genre = request.GET.get('genre', SearchForm.GENRE_ALL)
     tabs = request.GET.get('tabs', SearchForm.INCLUDE_TABS)
+    orderBy = request.GET.get('orderBy', '')
 
     form = SearchForm(initial={'searchBy' : searchBy, 'keywords' : keywords,
                                'genre' : genre, 'tabs' : tabs})
@@ -72,10 +73,16 @@ def search(request):
 
     if keywords:
         keyword_slug = slugify_greek(keywords)
+        order = ''
 
         if searchBy == SearchForm.SEARCH_ARTIST:
             context['searchBy'] = 'artist'
             results = Artist.objects.filter(slug__contains=keyword_slug)
+
+            if orderBy == 'nameAsc':
+                order = 'name'
+            elif orderBy == 'nameDesc':
+                order = '-name'
 
         elif searchBy == SearchForm.SEARCH_SONG:
             context['searchBy'] = 'song'
@@ -87,9 +94,31 @@ def search(request):
 
             if tabs == SearchForm.CHORDS_ONLY:
                 results = results.filter(tabs=False)
+
+            order_dict = {
+                'nameAsc' : 'title',
+                'nameDesc' : '-title',
+                'artistAsc' : 'artist__name',
+                'artistDesc' : '-artist__name',
+                'genreAsc' : 'genre',
+                'genreDesc' : '-genre',
+                'tabsAsc' : 'tabs',
+                'tabsDesc' : '-tabs',
+            }
+            order = order_dict[orderBy] if orderBy else ''
+
         else:
             context['searchBy'] = 'user'
             results = User.objects.filter(username__icontains=keywords)
+
+            if orderBy == 'nameAsc':
+                order = 'username'
+            elif orderBy == 'nameDesc':
+                order = '-username'
+
+        if order:
+            results = results.order_by(order)
+            return HttpResponse()
 
         context.update({'results' : results, 'query' : keywords})
 
