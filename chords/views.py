@@ -56,6 +56,9 @@ def popular(request):
     songs = Song.get_popular_songs()[:100]
     return render(request, 'chords/popular.html', {'songs' : songs})
 
+def recently_added(request):
+    return render(request, 'chords/recently_added.html', {})
+
 def search(request):
     searchBy = request.GET.get('searchBy', SearchForm.SEARCH_SONG)
     keywords = request.GET.get('keywords', '')
