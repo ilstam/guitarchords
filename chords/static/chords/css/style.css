@@ -22,8 +22,17 @@ label[for=id_content] {
     margin-bottom: 20px;
 }
 
-#popular_table_container {
+.table-container {
     max-width: 50%;
+    position: relative;
+}
+
+#popular_container {
+    left: -2%;
+}
+
+#recentlyadded_container {
+    left: -4%;
 }
 
 /* forms */

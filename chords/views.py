@@ -57,7 +57,8 @@ def popular(request):
     return render(request, 'chords/popular.html', {'songs' : songs})
 
 def recently_added(request):
-    return render(request, 'chords/recently_added.html', {})
+    songs = Song.objects.filter(published=True).order_by('-pub_date')[:100]
+    return render(request, 'chords/recently_added.html', {'songs' : songs})
 
 def search(request):
     searchBy = request.GET.get('searchBy', SearchForm.SEARCH_SONG)
