@@ -2,23 +2,23 @@ $(function() {
 
 $('#song_content').on('mouseover', '.chord', function() {
     $(this).children('img').css('visibility', 'visible');
-})
+});
 
 $('#song_content').on('mouseout', '.chord', function() {
     $(this).children('img').css('visibility', 'hidden');
-})
+});
 
 $('#hide_chords').click(function() {
     $('.chordline').toggle();
     $('#hide_chords').text(
         $('#hide_chords').text() == 'Hide chords' ? 'Show chords' : 'Hide chords');
-})
+});
 
 $('#hide_tabs').click(function() {
     $('.tabsline').toggle();
     $('#hide_tabs').text(
         $('#hide_tabs').text() == 'Hide tabs' ? 'Show tabs' : 'Hide tabs');
-})
+});
 
 $('#semiton_change').change(function() {
     var semitonsMove = parseInt($(this).find(':selected').text(), 10);
@@ -29,7 +29,7 @@ $('#semiton_change').change(function() {
             'src', '/static/chords/img/chords/' +
             encodeURIComponent(alterFlatChords(newSemiton)) + '.png');
     });
-})
+});
 
 $('#bookmark').click(function() {
     url = window.location.href;
@@ -40,11 +40,11 @@ $('#bookmark').click(function() {
         add_bookmark(url);
     else
         remove_bookmark(url);
-})
+});
 
 
 /**
- * Perform and AJAX request to bookmark a song.
+ * Perform an AJAX request to bookmark a song.
  *
  * @param url {String} url of the song to bookmark, always ends with '/'
  */
@@ -56,7 +56,7 @@ function add_bookmark(url) {
 }
 
 /**
- * Perform and AJAX request to unbookmark a song.
+ * Perform an AJAX request to unbookmark a song.
  *
  * @param url {String} url of the song to unbookmark, always ends with '/'
  */
