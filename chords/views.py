@@ -74,17 +74,10 @@ def search(request):
 
     if keywords:
         keyword_slug = slugify_greek(keywords)
-        order = ''
 
         if searchBy == SearchForm.SEARCH_ARTIST:
             context['searchBy'] = 'artist'
             results = Artist.objects.filter(slug__contains=keyword_slug)
-
-            if orderBy == 'nameAsc':
-                order = 'name'
-            elif orderBy == 'nameDesc':
-                order = '-name'
-
         elif searchBy == SearchForm.SEARCH_SONG:
             context['searchBy'] = 'song'
             results = Song.objects.filter(
@@ -92,36 +85,30 @@ def search(request):
 
             if genre != SearchForm.GENRE_ALL:
                 results = results.filter(genre=genre)
-
             if tabs == SearchForm.CHORDS_ONLY:
                 results = results.filter(tabs=False)
-
-            order_dict = {
-                'nameAsc' : 'title',
-                'nameDesc' : '-title',
-                'artistAsc' : 'artist__name',
-                'artistDesc' : '-artist__name',
-                'genreAsc' : 'genre',
-                'genreDesc' : '-genre',
-                'tabsAsc' : '-tabs',
-                'tabsDesc' : 'tabs',
-            }
-            order = order_dict[orderBy] if orderBy else ''
-
         else:
             context['searchBy'] = 'user'
             results = User.objects.filter(username__icontains=keywords)
 
-            if orderBy == 'nameAsc':
-                order = 'username'
-            elif orderBy == 'nameDesc':
-                order = '-username'
+        order_dict = {
+                SearchForm.SEARCH_ARTIST :
+                    {'nameAsc' : 'name', 'nameDesc' : '-name'},
+                SearchForm.SEARCH_SONG :
+                    {'nameAsc' : 'title', 'nameDesc' : '-title',
+                     'artistAsc' : 'artist__name', 'artistDesc' : '-artist__name',
+                     'genreAsc' : 'genre', 'genreDesc' : '-genre',
+                     'tabsAsc' : '-tabs', 'tabsDesc' : 'tabs'},
+                SearchForm.SEARCH_USER :
+                    {'nameAsc' : 'username', 'nameDesc' : '-username'},
+        }
 
-        if order:
-            context['results'] = results.order_by(order)
+        if orderBy:
+            context['results'] = results.order_by(order_dict[searchBy][orderBy])
             html = render_to_string('chords/search_results_body.html', context)
             return HttpResponse(html)
 
+        results = results.order_by(order_dict[searchBy]['nameAsc'])
         context.update({'results' : results, 'query' : keywords})
 
     return render(request, 'chords/search.html', context)
