@@ -1,4 +1,5 @@
 {% extends 'chords/base.html' %}
+{% load staticfiles %}
 {% load i18n %}
 
 {% block title %}Search{% endblock %}
@@ -11,7 +12,6 @@
 {% endif %}
 
 <form id="search_form" class="form-inline" action="{% url 'chords:search' %}" method="get">
-
     {% for field in form.visible_fields %}
         <div class="form-group">
             <label for="{{ field.auto_id }}">{{ field.label }}</label>
@@ -23,6 +23,7 @@
         <button type="submit" class="btn btn-primary">{% trans 'Search' %}</button>
     </div>
 </form>
+<input type="hidden" id="id_orderBy" value="nameAsc" />
 <br />
 
 {% if results %}
@@ -38,20 +39,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for result in results %}
-                <tr>
-                    {% if searchBy == 'song' %}
-                        <td><a href="{% url 'chords:song' result.slug %}">{{ result }}</a></td>
-                        <td><a href="{% url 'chords:artist' result.artist.slug %}">{{ result.artist.name }}</a></td>
-                        <td>{{ result.genre_str }}</td>
-                        <td>{% if result.tabs %}Yes{% else %}No{% endif %}</td>
-                    {% elif searchBy == 'artist' %}
-                        <td><a href="{% url 'chords:artist' result.slug %}">{{ result }}</a></td>
-                    {% else %}
-                        <td><a href="{% url 'chords:user' result.get_username %}">{{ result }}</a></td>
-                    {% endif %}
-                </tr>
-            {% endfor %}
+            {% include "chords/search_results_body.html" %}
         </tbody>
     </table>
     <p><strong>We found {{ results.count }} relative result{{ results.count|pluralize }}.</strong></p>
@@ -59,4 +47,8 @@
     <p><strong>No results matched your search criteria.</strong></p>
 {% endif %}
 
+{% endblock %}
+
+{% block scripts_block %}
+    <script src="{% static "chords/js/search_order_ajax.js" %}"></script>
 {% endblock %}

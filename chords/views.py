@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
+from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Q
@@ -102,8 +103,8 @@ def search(request):
                 'artistDesc' : '-artist__name',
                 'genreAsc' : 'genre',
                 'genreDesc' : '-genre',
-                'tabsAsc' : 'tabs',
-                'tabsDesc' : '-tabs',
+                'tabsAsc' : '-tabs',
+                'tabsDesc' : 'tabs',
             }
             order = order_dict[orderBy] if orderBy else ''
 
@@ -117,8 +118,9 @@ def search(request):
                 order = '-username'
 
         if order:
-            results = results.order_by(order)
-            return HttpResponse()
+            context['results'] = results.order_by(order)
+            html = render_to_string('chords/search_results_body.html', context)
+            return HttpResponse(html)
 
         context.update({'results' : results, 'query' : keywords})
 
