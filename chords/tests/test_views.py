@@ -557,25 +557,24 @@ class SearchViewTests(TestCase):
         response = self.client.get(reverse('chords:search'))
         self.assertContains(response, 'Search for songs, users and artists')
 
-    # this one does not work for some weird reason
-    # def test_search_view_with_a_published_song(self):
-        # """
-        # Search view should display published songs.
-        # """
-        # create_song(title='Random Song', published=True)
-        # response = self.client.get(reverse('chords:search') +
-            # '?searchBy=SO&keywords=Random')
-
-        # self.assertQuerysetEqual(response.context['results'],
-                                 # ['<Song: Random Song>'])
-        # self.assertContains(response, '1 relative result')
-
     def test_search_view_with_an_unpublished_song(self):
         """
         Search view should not display unpublished songs.
         """
         create_song(title='Random Song', published=False)
         response = self.client.get(reverse('chords:search') +
-            '?keywords=Random')
+            '?keywords=Random Song')
         self.assertQuerysetEqual(response.context['results'], [])
         self.assertContains(response, 'No results')
+
+    def test_search_view_with_a_song(self):
+        """
+        Search view should return all songs that their title match the given
+        keywords.
+        """
+        create_song(title='Random Song', published=True)
+        response = self.client.get(reverse('chords:search') +
+            '?searchBy={0}&keywords=Random Song'.format(SearchForm.SEARCH_SONG))
+
+        self.assertQuerysetEqual(response.context['results'],
+                                 ['<Song: Random Song>'])
