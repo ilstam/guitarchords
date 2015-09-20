@@ -578,3 +578,23 @@ class SearchViewTests(TestCase):
 
         self.assertQuerysetEqual(response.context['results'],
                                  ['<Song: Random Song>'])
+
+
+class RecentlyAddedViewTests(TestCase):
+    def test_with_unpublished_song(self):
+        """
+        Recently_added view should not display unpublished songs.
+        """
+        create_song(title='Unpublished', published=False)
+        response = self.client.get(reverse('chords:recently_added'))
+        self.assertQuerysetEqual(response.context['songs'], [])
+
+    def test_most_recent_comes_first(self):
+        """
+        Most recent songs must show up higher in the view.
+        """
+        create_song(title='Published First', published=True)
+        create_song(title='Published Second', published=True)
+        response = self.client.get(reverse('chords:recently_added'))
+        self.assertQuerysetEqual(response.context['songs'],
+                ['<Song: Published Second>', '<Song: Published First>'])
