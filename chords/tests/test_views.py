@@ -591,10 +591,39 @@ class RecentlyAddedViewTests(TestCase):
 
     def test_most_recent_comes_first(self):
         """
-        Most recent songs must show up higher in the view.
+        More recent songs must be displayed first in the recently_added view.
         """
         create_song(title='Published First', published=True)
         create_song(title='Published Second', published=True)
         response = self.client.get(reverse('chords:recently_added'))
         self.assertQuerysetEqual(response.context['songs'],
                 ['<Song: Published Second>', '<Song: Published First>'])
+
+
+class PopularViewTests(TestCase):
+    def test_with_unpublished_song(self):
+        """
+        Popular view should not display unpublished songs.
+        """
+        create_song(title='Unpublished', published=False)
+        response = self.client.get(reverse('chords:popular'))
+        self.assertQuerysetEqual(response.context['songs'], [])
+
+    def test_most_popular_comes_first(self):
+        """
+        More popular songs must be displayed first in the popular view.
+        """
+        song1 = create_song(title='Song1', published=True)
+        song2 = create_song(title='Song2', published=True)
+        song1.viewedBy.add(create_user(username='user1'))
+
+        response = self.client.get(reverse('chords:popular'))
+        self.assertQuerysetEqual(response.context['songs'],
+                                 ['<Song: Song1>', '<Song: Song2>'])
+
+        song2.viewedBy.add(create_user(username='user2'))
+        song2.viewedBy.add(create_user(username='user3'))
+
+        response = self.client.get(reverse('chords:popular'))
+        self.assertQuerysetEqual(response.context['songs'],
+                                 ['<Song: Song2>', '<Song: Song1>'])
