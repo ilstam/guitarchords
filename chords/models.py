@@ -143,3 +143,16 @@ class Song(models.Model):
         return Song.objects.filter(published=True).annotate(
                 popularity=Count('viewedBy') + 2 * Count('bookmarkedBy')
                ).order_by('-popularity')
+
+
+class Comment(models.Model):
+    pub_date = models.DateTimeField('date published', auto_now_add=True)
+    content = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True,
+                             related_name='comments')
+    song = models.ForeignKey(Song, on_delete=models.CASCADE,
+                             related_name='comments')
+
+    def save(self, slug_max_length=-1, *args, **kwargs):
+        self.content = strip_whitespace_lines(self.content)
+        super(Comment, self).save(*args, **kwargs)
