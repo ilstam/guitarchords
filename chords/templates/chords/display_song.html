@@ -4,6 +4,7 @@
         <br />
 
         <div id="song_content">{{ song.content }}</div> <br />
+
     </div>
 
     <div class="col-md-5 video">
@@ -53,3 +54,21 @@
         {% endif %}
     </div>
 </div>
+
+{% if not preview %}
+    <div class="row col-md-12">
+        <hr id="comment_seperator" />
+        <p><strong>Comments</strong></p> <br />
+        {% if comments %}
+            {% for comment in comments %}
+                <!--<p>On {{ comment.pub_date }} <a href="{% url 'chords:user' comment.user.get_username %}">{{ comment.user.get_username }}</a> wrote:</p>-->
+                <p><a href="{% url 'chords:user' comment.user.get_username %}">{{ comment.user.get_username }}</a> • {{ comment.pub_date }}</p>
+                <p>{{ comment.content }}</p>
+                <br />
+            {% endfor %}
+        {% else %}
+
+        {% endif %}
+        <p><a href="javascript:;" id="leave_comment">Leave a comment</a></p>
+    </div>
+{% endif %}

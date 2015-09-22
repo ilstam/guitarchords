@@ -85,6 +85,10 @@ ul {
     margin-top: 70px;
 }
 
+#comment_seperator {
+    margin-top: 0px;
+}
+
 /* misc */
 
 label[for=id_content] {

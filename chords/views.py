@@ -29,7 +29,8 @@ def song(request, song_slug):
     else:
         song = get_object_or_404(Song, slug=song_slug, published=True)
 
-    context.update({'song' : song, 'preview' : False})
+    comments = song.comments.all().order_by('pub_date')
+    context.update({'song' : song, 'preview' : False, 'comments' : comments})
     return render(request, 'chords/song.html', context)
 
 def song_json(request, song_slug):
