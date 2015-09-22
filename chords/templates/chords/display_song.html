@@ -1,3 +1,5 @@
+{% load bootstrap %}
+
 <div class="row">
     <div class="col-md-4">
         <h2>{{ song.title }}</h2>
@@ -61,7 +63,6 @@
         <p><strong>Comments</strong></p> <br />
         {% if comments %}
             {% for comment in comments %}
-                <!--<p>On {{ comment.pub_date }} <a href="{% url 'chords:user' comment.user.get_username %}">{{ comment.user.get_username }}</a> wrote:</p>-->
                 <p><a href="{% url 'chords:user' comment.user.get_username %}">{{ comment.user.get_username }}</a> • {{ comment.pub_date }}</p>
                 <p>{{ comment.content }}</p>
                 <br />
@@ -69,6 +70,14 @@
         {% else %}
 
         {% endif %}
-        <p><a href="javascript:;" id="leave_comment">Leave a comment</a></p>
+    </div>
+
+    <div class="row col-md-4">
+        <form method="post" action="">
+            {% csrf_token %}
+            {{ comment_form|bootstrap }}
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
     </div>
 {% endif %}
+

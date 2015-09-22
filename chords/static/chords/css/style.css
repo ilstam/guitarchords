@@ -32,6 +32,10 @@ ul {
     max-width: 700px;
 }
 
+#add_song_form label[for=id_content] {
+    display: none;
+}
+
 #search_form label {
     display: block;
 }
@@ -90,10 +94,6 @@ ul {
 }
 
 /* misc */
-
-label[for=id_content] {
-    display: none;
-}
 
 .header {
     margin-top: 0px;

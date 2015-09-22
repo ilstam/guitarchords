@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Song
+from .models import Song, Comment
 from .utils import strip_whitespace_lines
 
 
@@ -40,6 +40,20 @@ class AddSongForm(forms.ModelForm):
             self.cleaned_data['content'] = strip_whitespace_lines(
                     self.cleaned_data['content'])
         return self.cleaned_data
+
+
+class AddCommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        exclude = ['pub_date']
+
+        widgets = {
+            'user' : forms.HiddenInput(),
+            'song' : forms.HiddenInput(),
+        }
+        labels = {
+            'content' : 'Leave a comment',
+        }
 
 
 class SearchForm(forms.Form):

@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 
 from .models import Artist, Song
-from .forms import AddSongForm, SearchForm
+from .forms import AddSongForm, AddCommentForm, SearchForm
 from .utils import slugify_greek
 
 
@@ -30,8 +30,17 @@ def song(request, song_slug):
         song = get_object_or_404(Song, slug=song_slug, published=True)
 
     comments = song.comments.all().order_by('pub_date')
-    context.update({'song' : song, 'preview' : False, 'comments' : comments})
+    comment_form = AddCommentForm(initial={
+        'user' : request.user.get_username(),
+        'song' : song.slug})
+    context.update({'song' : song, 'preview' : False,
+                    'comments' : comments, 'comment_form' : comment_form})
     return render(request, 'chords/song.html', context)
+
+# @login_required
+# def leave_comment(request):
+    # print('TEST')
+    # return HttpResponse()
 
 def song_json(request, song_slug):
     song = get_object_or_404(Song, slug=song_slug, published=True)
