@@ -73,11 +73,15 @@
     </div>
 
     <div class="row col-md-4">
-        <form method="post" action="">
-            {% csrf_token %}
-            {{ comment_form|bootstrap }}
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+        {% if user.is_authenticated %}
+            <form method="post" action="">
+                {% csrf_token %}
+                {{ comment_form|bootstrap }}
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        {% else %}
+            <p>Please <a href="{% url 'auth_login' %}?next={{ request.path }}">log in</a>, to leave a comment.</p>
+        {% endif %}
     </div>
 {% endif %}
 
