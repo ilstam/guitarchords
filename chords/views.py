@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Q
 
-from .models import Artist, Song
+from .models import Artist, Song, Comment
 from .forms import AddSongForm, AddCommentForm, SearchForm
 from .utils import slugify_greek
 
@@ -36,11 +36,6 @@ def song(request, song_slug):
     context.update({'song' : song, 'preview' : False,
                     'comments' : comments, 'comment_form' : comment_form})
     return render(request, 'chords/song.html', context)
-
-# @login_required
-# def leave_comment(request):
-    # print('TEST')
-    # return HttpResponse()
 
 def song_json(request, song_slug):
     song = get_object_or_404(Song, slug=song_slug, published=True)
@@ -122,6 +117,20 @@ def search(request):
         context.update({'results' : results, 'query' : keywords})
 
     return render(request, 'chords/search.html', context)
+
+@login_required
+def add_comment(request):
+    username = request.POST.get('username', '')
+    song_slug = request.POST.get('song_slug', '')
+    content = request.POST.get('content', '')
+    user = get_object_or_404(User, username=username)
+    song = get_object_or_404(Song, slug=song_slug)
+
+    comment = Comment(user=user, song=song, content=content)
+    comment.save()
+
+    context = {'comment' : comment}
+    return HttpResponse(render_to_string('chords/display_comment.html', context))
 
 @login_required
 def add_bookmark(request, song_slug):

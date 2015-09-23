@@ -58,14 +58,12 @@
 </div>
 
 {% if not preview %}
-    <div class="row col-md-12">
+    <div class="row col-md-12" id="comments_row">
         <hr id="comment_seperator" />
         <p><strong>Comments</strong></p> <br />
         {% if comments %}
             {% for comment in comments %}
-                <p><a href="{% url 'chords:user' comment.user.get_username %}">{{ comment.user.get_username }}</a> • {{ comment.pub_date }}</p>
-                <p>{{ comment.content }}</p>
-                <br />
+                {% include "chords/display_comment.html" %}
             {% endfor %}
         {% else %}
 
@@ -74,7 +72,7 @@
 
     <div class="row col-md-4">
         {% if user.is_authenticated %}
-            <form method="post" action="">
+            <form id="comment_form" method="" action="">
                 {% csrf_token %}
                 {{ comment_form|bootstrap }}
                 <button type="submit" class="btn btn-primary">Submit</button>
@@ -84,4 +82,3 @@
         {% endif %}
     </div>
 {% endif %}
-

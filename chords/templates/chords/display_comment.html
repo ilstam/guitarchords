@@ -1,0 +1,5 @@
+<div class="comment">
+    <p><a href="{% url 'chords:user' comment.user.get_username %}">{{ comment.user.get_username }}</a> • {{ comment.pub_date }}</p>
+    <p>{{ comment.content }}</p>
+    <br />
+</div>

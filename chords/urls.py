@@ -20,4 +20,5 @@ urlpatterns = [
     url(r'^bookmarks/$', views.bookmarks, name='bookmarks'),
     url(song_path + '/add_bookmark/$', views.add_bookmark, name='add_bookmark'),
     url(song_path + '/remove_bookmark/$', views.remove_bookmark, name='remove_bookmark'),
+    url(r'^add_comment/$', views.add_comment, name='add_comment'),
 ]

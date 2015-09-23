@@ -131,4 +131,31 @@ $('#add_song_form').submit(function(event) {
     }
 });
 
+
+/**
+ * After validating the form, perform an AJAX POST request in order to save
+ * the new comment in the database and append it to the page.
+ */
+$('#comment_form').submit(function(event) {
+    event.preventDefault();
+
+    var content = $('#id_content');
+    if (! applyValidationError(content, content.val() != ''))
+        return;
+
+    var url = window.location.protocol + '//' + window.location.host + '/chords/add_comment/';
+    var data = {
+        username : $('#id_user').attr('value'),
+        song_slug : $('#id_song').attr('value'),
+        content : $('#id_content').val(),
+        csrfmiddlewaretoken : $('[name="csrfmiddlewaretoken"]').attr('value'),
+    };
+
+    $.post(url, data, function(data) {
+        $('#comments_row').append(data);
+    }).fail(function() {
+        // empty
+    });
+});
+
 });
