@@ -153,6 +153,7 @@ $('#comment_form').submit(function(event) {
 
     $.post(url, data, function(data) {
         $('#comments_row').append(data);
+        content.val('');
     }).fail(function() {
         // empty
     });
