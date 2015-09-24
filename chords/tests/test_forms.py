@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from chords.forms import AddSongForm, SearchForm
+from chords.forms import AddSongForm, AddCommentForm, SearchForm
 from .helper_functions import valid_song_data
 
 
@@ -31,6 +31,23 @@ class AddSongFormTests(TestCase):
         # invalid video url
         form = AddSongForm(data=valid_song_data(video='invalid_url'))
         self.assertFalse(form.is_valid())
+
+
+class AddCommentFormTests(TestCase):
+    def test_form_with_valid_data(self):
+        """
+        Form must be valid with sensible data.
+        """
+        data = {'username': 'username', 'song_slug' : 'slug', 'content' : 'content'}
+        form = AddCommentForm(data)
+        self.assertTrue(form.is_valid())
+
+    # def test_form_with_invalid_data(self):
+        # """
+        # Form cannot be valid if searchBy field is missing.
+        # """
+        # form = SearchForm()
+        # self.assertFalse(form.is_valid())
 
 
 class SearchFormTests(TestCase):

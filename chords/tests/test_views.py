@@ -363,6 +363,13 @@ class AddSongViewTests(LoginedTestCase):
         response = self.client.post(reverse('chords:add_song'), valid_song_data())
         self.assertEqual(response.status_code, 302)
 
+    # def retrele(self):
+        # user = create_user(username='admin')
+        # song = create_song(title='rita')
+        # response = self.client.post(reverse('chords:add_comment'), {'username' : user.get_username(), 'song_slug' : song.slug, 'content' : 'comment re'})
+        # print(response.status_code)
+        # self.assertEqual(response.status_code, 302)
+
     def test_addsong_view_with_invalid_input(self):
         """
         The add_song view must return an appropriate message for each case of

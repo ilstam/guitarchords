@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse, JsonResponse
+from django.http import Http404, HttpResponse, JsonResponse
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -120,6 +120,9 @@ def search(request):
 
 @login_required
 def add_comment(request):
+    if request.method != 'POST':
+        return Http404()
+
     username = request.POST.get('username', '')
     song_slug = request.POST.get('song_slug', '')
     content = request.POST.get('content', '')
