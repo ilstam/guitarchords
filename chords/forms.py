@@ -50,6 +50,7 @@ class AddCommentForm(forms.ModelForm):
         widgets = {
             'user' : forms.HiddenInput(),
             'song' : forms.HiddenInput(),
+            'content' : forms.Textarea(attrs={'rows': 8}),
         }
         labels = {
             'content' : 'Leave a comment',
