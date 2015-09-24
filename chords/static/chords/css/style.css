@@ -58,7 +58,7 @@ textarea {
 
 /* song */
 
-#song_content {
+#song_content, .comment_content {
     white-space: pre;
 }
 

@@ -153,6 +153,6 @@ class Comment(models.Model):
     song = models.ForeignKey(Song, on_delete=models.CASCADE,
                              related_name='comments')
 
-    def save(self, slug_max_length=-1, *args, **kwargs):
+    def save(self, *args, **kwargs):
         self.content = strip_whitespace_lines(self.content)
         super(Comment, self).save(*args, **kwargs)
