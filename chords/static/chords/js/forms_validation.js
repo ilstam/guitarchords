@@ -140,7 +140,7 @@ $('#comment_form').submit(function(event) {
     event.preventDefault();
 
     var content = $('#id_content');
-    if (! applyValidationError(content, content.val() != ''))
+    if (! applyValidationError(content, $.trim(content.val()) != ''))
         return;
 
     var url = window.location.protocol + '//' + window.location.host + '/chords/add_comment/';
