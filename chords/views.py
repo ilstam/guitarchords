@@ -121,13 +121,13 @@ def search(request):
 @login_required
 def add_comment(request):
     if request.method != 'POST':
-        return HttpResponse(status=404)
+        return HttpResponse(status=400) # Bad Request
 
     username = request.POST.get('username', '')
     song_slug = request.POST.get('song_slug', '')
     content = request.POST.get('content', '')
     if not content:
-        return HttpResponse(status=404)
+        return HttpResponse(status=422) # Unprocessable Entity
 
     user = get_object_or_404(User, username=username)
     song = get_object_or_404(Song, slug=song_slug)
