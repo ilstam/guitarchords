@@ -363,13 +363,6 @@ class AddSongViewTests(LoginedTestCase):
         response = self.client.post(reverse('chords:add_song'), valid_song_data())
         self.assertEqual(response.status_code, 302)
 
-    # def retrele(self):
-        # user = create_user(username='admin')
-        # song = create_song(title='rita')
-        # response = self.client.post(reverse('chords:add_comment'), {'username' : user.get_username(), 'song_slug' : song.slug, 'content' : 'comment re'})
-        # print(response.status_code)
-        # self.assertEqual(response.status_code, 302)
-
     def test_addsong_view_with_invalid_input(self):
         """
         The add_song view must return an appropriate message for each case of
@@ -396,6 +389,59 @@ class AddSongViewTests(LoginedTestCase):
                 valid_song_data(video='invalid_url'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Enter a valid URL.')
+
+
+class AddCommentViewTests(LoginedTestCase):
+    def test_with_valid_data(self):
+        """
+        After posting to the add_comment view with valid data, one more comment
+        should be assigned to the corresponding user and song.
+        """
+        song = create_song(title='rita')
+        user_comments = self.user.comments.count()
+        song_comments = song.comments.count()
+
+        data = {'username' : self.user.get_username(), 'song_slug' : song.slug,
+                'content' : 'comment'}
+        response = self.client.post(reverse('chords:add_comment'), data)
+        self.assertEqual(response.status_code, 200)
+
+        self.assertEqual(self.user.comments.count(), user_comments + 1)
+        self.assertEqual(song.comments.count(), song_comments + 1)
+
+    def test_with_invalid_data(self):
+        """
+        Add_comment view should return a 404 if we submit invalid data to it.
+        """
+        song = create_song(title='rita')
+        user_comments = self.user.comments.count()
+        song_comments = song.comments.count()
+
+        # user doesn't exist
+        data = {'username' : 'u', 'song_slug' : song.slug, 'content' : 'comment'}
+        response = self.client.post(reverse('chords:add_comment'), data)
+        self.assertEqual(response.status_code, 404)
+
+        # song doesn't exist
+        data = {'username' : self.user.get_username(), 'song_slug' : 'slug',
+                'content' : 'comment'}
+        response = self.client.post(reverse('chords:add_comment'), data)
+        self.assertEqual(response.status_code, 404)
+
+        # comment is missing
+        data = {'username' : self.user.get_username(), 'song_slug' : song.slug,
+                'comment' : ''}
+        response = self.client.post(reverse('chords:add_comment'), data)
+        self.assertEqual(response.status_code, 404)
+
+        # submit GET request with valid data
+        data = {'username' : self.user.get_username(), 'song_slug' : song.slug,
+                'content' : 'comment'}
+        response = self.client.get(reverse('chords:add_comment'), data)
+        self.assertEqual(response.status_code, 404)
+
+        self.assertEqual(self.user.comments.count(), user_comments)
+        self.assertEqual(song.comments.count(), song_comments)
 
 
 class VerifySongViewTests(LoginedTestCase):
