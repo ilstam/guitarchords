@@ -1,0 +1,6 @@
+# recaptcha settings
+
+RECAPTCHA_PUBLIC_KEY = '6Le9nQ0TAAAAALp08H8WCEg3EVZzwWZ3d7xJ4JoN'
+RECAPTCHA_PRIVATE_KEY = '6Le9nQ0TAAAAAJl93EqP0M0loXz_EVe_KXLl7DzP'
+
+NOCAPTCHA = True  # if True, use the new No Captcha reCaptcha

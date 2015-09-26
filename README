@@ -5,10 +5,11 @@ Users can view and send song lyrics, guitar chords and tabs.
 
 Requires
 ---------
-python3,
-django (tested with 1.8 version only)
+python3
+django (tested with version 1.8 only)
 django-registration-redux
 django-password-validation
+django-recaptcha
 django-bootstrap-form
 
 Uses

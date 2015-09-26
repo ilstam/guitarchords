@@ -3,6 +3,8 @@ from django import forms
 from .models import Song, Comment
 from .utils import strip_whitespace_lines
 
+from captcha.fields import ReCaptchaField
+
 
 class AddSongForm(forms.ModelForm):
     artist_txt = forms.CharField(
@@ -43,6 +45,8 @@ class AddSongForm(forms.ModelForm):
 
 
 class AddCommentForm(forms.ModelForm):
+    captcha = ReCaptchaField()
+
     class Meta:
         model = Comment
         exclude = ['pub_date']

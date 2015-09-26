@@ -15,6 +15,7 @@ import os
 
 from .registration_settings import *
 from .mail_settings import *
+from .recaptcha_settings import *
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -44,6 +45,7 @@ INSTALLED_APPS = (
     'registration',
     'password_validation',
     'bootstrapform',
+    'captcha',
     'chords',
 )
 
