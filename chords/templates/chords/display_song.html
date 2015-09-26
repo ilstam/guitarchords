@@ -72,7 +72,7 @@
 
     <div class="row col-md-4">
         {% if user.is_authenticated %}
-            <form id="comment_form" method="" action="">
+            <form id="comment_form" method="POST" action="{% url 'chords:add_comment' %}">
                 {% csrf_token %}
                 {{ comment_form|bootstrap }}
                 <button type="submit" class="btn btn-primary">Submit</button>

@@ -143,7 +143,7 @@ $('#comment_form').submit(function(event) {
     if (! applyValidationError(content, $.trim(content.val()) != ''))
         return;
 
-    var url = window.location.protocol + '//' + window.location.host + '/chords/add_comment/';
+    var url = $('#comment_form').attr('action');
     var data = {
         username : $('#id_user').attr('value'),
         song_slug : $('#id_song').attr('value'),
