@@ -603,34 +603,123 @@ class RemoveBookmarkViewTests(LoginedTestCase):
 
 
 class SearchViewTests(TestCase):
-    def test_search_view_without_query(self):
+    def test_without_query(self):
         """
         Search view should display published songs.
         """
         response = self.client.get(reverse('chords:search'))
         self.assertContains(response, 'Search for songs, users and artists')
 
-    def test_search_view_with_an_unpublished_song(self):
+    def test_search_user(self):
+        """
+        Search view should search for users when requested.
+        """
+        create_user(username='User')
+        create_song(title='User', published=True)
+
+        response = self.client.get(reverse('chords:search') +
+            '?searchBy={0}&keywords=User'.format(SearchForm.SEARCH_USER))
+        self.assertQuerysetEqual(response.context['results'], ['<User: User>'])
+
+    def test_search_artist(self):
+        """
+        Search view should search for artists when requested.
+        """
+        create_artist(name='Artist')
+        create_user(username='Artist')
+
+        response = self.client.get(reverse('chords:search') +
+            '?searchBy={0}&keywords=Artist'.format(SearchForm.SEARCH_ARTIST))
+        self.assertQuerysetEqual(response.context['results'], ['<Artist: Artist>'])
+
+    def test_search_song_with_an_unpublished_song(self):
         """
         Search view should not display unpublished songs.
         """
         create_song(title='Random Song', published=False)
         response = self.client.get(reverse('chords:search') +
-            '?keywords=Random Song')
+            '?searchBy={0}&keywords=Random Song'.format(SearchForm.SEARCH_SONG))
         self.assertQuerysetEqual(response.context['results'], [])
         self.assertContains(response, 'No results')
 
-    def test_search_view_with_a_song(self):
+    def test_search_song_with_no_exact_title(self):
         """
-        Search view should return all songs that their title match the given
-        keywords.
+        Search view should match a song even when only a part of the title is
+        given and by ingoring case.
         """
-        create_song(title='Random Song', published=True)
+        create_song(title='Song', published=True)
+
+        for k in ['song', 'SONG', 'sOnG', 'σονγ', ' song ', 'on', 's']:
+            response = self.client.get(reverse('chords:search') +
+                '?searchBy={0}&keywords={1}'.format(SearchForm.SEARCH_SONG, k))
+            self.assertQuerysetEqual(response.context['results'], ['<Song: Song>'])
+
+    def test_search_song_results_are_sorted_by_name_ascending(self):
+        """
+        The resuls must be sorted by name in ascending order.
+        """
+        create_song(title='Beta Song', published=True)
+        create_song(title='Gamma Song', published=True)
+        create_song(title='Alpha Song', published=True)
         response = self.client.get(reverse('chords:search') +
-            '?searchBy={0}&keywords=Random Song'.format(SearchForm.SEARCH_SONG))
+            '?searchBy={0}&keywords=Song'.format(SearchForm.SEARCH_SONG))
 
         self.assertQuerysetEqual(response.context['results'],
-                                 ['<Song: Random Song>'])
+            ['<Song: Alpha Song>', '<Song: Beta Song>', '<Song: Gamma Song>'])
+
+    def test_search_song_genre_all_or_specific(self):
+        """
+        Searh view must return only songs of the requested genre.
+        """
+        s1 = create_song(title='Song Rock', genre=Song.ROCK, published=True)
+        s2 = create_song(title='Song Blues', genre=Song.BLUES, published=True)
+
+        # by default all genres are included
+        response = self.client.get(reverse('chords:search') +
+            '?searchBy={0}&keywords=Song'.format(SearchForm.SEARCH_SONG))
+        self.assertQuerysetEqual(response.context['results'],
+                ['<Song: Song Blues>', '<Song: Song Rock>'])
+
+        # test GENRE_ALL option
+        response = self.client.get(reverse('chords:search') +
+            '?searchBy={0}&genre={1}&keywords=Song'.format(
+                SearchForm.SEARCH_SONG, SearchForm.GENRE_ALL))
+        self.assertQuerysetEqual(response.context['results'],
+                ['<Song: Song Blues>', '<Song: Song Rock>'])
+
+        # test that we get only rock songs
+        response = self.client.get(reverse('chords:search') +
+            '?searchBy={0}&genre={1}&keywords=Song'.format(
+                SearchForm.SEARCH_SONG, Song.ROCK))
+        self.assertQuerysetEqual(response.context['results'],
+                ['<Song: Song Rock>'])
+
+    def test_search_song_include_tabs(self):
+        """
+        Searh view must not return songs with tabs when not requested.
+        """
+        s1 = create_song(title='Song Tabs', tabs=True, published=True)
+        s2 = create_song(title='Song Chords', tabs=False, published=True)
+
+        # by default include tabs
+        response = self.client.get(reverse('chords:search') +
+            '?searchBy={0}&keywords=Song'.format(SearchForm.SEARCH_SONG))
+        self.assertQuerysetEqual(response.context['results'],
+                ['<Song: Song Chords>', '<Song: Song Tabs (+t)>'])
+
+        # test INCLUDE_TABS option
+        response = self.client.get(reverse('chords:search') +
+            '?searchBy={0}&tabs={1}&keywords=Song'.format(
+                SearchForm.SEARCH_SONG, SearchForm.INCLUDE_TABS))
+        self.assertQuerysetEqual(response.context['results'],
+                ['<Song: Song Chords>', '<Song: Song Tabs (+t)>'])
+
+        # test CHORDS_ONLY option
+        response = self.client.get(reverse('chords:search') +
+            '?searchBy={0}&tabs={1}&keywords=Song'.format(
+                SearchForm.SEARCH_SONG, SearchForm.CHORDS_ONLY))
+        self.assertQuerysetEqual(response.context['results'],
+                ['<Song: Song Chords>'])
 
 
 class RecentlyAddedViewTests(TestCase):
