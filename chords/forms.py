@@ -94,3 +94,10 @@ class SearchForm(forms.Form):
 
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
+
+
+class ContactForm(forms.Form):
+    name = forms.CharField(label='Name', max_length=100)
+    email = forms.EmailField(label='Email', max_length=100)
+    subject = forms.CharField(label='Subject', max_length=100)
+    body = forms.CharField(label='Your message', widget=forms.Textarea())

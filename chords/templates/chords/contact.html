@@ -6,6 +6,15 @@
 
 {% block body_block %}
 
+<form id="contact_form" method="post" action="{% url 'chords:contact' %}">
+    {% csrf_token %}
+    <h3>Contact</h3>
+    <hr />
+
+    {{ form|bootstrap }}
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
 {% endblock %}
 
 {% block scripts_block %}

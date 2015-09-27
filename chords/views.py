@@ -8,7 +8,7 @@ from django.db.models import Q
 import os
 
 from .models import Artist, Song, Comment
-from .forms import AddSongForm, AddCommentForm, SearchForm
+from .forms import AddSongForm, AddCommentForm, ContactForm, SearchForm
 from .utils import slugify_greek
 
 
@@ -121,7 +121,12 @@ def search(request):
     return render(request, 'chords/search.html', context)
 
 def contact(request):
-    return render(request, 'chords/contact.html', {})
+    if request.user.is_authenticated():
+        form = ContactForm(initial={'email' : request.user.email})
+    else:
+        form = ContactForm()
+
+    return render(request, 'chords/contact.html', {'form' : form})
 
 @login_required
 def add_comment(request):

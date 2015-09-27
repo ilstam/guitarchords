@@ -60,6 +60,10 @@ textarea {
     display: none;
 }
 
+#contact_form {
+    max-width: 400px;
+}
+
 /* song */
 
 #song_content, .comment_content {
