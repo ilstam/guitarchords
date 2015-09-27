@@ -3,6 +3,8 @@ from django.core.urlresolvers import reverse
 from django.http import JsonResponse
 from django.http.response import Http404
 
+import os
+
 from chords.models import Song
 from chords.forms import SearchForm
 from chords.views import user as user_view, song as song_view, search as search_view
@@ -397,12 +399,14 @@ class AddCommentViewTests(LoginedTestCase):
         After posting to the add_comment view with valid data, one more comment
         should be assigned to the corresponding user and song.
         """
-        song = create_song(title='rita')
+        os.environ['RECAPTCHA_TESTING'] = 'True'
+
+        song = create_song()
         user_comments = self.user.comments.count()
         song_comments = song.comments.count()
 
-        data = {'username' : self.user.get_username(), 'song_slug' : song.slug,
-                'content' : 'comment'}
+        data = {'user' : self.user.id, 'song' : song.id,
+                'content' : 'comment', 'testing' : 'True'}
         response = self.client.post(reverse('chords:add_comment'), data)
         self.assertEqual(response.status_code, 200)
 
@@ -414,31 +418,28 @@ class AddCommentViewTests(LoginedTestCase):
         Add_comment view should return responses with appropriate status codes
         when we submit invalid data to it.
         """
-        song = create_song(title='rita')
+        os.environ['RECAPTCHA_TESTING'] = 'True'
+
+        song = create_song()
         user_comments = self.user.comments.count()
         song_comments = song.comments.count()
 
-        # user doesn't exist, we should get 404 Not Found
-        data = {'username' : 'u', 'song_slug' : song.slug, 'content' : 'comment'}
+        # user doesn't exist
+        data = {'user' : 'u', 'song' : song.id, 'content' : 'comment',
+                'testing' : 'True'}
         response = self.client.post(reverse('chords:add_comment'), data)
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 400)
 
-        # song doesn't exist, we should get 404 Not Found
-        data = {'username' : self.user.get_username(), 'song_slug' : 'slug',
-                'content' : 'comment'}
+        # song doesn't exist
+        data = {'user' : self.user.id, 'song' : 'slug', 'content' : 'comment',
+                'testing' : 'True'}
         response = self.client.post(reverse('chords:add_comment'), data)
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 400)
 
-        # comment is missing, we should get 422  Unprocessable Entity
-        data = {'username' : self.user.get_username(), 'song_slug' : song.slug,
-                'comment' : ''}
+        # comment is missing
+        data = {'user' : self.user.id, 'song' : song.slug, 'comment' : '',
+                'testing' : 'True'}
         response = self.client.post(reverse('chords:add_comment'), data)
-        self.assertEqual(response.status_code, 422)
-
-        # submit GET instead of POST request, we should get 400 Bad Request
-        data = {'username' : self.user.get_username(), 'song_slug' : song.slug,
-                'content' : 'comment'}
-        response = self.client.get(reverse('chords:add_comment'), data)
         self.assertEqual(response.status_code, 400)
 
         self.assertEqual(self.user.comments.count(), user_comments)
