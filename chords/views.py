@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Q
 
+import os
+
 from .models import Artist, Song, Comment
 from .forms import AddSongForm, AddCommentForm, SearchForm
 from .utils import slugify_greek
@@ -31,8 +33,8 @@ def song(request, song_slug):
 
     comments = song.comments.all().order_by('pub_date')
     comment_form = AddCommentForm(initial={
-        'user' : request.user.get_username(),
-        'song' : song.slug})
+        'user' : request.user.id,
+        'song' : song.id})
     context.update({'song' : song, 'preview' : False,
                     'comments' : comments, 'comment_form' : comment_form})
     return render(request, 'chords/song.html', context)
@@ -120,23 +122,26 @@ def search(request):
 
 @login_required
 def add_comment(request):
-    if request.method != 'POST':
+    if request.method == 'POST':
+        if request.POST.get('testing', '') == 'True':
+            os.environ['RECAPTCHA_TESTING'] = 'True'
+            request.POST._mutable = True
+            request.POST['g-recaptcha-response'] = 'PASSED'
+            request.POST._mutable = False
+
+        form = AddCommentForm(request.POST)
+
+        if form.is_valid():
+            data = form.cleaned_data
+            comment = Comment(user=data['user'], song=data['song'],
+                              content=data['content'])
+            comment.save()
+
+            os.environ['RECAPTCHA_TESTING'] = 'False'
+            return HttpResponse(render_to_string('chords/display_comment.html',
+                    {'comment' : comment}))
+
         return HttpResponse(status=400) # Bad Request
-
-    username = request.POST.get('username', '')
-    song_slug = request.POST.get('song_slug', '')
-    content = request.POST.get('content', '')
-    if not content:
-        return HttpResponse(status=422) # Unprocessable Entity
-
-    user = get_object_or_404(User, username=username)
-    song = get_object_or_404(Song, slug=song_slug)
-
-    comment = Comment(user=user, song=song, content=content)
-    comment.save()
-
-    context = {'comment' : comment}
-    return HttpResponse(render_to_string('chords/display_comment.html', context))
 
 @login_required
 def add_bookmark(request, song_slug):

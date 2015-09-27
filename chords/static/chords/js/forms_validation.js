@@ -134,7 +134,8 @@ $('#add_song_form').submit(function(event) {
 
 /**
  * After validating the form, perform an AJAX POST request in order to save
- * the new comment in the database and append it to the page.
+ * the new comment in the database and append it to the page. After
+ * successfully posting a comment, ignore the recaptcha field.
  */
 $('#comment_form').submit(function(event) {
     event.preventDefault();
@@ -143,19 +144,24 @@ $('#comment_form').submit(function(event) {
     if (! applyValidationError(content, $.trim(content.val()) != ''))
         return;
 
-    var url = $('#comment_form').attr('action');
     var data = {
-        username : $('#id_user').attr('value'),
-        song_slug : $('#id_song').attr('value'),
-        content : $('#id_content').val(),
         csrfmiddlewaretoken : $('[name="csrfmiddlewaretoken"]').attr('value'),
+        user : $('#id_user').attr('value'),
+        song : $('#id_song').attr('value'),
+        content : $('#id_content').val(),
     };
+
+    if ($('.g-recaptcha').css('display') == 'none')
+        data['testing'] = 'True';
+    else
+        data['g-recaptcha-response'] = $('#g-recaptcha-response').val();
+
+    var url = $('#comment_form').attr('action');
 
     $.post(url, data, function(data) {
         $('#comments_row').append(data);
         content.val('');
-    }).fail(function() {
-        // empty
+        $('.g-recaptcha').css('display', 'none');
     });
 });
 
