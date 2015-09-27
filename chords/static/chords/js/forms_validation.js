@@ -112,25 +112,39 @@ $('#add_song_form').submit(function(event) {
     var artist = $('#id_artist_txt');
     var content = $('#id_content');
 
-    if (! applyValidationError(content, content.val() != '')) {
+    if (! applyValidationError(content, $.trim(content.val()) != '')) {
         event.preventDefault();
         var _top = content.position().top;
         $(window).scrollTop(_top);
     }
 
-    if (! applyValidationError(artist, artist.val() != '')) {
+    if (! applyValidationError(artist, $.trim(artist.val()) != '')) {
         event.preventDefault();
         var _top = artist.parent().siblings('label').position().top;
         $(window).scrollTop(_top);
     }
 
-    if (! applyValidationError(title, title.val() != '')) {
+    if (! applyValidationError(title, $.trim(title.val()) != '')) {
         event.preventDefault();
         var _top = title.parent().siblings('label').position().top;
         $(window).scrollTop(_top);
     }
 });
 
+$('#contact_form').submit(function(event) {
+    var name = $('#id_name');
+    var email = $('#id_email');
+    var subject = $('#id_subject');
+    var body = $('#id_body');
+
+    var v1 = (! applyValidationError(name, $.trim(name.val()) != ''));
+    var v2 = (! applyValidationError(email, $.trim(email.val()) != ''));
+    var v3 = (! applyValidationError(subject, $.trim(subject.val()) != ''));
+    var v4 = (! applyValidationError(body, $.trim(body.val()) != ''));
+
+    if (v1 || v2 || v3 || v4)
+        event.preventDefault();
+});
 
 /**
  * After validating the form, perform an AJAX POST request in order to save

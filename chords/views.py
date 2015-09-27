@@ -4,6 +4,8 @@ from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Q
+from django.core.mail import send_mail
+from django.conf import settings
 
 import os
 
@@ -121,12 +123,25 @@ def search(request):
     return render(request, 'chords/search.html', context)
 
 def contact(request):
-    if request.user.is_authenticated():
-        form = ContactForm(initial={'email' : request.user.email})
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            to_email = getattr(settings, 'REGISTRATION_DEFAULT_FROM_EMAIL',
+                               settings.DEFAULT_FROM_EMAIL)
+            send_mail(data['subject'], data['body'], data['email'],
+                      [to_email], fail_silently=False)
+            return redirect('chords:contact_done')
     else:
-        form = ContactForm()
+        if request.user.is_authenticated():
+            form = ContactForm(initial={'email' : request.user.email})
+        else:
+            form = ContactForm()
 
     return render(request, 'chords/contact.html', {'form' : form})
+
+def contact_done(request):
+    return render(request, 'chords/contact_done.html', {})
 
 @login_required
 def add_comment(request):

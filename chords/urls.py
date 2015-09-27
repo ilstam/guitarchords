@@ -22,4 +22,5 @@ urlpatterns = [
     url(song_path + '/remove_bookmark/$', views.remove_bookmark, name='remove_bookmark'),
     url(r'^add_comment/$', views.add_comment, name='add_comment'),
     url(r'^contact/$', views.contact, name='contact'),
+    url(r'^contact_done/$', views.contact_done, name='contact_done'),
 ]
