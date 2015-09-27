@@ -15,7 +15,7 @@ from .utils import slugify_greek
 def index(request):
     if 'song_data' in request.session:
         del request.session['song_data']
-    recent_songs = Song.objects.filter(published=True).order_by('-pub_date')[:5]
+    recent_songs = Song.get_recent_songs()[:5]
     popular_songs = Song.get_popular_songs()[:5]
     context = {'recent_songs' : recent_songs, 'popular_songs' : popular_songs}
     return render(request, 'chords/index.html', context)
@@ -65,7 +65,7 @@ def popular(request):
     return render(request, 'chords/popular.html', {'songs' : songs})
 
 def recently_added(request):
-    songs = Song.objects.filter(published=True).order_by('-pub_date')[:100]
+    songs = Song.get_recent_songs()[:100]
     return render(request, 'chords/recently_added.html', {'songs' : songs})
 
 def search(request):

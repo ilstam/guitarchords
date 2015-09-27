@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import Count
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.core.cache import cache
 
 from .utils import generate_unique_slug, strip_whitespace_lines
 
@@ -79,8 +80,10 @@ class Song(models.Model):
 
         if self.published and self.pub_date is None:
             self.pub_date = timezone.now()
+            cache.delete('most_recent_songs')
         elif not self.published and self.pub_date is not None:
             self.pub_date = None
+            cache.delete('most_recent_songs')
 
         if self.video:
             self.video = self.get_embed_video_url()
@@ -140,9 +143,29 @@ class Song(models.Model):
 
     @staticmethod
     def get_popular_songs():
-        return Song.objects.filter(published=True).annotate(
+        songs = cache.get('most_popular_songs', None)
+        if songs is not None:
+            return songs
+
+        # print("DB READ - most popular songs")
+        songs = Song.objects.filter(published=True).annotate(
                 popularity=Count('viewedBy') + 2 * Count('bookmarkedBy')
-               ).order_by('-popularity')
+                ).order_by('-popularity')
+
+        # cache the result for a day
+        cache.set('most_popular_songs', songs, 86400)
+        return songs
+
+    @staticmethod
+    def get_recent_songs():
+        songs = cache.get('most_recent_songs', None)
+        if songs is not None:
+            return songs
+
+        # print("DB READ - most recent songs")
+        songs = Song.objects.filter(published=True).order_by('-pub_date')
+        cache.set('most_recent_songs', songs)
+        return songs
 
 
 class Comment(models.Model):
