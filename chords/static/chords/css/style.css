@@ -129,6 +129,7 @@ textarea {
 
 .footer {
     max-width: 525px;
+    margin-bottom: 20px;
 }
 
 /* apply to bootstrap classes */

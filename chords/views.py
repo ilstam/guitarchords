@@ -120,6 +120,9 @@ def search(request):
 
     return render(request, 'chords/search.html', context)
 
+def contact(request):
+    return render(request, 'chords/contact.html', {})
+
 @login_required
 def add_comment(request):
     if request.method == 'POST':
