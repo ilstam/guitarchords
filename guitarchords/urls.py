@@ -22,7 +22,7 @@ from registration.backends.default.views import RegistrationView
 from registration.forms import RegistrationFormUniqueEmail
 from password_validation import validate_password
 
-from chords.sitemaps import SongsSitemap
+from chords.sitemaps import StaticViewSitemap, ArtistSitemap, SongSitemap, UserSitemap
 
 
 class RegistrationViewUniqueEmailPasswordValidation(RegistrationView):
@@ -41,8 +41,17 @@ def login_user(request):
     return auth.views.login(request, 'registration/login.html')
 
 
+sitemaps = {
+    'static' : StaticViewSitemap,
+    'songs' : SongSitemap,
+    'artists' : ArtistSitemap,
+    'users' : UserSitemap,
+}
+
+
 urlpatterns = [
-    url(r'^sitemap\.xml$', sitemap_view, {'sitemaps' : {'chords' : SongsSitemap()}}),
+    url(r'^sitemap\.xml$', sitemap_view, {'sitemaps': sitemaps},
+        name='django.contrib.sitemaps.views.sitemap'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^chords/', include('chords.urls', namespace='chords')),
     url(r'^accounts/login/$', login_user, name='auth_login'),
