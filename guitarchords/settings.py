@@ -100,6 +100,18 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Caching
+# https://docs.djangoproject.com/en/1.8/topics/cache/
+
+DUMMY_CACHE = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    }
+}
+
+if DEBUG:
+    CACHES = DUMMY_CACHE
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 

@@ -1,7 +1,9 @@
 from django.test import TestCase, RequestFactory
+from django.test.utils import override_settings
 from django.core.urlresolvers import reverse
 from django.http import JsonResponse
 from django.http.response import Http404
+from django.conf import settings
 
 import os
 
@@ -23,6 +25,7 @@ class LoginedTestCase(TestCase):
 
 
 class IndexViewTests(TestCase):
+    @override_settings(CACHES=settings.DUMMY_CACHE)
     def test_index_view_with_no_songs(self):
         """
         If no songs exist, an appropriate message should be displayed.
@@ -44,6 +47,7 @@ class IndexViewTests(TestCase):
         self.assertQuerysetEqual(response.context['recent_songs'],
                                  ['<Song: Random Song>'])
 
+    @override_settings(CACHES=settings.DUMMY_CACHE)
     def test_index_view_with_an_unpublished_song(self):
         """
         Recently unpublished songs should not be displayed on the index page.
@@ -65,6 +69,7 @@ class IndexViewTests(TestCase):
         self.assertQuerysetEqual(response.context['recent_songs'],
                                  ['<Song: Random Song>'])
 
+    @override_settings(CACHES=settings.DUMMY_CACHE)
     def test_index_view_display_more_popular_songs_first(self):
         """
         More popular songs should be displayed first in the index view.
@@ -725,6 +730,7 @@ class SearchViewTests(TestCase):
 
 
 class RecentlyAddedViewTests(TestCase):
+    @override_settings(CACHES=settings.DUMMY_CACHE)
     def test_with_unpublished_song(self):
         """
         Recently_added view should not display unpublished songs.
@@ -745,6 +751,7 @@ class RecentlyAddedViewTests(TestCase):
 
 
 class PopularViewTests(TestCase):
+    @override_settings(CACHES=settings.DUMMY_CACHE)
     def test_with_unpublished_song(self):
         """
         Popular view should not display unpublished songs.
@@ -753,6 +760,7 @@ class PopularViewTests(TestCase):
         response = self.client.get(reverse('chords:popular'))
         self.assertQuerysetEqual(response.context['songs'], [])
 
+    @override_settings(CACHES=settings.DUMMY_CACHE)
     def test_most_popular_comes_first(self):
         """
         More popular songs must be displayed first in the popular view.
