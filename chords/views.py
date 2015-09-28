@@ -13,6 +13,13 @@ from .forms import AddSongForm, AddCommentForm, ContactForm, SearchForm
 from .utils import slugify_greek
 
 
+class LoginRequiredMixin(object):
+    @classmethod
+    def as_view(cls, **initkwargs):
+        view = super(LoginRequiredMixin, cls).as_view(**initkwargs)
+        return login_required(view)
+
+
 def index(request):
     if 'song_data' in request.session:
         del request.session['song_data']
@@ -122,8 +129,8 @@ def search(request):
     return render(request, 'chords/search.html', context)
 
 class ContactView(FormView):
-    template_name = 'chords/contact.html'
     form_class = ContactForm
+    template_name = 'chords/contact.html'
     success_url = reverse_lazy('chords:contact_done')
 
     def get_initial(self):
@@ -181,18 +188,18 @@ def bookmarks(request):
             ).order_by('artist__name', 'title')
     return render(request, 'chords/bookmarks.html', {'songs' : songs})
 
-@login_required
-def add_song(request):
-    if request.method == 'POST':
-        form = AddSongForm(request.POST)
-        if form.is_valid():
-            request.session['song_data'] = form.cleaned_data
-            request.session['song_data']['user_txt'] = request.user.get_username()
-            return redirect('chords:verify_song')
-    else:
-        form = AddSongForm(initial=request.session.get('song_data', None))
+class AddSongView(LoginRequiredMixin, FormView):
+    form_class = AddSongForm
+    template_name = 'chords/add_song.html'
+    success_url = reverse_lazy('chords:verify_song')
 
-    return render(request, 'chords/add_song.html', {'form' : form})
+    def get_initial(self):
+        return self.request.session.get('song_data', None)
+
+    def form_valid(self, form):
+        self.request.session['song_data'] = form.cleaned_data
+        self.request.session['song_data']['user_txt'] = self.request.user.get_username()
+        return super(AddSongView, self).form_valid(form)
 
 @login_required
 def verify_song(request):
