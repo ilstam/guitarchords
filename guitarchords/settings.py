@@ -18,6 +18,8 @@ from .mail_settings import *
 from .recaptcha_settings import *
 
 
+SITE_ID = 1
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -42,6 +44,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sitemaps',
+    'django.contrib.sites',
     'registration',
     'password_validation',
     'bootstrapform',

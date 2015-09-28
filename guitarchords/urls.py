@@ -16,10 +16,13 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin, auth
 from django.core.urlresolvers import reverse_lazy
+from django.contrib.sitemaps.views import sitemap as sitemap_view
 
 from registration.backends.default.views import RegistrationView
 from registration.forms import RegistrationFormUniqueEmail
 from password_validation import validate_password
+
+from chords.sitemaps import SongsSitemap
 
 
 class RegistrationViewUniqueEmailPasswordValidation(RegistrationView):
@@ -39,6 +42,7 @@ def login_user(request):
 
 
 urlpatterns = [
+    url(r'^sitemap\.xml$', sitemap_view, {'sitemaps' : {'chords' : SongsSitemap()}}),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^chords/', include('chords.urls', namespace='chords')),
     url(r'^accounts/login/$', login_user, name='auth_login'),

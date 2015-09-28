@@ -3,6 +3,7 @@ from django.db.models import Count
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.core.cache import cache
+from django.core.urlresolvers import reverse
 
 from .utils import generate_unique_slug, strip_whitespace_lines
 
@@ -137,6 +138,9 @@ class Song(models.Model):
             'published'     : self.pub_date,
             'last_modified' : self.mod_date,
             }
+
+    def get_absolute_url(self):
+        return reverse('chords:song', kwargs={'song_slug' : self.slug})
 
     def __str__(self):
         return self.title + ' (+t)' if self.tabs else self.title
