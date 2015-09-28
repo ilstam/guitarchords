@@ -129,6 +129,11 @@ textarea {
     color: #333;
 }
 
+.cc_btn_accept_all {
+    color: white !important;
+    background-color: #337AB7 !important;
+}
+
 /* footer */
 
 .footer {
