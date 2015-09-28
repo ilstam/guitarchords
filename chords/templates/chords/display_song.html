@@ -11,7 +11,7 @@
 
     <div class="col-md-5 video">
         {% if song.video %}
-            <iframe width="430" height="330" src="{{ song.video }}" frameborder="0" allowfullscreen></iframe>
+            <iframe width="430" height="330" src="{{ song.video }}" allowfullscreen></iframe>
         {% endif %}
     </div>
 
@@ -33,9 +33,11 @@
             {% elif user_txt %}
                 Sent by: {{ user_txt }}</li>
             {% endif %}
+        </ul>
 
-            <hr />
+        <hr />
 
+        <ul>
             <li><a href="javascript:;" id="hide_chords">Hide chords</a></li>
             {% if song.tabs %}
                 <li><a href="javascript:;" id="hide_tabs">Hide tabs</a></li>
