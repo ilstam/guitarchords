@@ -9,7 +9,7 @@ from chords.models import Song
 from chords.forms import SearchForm
 from chords.views import user as user_view, song as song_view, search as search_view
 from .helper_functions import (create_artist, create_song, create_user,
-                               valid_song_data)
+                               valid_song_data, valid_contact_data)
 
 
 class LoginedTestCase(TestCase):
@@ -771,3 +771,44 @@ class PopularViewTests(TestCase):
         response = self.client.get(reverse('chords:popular'))
         self.assertQuerysetEqual(response.context['songs'],
                                  ['<Song: Song2>', '<Song: Song1>'])
+
+
+class ContactViewTests(LoginedTestCase):
+    def test_with_valid_data(self):
+        """
+        Contact view should redirect to contact_done view, after posting to it
+        valid data.
+        """
+        response = self.client.post(reverse('chords:contact'), valid_contact_data())
+        self.assertRedirects(response, reverse('chords:contact_done'))
+
+    def test_addsong_view_with_invalid_input(self):
+        """
+        The contact view must return an appropriate message for each case of
+        invalid POST data.
+        """
+        # missing name
+        response = self.client.post(reverse('chords:contact'),
+                valid_contact_data(name=''))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'This field is required.')
+        # missing email
+        response = self.client.post(reverse('chords:contact'),
+                valid_contact_data(email=''))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'This field is required.')
+        # email must be valid
+        response = self.client.post(reverse('chords:contact'),
+                valid_contact_data(email='junk data'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Enter a valid email address.')
+        # missing subject
+        response = self.client.post(reverse('chords:contact'),
+                valid_contact_data(subject=''))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'This field is required.')
+        # missing body
+        response = self.client.post(reverse('chords:contact'),
+                valid_contact_data(body=''))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'This field is required.')
