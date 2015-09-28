@@ -2,8 +2,9 @@ from django.test import TestCase
 
 import os
 
-from chords.forms import AddCommentForm, AddSongForm, SearchForm
-from .helper_functions import valid_song_data, create_user, create_song
+from chords.forms import AddCommentForm, AddSongForm, ContactForm, SearchForm
+from .helper_functions import (create_user, create_song, valid_song_data,
+                               valid_contact_data)
 
 
 class AddSongFormTests(TestCase):
@@ -84,6 +85,36 @@ class AddCommentFormTests(TestCase):
         data = self.valid_data.copy()
         data['g-recaptcha-response'] = ''
         self.assertFalse(AddCommentForm(data).is_valid())
+
+
+class ContactFormTests(TestCase):
+    def test_form_with_valid_data(self):
+        """
+        Form must be valid with sensible data.
+        """
+        self.assertTrue(ContactForm(valid_contact_data()).is_valid())
+
+    def test_form_with_invalid_data(self):
+        """
+        Test form with invalid data.
+        """
+        self.assertFalse(ContactForm().is_valid())
+
+        # name required
+        form = ContactForm(valid_contact_data(name=''))
+        self.assertFalse(form.is_valid())
+        # email required
+        form = ContactForm(valid_contact_data(email=''))
+        self.assertFalse(form.is_valid())
+        # email must be valid
+        form = ContactForm(valid_contact_data(email='junk string'))
+        self.assertFalse(form.is_valid())
+        # subject required
+        form = ContactForm(valid_contact_data(subject=''))
+        self.assertFalse(form.is_valid())
+        # body required
+        form = ContactForm(valid_contact_data(body=''))
+        self.assertFalse(form.is_valid())
 
 
 class SearchFormTests(TestCase):

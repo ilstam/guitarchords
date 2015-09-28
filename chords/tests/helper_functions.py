@@ -29,3 +29,10 @@ def valid_song_data(title='Title', artist_txt='artist_txt', user_txt='user_txt',
         'title' : title, 'artist_txt' : artist_txt, 'user_txt' : user_txt,
         'genre' : genre, 'video' : video, 'tabs' : tabs, 'content' : content
     }
+
+def valid_contact_data(name='Name', email='example@example.com',
+                       subject='Subject', body='Message'):
+    return {
+        'name' : name, 'email' : email,
+        'subject': subject, 'body' : body
+    }
