@@ -2,7 +2,11 @@
     <tr>
         {% if searchBy == 'song' %}
             <td><a href="{% url 'chords:song' result.slug %}">{{ result }}</a></td>
-            <td><a href="{% url 'chords:artist' result.artist.slug %}">{{ result.artist.name }}</a></td>
+            {% if result.artist %}
+                <td><a href="{% url 'chords:artist' result.artist.slug %}">{{ result.artist.name }}</a></td>
+            {% else %}
+                <td>-</td>
+            {% endif %}
             <td>{{ result.genre_str }}</td>
             <td>{% if result.tabs %}Yes{% else %}No{% endif %}</td>
         {% elif searchBy == 'artist' %}
