@@ -1,0 +1,8 @@
+User-agent: *
+
+Disallow: /admin/
+Disallow: /chords/verify_song/
+Disallow: /chords/song_submitted/
+Disallow: /chords/contact_done/
+
+Sitemap: /sitemap.xml

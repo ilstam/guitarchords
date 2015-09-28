@@ -17,6 +17,7 @@ from django.conf.urls import include, url
 from django.contrib import admin, auth
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.sitemaps.views import sitemap as sitemap_view
+from django.views.generic import TemplateView
 
 from registration.backends.default.views import RegistrationView
 from registration.forms import RegistrationFormUniqueEmail
@@ -52,6 +53,8 @@ sitemaps = {
 urlpatterns = [
     url(r'^sitemap\.xml$', sitemap_view, {'sitemaps': sitemaps},
         name='django.contrib.sitemaps.views.sitemap'),
+    url(r'^robots\.txt/$', TemplateView.as_view(template_name='robots.txt',
+        content_type='text/plain')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^chords/', include('chords.urls', namespace='chords')),
     url(r'^accounts/login/$', login_user, name='auth_login'),
