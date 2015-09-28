@@ -1,15 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
+from django.views.generic.edit import FormView
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse_lazy
 from django.db.models import Q
-from django.core.mail import send_mail
-from django.conf import settings
 
 import os
 
-from .models import Artist, Song, Comment
+from .models import Artist, Song, Comment, User
 from .forms import AddSongForm, AddCommentForm, ContactForm, SearchForm
 from .utils import slugify_greek
 
@@ -122,23 +121,19 @@ def search(request):
 
     return render(request, 'chords/search.html', context)
 
-def contact(request):
-    if request.method == 'POST':
-        form = ContactForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            to_email = getattr(settings, 'REGISTRATION_DEFAULT_FROM_EMAIL',
-                               settings.DEFAULT_FROM_EMAIL)
-            send_mail(data['subject'], data['body'], data['email'],
-                      [to_email], fail_silently=False)
-            return redirect('chords:contact_done')
-    else:
-        if request.user.is_authenticated():
-            form = ContactForm(initial={'email' : request.user.email})
-        else:
-            form = ContactForm()
+class ContactView(FormView):
+    template_name = 'chords/contact.html'
+    form_class = ContactForm
+    success_url = reverse_lazy('chords:contact_done')
 
-    return render(request, 'chords/contact.html', {'form' : form})
+    def get_initial(self):
+        if self.request.user.is_authenticated():
+            return {'email' : self.request.user.email}
+        return {}
+
+    def form_valid(self, form):
+        form.send_email()
+        return super(ContactView, self).form_valid(form)
 
 def contact_done(request):
     return render(request, 'chords/contact_done.html', {})
