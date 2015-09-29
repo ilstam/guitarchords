@@ -20,7 +20,7 @@ urlpatterns = [
     url(r'^recently_added/$', views.recently_added, name='recently_added'),
     url(r'^search/$', views.search, name='search'),
     url(r'^bookmarks/$', views.bookmarks, name='bookmarks'),
-    url(r'^add_comment/$', views.add_comment, name='add_comment'),
+    url(r'^add_comment/$', views.AddCommentView.as_view(), name='add_comment'),
     url(r'^contact/$', views.ContactView.as_view(), name='contact'),
     url(r'^contact_done/$', views.contact_done, name='contact_done'),
 ]

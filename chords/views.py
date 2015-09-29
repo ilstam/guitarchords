@@ -145,16 +145,18 @@ class ContactView(FormView):
 def contact_done(request):
     return render(request, 'chords/contact_done.html', {})
 
-@login_required
-def add_comment(request):
-    if request.method == 'POST':
+class AddCommentView(LoginRequiredMixin, FormView):
+    form_class = AddCommentForm
+    template_name = 'chords/display_comment.html'
+
+    def post(self, request, *args, **kwargs):
         if request.POST.get('testing', '') == 'True':
             os.environ['RECAPTCHA_TESTING'] = 'True'
             request.POST._mutable = True
             request.POST['g-recaptcha-response'] = 'PASSED'
             request.POST._mutable = False
 
-        form = AddCommentForm(request.POST)
+        form = self.form_class(request.POST)
 
         if form.is_valid():
             data = form.cleaned_data
@@ -163,8 +165,8 @@ def add_comment(request):
             comment.save()
 
             os.environ['RECAPTCHA_TESTING'] = 'False'
-            return HttpResponse(render_to_string('chords/display_comment.html',
-                    {'comment' : comment}))
+            return HttpResponse(render_to_string(self.template_name,
+                                                 {'comment' : comment}))
 
         return HttpResponse(status=400) # Bad Request
 
