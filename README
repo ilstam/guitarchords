@@ -34,3 +34,8 @@ Run the development server:
 `./manage.py runserver`
 
 You can now visit the site on http://localhost:8000/chords/.
+
+Optionally you may also start a debugging mail server:
+`./scripts/run_mailserver.sh`
+
+That's required for user registrations and other stuff.
