@@ -1,62 +1,69 @@
 {% load bootstrap %}
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <h2>{{ song.title }}</h2>
         <br />
 
         <div id="song_content">{{ song.content }}</div> <br />
-
     </div>
 
-    <div class="col-md-5 video">
-        {% if song.video %}
-            <iframe width="430" height="330" src="{{ song.video }}" allowfullscreen></iframe>
-        {% endif %}
-    </div>
+    <div class="col-md-6">
 
-    <div class="col-md-3" id="info-column">
-        <ul>
-            {% if song.artist %}
-                <li>Artist: <a href="{% url 'chords:artist' song.artist.slug %}">{{ song.artist.name }}</a></li>
-            {% elif artist_txt %}
-                <li>Artist: {{ artist_txt }}</li>
-            {% endif %}
-            {% if song.pub_date %}
-                <li>Published: {{ song.pub_date }}</li>
-            {% else %}
-                <li>Published: Unpublished</li>
-            {% endif %}
-            <li>Genre: {{ song.genre_str }}</li>
-            {% if song.sender %}
-                <li>Sent by: <a href="{% url 'chords:user' song.sender.get_username %}">{{ song.sender.get_username }}</a></li>
-            {% elif user_txt %}
-                Sent by: {{ user_txt }}</li>
-            {% endif %}
-        </ul>
+        <div class="row">
+            <div class="col-md-offset-6 col-md-6" id="info-column">
+                <ul>
+                    {% if song.artist %}
+                        <li>Artist: <a href="{% url 'chords:artist' song.artist.slug %}">{{ song.artist.name }}</a></li>
+                    {% elif artist_txt %}
+                        <li>Artist: {{ artist_txt }}</li>
+                    {% endif %}
+                    {% if song.pub_date %}
+                        <li>Published: {{ song.pub_date }}</li>
+                    {% else %}
+                        <li>Published: Unpublished</li>
+                    {% endif %}
+                    <li>Genre: {{ song.genre_str }}</li>
+                    {% if song.sender %}
+                        <li>Sent by: <a href="{% url 'chords:user' song.sender.get_username %}">{{ song.sender.get_username }}</a></li>
+                    {% elif user_txt %}
+                        Sent by: {{ user_txt }}</li>
+                    {% endif %}
+                </ul>
 
-        <hr />
+                <hr />
 
-        <ul>
-            <li><a href="javascript:;" id="hide_chords">Hide chords</a></li>
-            {% if song.tabs %}
-                <li><a href="javascript:;" id="hide_tabs">Hide tabs</a></li>
-            {% endif %}
-            <li><a href="javascript:;">Get pdf</a></li>
-        </ul>
+                <ul>
+                    <li><a href="javascript:;" id="hide_chords">Hide chords</a></li>
+                    {% if song.tabs %}
+                        <li><a href="javascript:;" id="hide_tabs">Hide tabs</a></li>
+                    {% endif %}
+                    <li><a href="javascript:;">Get pdf</a></li>
+                </ul>
 
-        <p>Semiton change: <select id="semiton_change"></select></p>
+                <p>Semiton change: <select id="semiton_change"></select></p>
 
-        {% if user.is_authenticated and not preview %}
-            <p><a id="bookmark" href="javascript:;">
-                {% if not bookmarked %}
-                    (+) Add to bookmarks
-                {% else %}
-                    (-) Remove from bookmarks
+                {% if user.is_authenticated and not preview %}
+                    <p><a id="bookmark" href="javascript:;">
+                        {% if not bookmarked %}
+                            (+) Add to bookmarks
+                        {% else %}
+                            (-) Remove from bookmarks
+                        {% endif %}
+                    </a></p>
                 {% endif %}
-            </a></p>
-        {% endif %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+            {% if song.video %}
+                <iframe id="video" class="pull-right" width="430" height="330" src="{{ song.video }}" allowfullscreen></iframe>
+            {% endif %}
+            </div>
+        </div>
     </div>
+
 </div>
 
 {% if not preview %}

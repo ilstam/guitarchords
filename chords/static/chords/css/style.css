@@ -102,16 +102,21 @@ textarea {
     color: blue;
 }
 
-.video iframe {
-    margin-top: 80px;
+@media only screen and (min-width: 990px) {
+    #info-column {
+        margin-top: 90px;
+        margin-bottom: 25px;
+    }
+
+    #comment_seperator {
+        margin-top: 0px;
+    }
 }
 
-#info-column {
-    margin-top: 70px;
-}
-
-#comment_seperator {
-    margin-top: 0px;
+@media only screen and (max-width: 990px) {
+    #video {
+        float: left !important;
+	}
 }
 
 /* misc */
