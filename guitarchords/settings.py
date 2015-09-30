@@ -10,30 +10,25 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
-from .registration_settings import *
-from .mail_settings import *
-from .recaptcha_settings import *
 
-
-SITE_ID = 1
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
+PRODUCTION = True if os.getenv('PRODUCTION', None) else False
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'p-gvap=o0(jm%14k&zn5wc4-u!7b-3#6#z@-@y)%$-k)!-u5)*'
+# WARNING: Be careful not to override any variables defined on the following files
+if PRODUCTION:
+    from .settings_prod import *
+else:
+    from .settings_dev import *
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
+from .registration_settings import *
+from .mail_settings import *
+from .recaptcha_settings import *
 
 # Application definition
 
@@ -64,6 +59,8 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
 )
 
+SITE_ID = 1
+
 ROOT_URLCONF = 'guitarchords.urls'
 
 TEMPLATES = [
@@ -84,17 +81,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'guitarchords.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'password_validation.MinimumLengthValidator',
@@ -103,18 +89,6 @@ AUTH_PASSWORD_VALIDATORS = [
         }
     },
 ]
-
-# Caching
-# https://docs.djangoproject.com/en/1.8/topics/cache/
-
-DUMMY_CACHE = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
-    }
-}
-
-if DEBUG:
-    CACHES = DUMMY_CACHE
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
