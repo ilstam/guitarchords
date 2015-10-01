@@ -25,7 +25,7 @@ def index(request):
         del request.session['song_data']
     recent_songs = Song.get_recent_songs()[:7]
     popular_songs = Song.get_popular_songs()[:7]
-    songs_count = Song.objects.all().count()
+    songs_count = Song.objects.filter(published=True).count()
     artist_count = Artist.objects.all().count()
     users_count = User.objects.all().count()
     context = {'recent_songs' : recent_songs, 'popular_songs' : popular_songs,

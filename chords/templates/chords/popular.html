@@ -5,24 +5,27 @@
 {% block body_block %}
 
 <div class="row">
-    <div class="center-block table-container" id="popular_container">
+    <div class="center-block text-center table-container" id="popular_container">
         <table class="table">
             <thead>
                 <tr>
                     <th></th>
-                    <th class="text-center"><h2 class="header">Most Popular Songs</h2></th>
+                    <th class="text-center h2">Most Popular Songs</th>
                 </tr>
             </thead>
 
             <tbody>
                 {% for song in songs %}
-                    <tr class="list-group text-center">
+                    <tr class="list-group">
                         <td>{{ forloop.counter }}.</td>
                         <td><a href="{% url 'chords:song' song.slug %}">{{ song.title }}</a></td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
+        {% if not songs %}
+            <p><strong>No songs present at the moment</strong></p>
+        {% endif %}
     </div>
 </div>
 

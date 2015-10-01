@@ -5,24 +5,27 @@
 {% block body_block %}
 
 <div class="row">
-    <div class="center-block table-container" id="recentlyadded_container">
+    <div class="center-block text-center table-container" id="recentlyadded_container">
         <table class="table">
             <thead>
                 <tr>
                     <th></th>
-                    <th class="text-center"><h2 class="header">Recently added songs</h2></th>
+                    <th class="text-center h2">Recently added songs</th>
                 </tr>
             </thead>
 
             <tbody>
                 {% for song in songs %}
-                    <tr class="list-group text-center">
+                    <tr class="list-group">
                         <td>{{ song.pub_date|date:"SHORT_DATE_FORMAT" }}</td>
                         <td><a href="{% url 'chords:song' song.slug %}">{{ song.title }}</a></td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
+        {% if not songs %}
+            <p><strong>No songs present at the moment</strong></p>
+        {% endif %}
     </div>
 </div>
 

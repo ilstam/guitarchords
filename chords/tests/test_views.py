@@ -32,9 +32,7 @@ class IndexViewTests(TestCase):
         """
         response = self.client.get(reverse('chords:index'))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'There are no songs present at the moment.')
-        self.assertNotContains(response, 'Recently added songs')
-        self.assertNotContains(response, 'Most popular songs')
+        self.assertContains(response, 'No songs present at the moment')
         self.assertQuerysetEqual(response.context['recent_songs'], [])
         self.assertQuerysetEqual(response.context['popular_songs'], [])
 
@@ -54,8 +52,7 @@ class IndexViewTests(TestCase):
         """
         create_song(published=False)
         response = self.client.get(reverse('chords:index'))
-        self.assertContains(response, 'There are no songs present at the moment.')
-        self.assertNotContains(response, 'Recently added songs')
+        self.assertContains(response, 'No songs present at the moment')
         self.assertQuerysetEqual(response.context['recent_songs'], [])
 
     def test_index_view_with_published_and_unpublished_song(self):

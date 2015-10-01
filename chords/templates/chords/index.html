@@ -21,26 +21,28 @@
 </div>
 
 <div class="row">
-    <div class="col-md-4 col-md-offset-1">
+    <div class="col-md-6 text-center">
+        <h2>Recently added songs</h2>
         {% if recent_songs %}
-            <h2>Recently added songs</h2>
             <ul>
-            {% for song in recent_songs %}
-                <li><a href="{% url 'chords:song' song.slug %}">{{ song.full_title }}</a></li>
-            {% endfor %}
+                {% for song in recent_songs %}
+                    <li><a href="{% url 'chords:song' song.slug %}">{{ song.full_title }}</a></li>
+                {% endfor %}
             </ul>
         {% else %}
-            <p><strong>There are no songs present at the moment.</strong></p>
+            <p><strong>No songs present at the moment</strong></p>
         {% endif %}
     </div>
-    <div class="col-md-5 col-md-offset-2">
+    <div class="col-md-6 text-center">
+        <h2>Most popular songs</h2>
         {% if popular_songs %}
-            <h2>Most popular songs</h2>
             <ul>
-            {% for song in popular_songs %}
-                <li><a href="{% url 'chords:song' song.slug %}">{{ song.full_title }}</a></li>
-            {% endfor %}
+                {% for song in popular_songs %}
+                    <li><a href="{% url 'chords:song' song.slug %}">{{ song.full_title }}</a></li>
+                {% endfor %}
             </ul>
+        {% else %}
+            <p><strong>No songs present at the moment</strong></p>
         {% endif %}
     </div>
 </div>
