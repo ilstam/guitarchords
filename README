@@ -11,6 +11,8 @@ django-registration-redux
 django-password-validation
 django-recaptcha
 django-bootstrap-form
+django-compressor
+django-appconf
 
 Uses
 -----

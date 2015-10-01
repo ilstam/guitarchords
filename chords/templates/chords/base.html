@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load staticfiles %}
+{% load compress %}
 
 <html lang="en">
     <head>
@@ -12,7 +13,9 @@
         <title>{% block title %}{% endblock %} - Chords</title>
 
         <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="{% static 'chords/css/style.css' %}" />
+        {% compress css %}
+            <link rel="stylesheet" type="text/css" href="{% static 'chords/css/style.css' %}" />
+        {% endcompress %}
     </head>
 
     <body>
@@ -50,7 +53,6 @@
                 </ul>
 
                 <form class="navbar-form navbar-right" action="{% url 'chords:search' %}" method="get">
-                    <!--<input class="form-control" type="text" name="search" placeholder="Search...">-->
                     <div class="input-group">
                         <input type="text" class="form-control" name="keywords" placeholder="Search...">
                         <span class="input-group-btn">
@@ -58,9 +60,8 @@
                         </span>
                     </div>
                 </form>
-
-            </div><!--/.nav-collapse -->
-        </div><!--/.container -->
+            </div>
+        </div>
     </nav>
 
     <div class="container">
@@ -81,19 +82,20 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
-    {% block scripts_block %}{% endblock %}
-
-    <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
-    <script type="text/javascript">
-        window.cookieconsent_options = {"message":"This website uses cookies to ensure you get the best experience on our website.",
-                                        "dismiss":"Got it!",
-                                        "learnMore":"More info",
-                                        "link":"",
-                                        "theme":"light-bottom"};
-    </script>
-
     <script type="text/javascript" src="//s3.amazonaws.com/cc.silktide.com/cookieconsent.latest.min.js"></script>
-    <!-- End Cookie Consent plugin -->
 
+    {% compress js %}
+        {% block scripts_block %}{% endblock %}
+    {% endcompress %}
+
+    {% compress js %}
+        <script type="text/javascript">
+            window.cookieconsent_options = {"message":"This website uses cookies to ensure you get the best experience on our website.",
+                                            "dismiss":"Got it!",
+                                            "learnMore":"More info",
+                                            "link":"",
+                                            "theme":"light-bottom"};
+        </script>
+    {% endcompress %}
     </body>
 </html>
