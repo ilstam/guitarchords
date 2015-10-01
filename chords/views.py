@@ -23,9 +23,14 @@ class LoginRequiredMixin(object):
 def index(request):
     if 'song_data' in request.session:
         del request.session['song_data']
-    recent_songs = Song.get_recent_songs()[:5]
-    popular_songs = Song.get_popular_songs()[:5]
-    context = {'recent_songs' : recent_songs, 'popular_songs' : popular_songs}
+    recent_songs = Song.get_recent_songs()[:7]
+    popular_songs = Song.get_popular_songs()[:7]
+    songs_count = Song.objects.all().count()
+    artist_count = Artist.objects.all().count()
+    users_count = User.objects.all().count()
+    context = {'recent_songs' : recent_songs, 'popular_songs' : popular_songs,
+               'song_count' : songs_count, 'artist_count' : artist_count,
+               'user_count' : users_count}
     return render(request, 'chords/index.html', context)
 
 def song(request, song_slug):

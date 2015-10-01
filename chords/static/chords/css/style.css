@@ -131,6 +131,10 @@ textarea {
     position: relative;
 }
 
+.colored_blue {
+    color: #337AB7;
+}
+
 #popular_container {
     left: -2%;
 }

@@ -1,7 +1,24 @@
 {% extends 'chords/base.html' %}
+{% load staticfiles %}
+
 {% block title %}Home{% endblock %}
 
 {% block body_block %}
+
+<div class="row">
+    <div class="col-md-12 text-center">
+        <h1>Welcome to Guitar Chords!</h1>
+        <p class="h3">Find <span class="colored_blue">chords</span> and <span class="colored_blue">tabs</span> for your favorite songs here</p>
+        <br />
+        <img class="img-responsive center-block" src="{% static 'chords/img/guitar_index.jpg'%}" alt="Guitar image" width="350">
+        <br />
+        <p class="h4">
+            We keep a collection of {{ song_count }} <a href="{% url 'chords:search' %}?searchBy=SO">songs</a>
+            and {{ artist_count }} <a href="{% url 'chords:search' %}?searchBy=AR">artists</a> from {{ user_count }}
+            <a href="{% url 'chords:search' %}?searchBy=US">users</a> and still counting...
+        </p>
+    </div>
+</div>
 
 <div class="row">
     <div class="col-md-4 col-md-offset-1">
