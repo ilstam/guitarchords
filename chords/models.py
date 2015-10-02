@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models import Count
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.core.cache import cache
@@ -147,32 +146,6 @@ class Song(models.Model):
 
     def __str__(self):
         return self.title + ' (+t)' if self.tabs else self.title
-
-    @staticmethod
-    def get_popular_songs():
-        songs = cache.get('most_popular_songs', None)
-        if songs is not None:
-            return songs
-
-        # print("DB READ - most popular songs")
-        songs = Song.objects.filter(published=True).annotate(
-                popularity=Count('viewedBy') + 2 * Count('bookmarkedBy')
-                ).order_by('-popularity')
-
-        # cache the result for a day
-        cache.set('most_popular_songs', songs, 86400)
-        return songs
-
-    @staticmethod
-    def get_recent_songs():
-        songs = cache.get('most_recent_songs', None)
-        if songs is not None:
-            return songs
-
-        # print("DB READ - most recent songs")
-        songs = Song.objects.filter(published=True).order_by('-pub_date')
-        cache.set('most_recent_songs', songs)
-        return songs
 
 
 class Comment(models.Model):
