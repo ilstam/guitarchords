@@ -188,6 +188,8 @@ function parseSong() {
  */
 function fillSemitonChange() {
     var songBase = $('.chord').first().attr('origchord');
+    if (! songBase)
+        return;
     for (i = 6; i >= -5; i--) {
         if (i != 0) {
             $('#semiton_change')
