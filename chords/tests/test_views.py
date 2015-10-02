@@ -9,7 +9,7 @@ import os
 
 from chords.models import Song
 from chords.forms import SearchForm
-from chords.views import user as user_view, song as song_view, search as search_view
+from chords.views import user as user_view, song as song_view
 from .helper_functions import (create_artist, create_song, create_user,
                                valid_song_data, valid_contact_data)
 
@@ -94,7 +94,7 @@ class IndexViewTests(TestCase):
         session['song_data'] = valid_song_data()
         session.save()
         self.assertTrue('song_data' in self.client.session)
-        response = self.client.get(reverse('chords:index'))
+        self.client.get(reverse('chords:index'))
         self.assertFalse('song_data' in self.client.session)
 
 
@@ -151,8 +151,8 @@ class ArtistViewTests(TestCase):
         songs should be displayed on the artist view.
         """
         artist = create_artist()
-        song1 = create_song(title='Random Song', artist=artist, published=True)
-        song2 = create_song(artist=artist, published=False)
+        create_song(title='Random Song', artist=artist, published=True)
+        create_song(artist=artist, published=False)
 
         response = self.client.get(reverse('chords:artist', args=(artist.slug,)))
         self.assertQuerysetEqual(response.context['songs'],
@@ -675,8 +675,8 @@ class SearchViewTests(TestCase):
         """
         Searh view must return only songs of the requested genre.
         """
-        s1 = create_song(title='Song Rock', genre=Song.ROCK, published=True)
-        s2 = create_song(title='Song Blues', genre=Song.BLUES, published=True)
+        create_song(title='Song Rock', genre=Song.ROCK, published=True)
+        create_song(title='Song Blues', genre=Song.BLUES, published=True)
 
         # by default all genres are included
         response = self.client.get(reverse('chords:search') +
@@ -702,8 +702,8 @@ class SearchViewTests(TestCase):
         """
         Searh view must not return songs with tabs when not requested.
         """
-        s1 = create_song(title='Song Tabs', tabs=True, published=True)
-        s2 = create_song(title='Song Chords', tabs=False, published=True)
+        create_song(title='Song Tabs', tabs=True, published=True)
+        create_song(title='Song Chords', tabs=False, published=True)
 
         # by default include tabs
         response = self.client.get(reverse('chords:search') +

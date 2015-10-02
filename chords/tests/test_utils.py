@@ -1,4 +1,4 @@
-from django.test import TestCase, SimpleTestCase, RequestFactory
+from django.test import SimpleTestCase
 
 from chords import utils
 
