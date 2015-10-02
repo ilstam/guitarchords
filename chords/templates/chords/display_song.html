@@ -44,7 +44,7 @@
                 <p>Semiton change: <select id="semiton_change"></select></p>
 
                 {% if user.is_authenticated and not preview %}
-                    <p><a id="bookmark" href="javascript:;">
+                    <p><a id="bookmark" href="{{ request.path }}">
                         {% if not bookmarked %}
                             (+) Add to bookmarks
                         {% else %}

@@ -31,41 +31,21 @@ $('#semiton_change').change(function() {
     });
 });
 
-$('#bookmark').click(function() {
-    url = window.location.href;
-    if (! url.match('\$'))
-        url += '/';
-
+/**
+ * Perform an AJAX request to bookmark or unbookmark a song.
+ */
+$('#bookmark').click(function(event) {
+    event.preventDefault();
+    var url = $(this).attr('href');
     if ($(this).text().indexOf('Add') != -1)
-        add_bookmark(url);
+        $.get(url + 'add_bookmark/', function(data) {
+            $('#bookmark').text('(-) Remove from bookmarks')
+        })
     else
-        remove_bookmark(url);
+        $.get(url + 'remove_bookmark/', function(data) {
+            $('#bookmark').text('(+) Add to bookmarks')
+        })
 });
-
-
-/**
- * Perform an AJAX request to bookmark a song.
- *
- * @param url {String} url of the song to bookmark, always ends with '/'
- */
-function add_bookmark(url) {
-    url += 'add_bookmark/';
-    $.get(url, function(data) {
-        $('#bookmark').text('(-) Remove from bookmarks')
-    })
-}
-
-/**
- * Perform an AJAX request to unbookmark a song.
- *
- * @param url {String} url of the song to unbookmark, always ends with '/'
- */
-function remove_bookmark(url) {
-    url += 'remove_bookmark/';
-    $.get(url, function(data) {
-        $('#bookmark').text('(+) Add to bookmarks')
-    })
-}
 
 /**
  * If chord is a flat chord, return its non-flat equivalent.
