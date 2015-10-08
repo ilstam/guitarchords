@@ -11,7 +11,7 @@ import os
 from .models import Artist, Song, Comment, User
 from .forms import AddSongForm, AddCommentForm, ContactForm, SearchForm
 from .utils import slugify_greek
-from . import  mycache
+from .mycache import mcache
 
 
 class LoginRequiredMixin(object):
@@ -24,8 +24,8 @@ class LoginRequiredMixin(object):
 def index(request):
     if 'song_data' in request.session:
         del request.session['song_data']
-    recent_songs = mycache.get_recent_songs()[:7]
-    popular_songs = mycache.get_popular_songs()[:7]
+    recent_songs = mcache.get_recent_songs()[:7]
+    popular_songs = mcache.get_popular_songs()[:7]
     songs_count = Song.objects.filter(published=True).count()
     artist_count = Artist.objects.all().count()
     users_count = User.objects.all().count()
@@ -75,11 +75,11 @@ def user(request, username):
     return render(request, 'chords/user.html', context)
 
 def popular(request):
-    songs = mycache.get_popular_songs()[:100]
+    songs = mcache.get_popular_songs()[:100]
     return render(request, 'chords/popular.html', {'songs' : songs})
 
 def recently_added(request):
-    songs = mycache.get_recent_songs()[:100]
+    songs = mcache.get_recent_songs()[:100]
     return render(request, 'chords/recently_added.html', {'songs' : songs})
 
 def search(request):

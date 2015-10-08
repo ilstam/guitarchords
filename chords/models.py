@@ -1,10 +1,12 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
-from django.core.cache import cache
 from django.core.urlresolvers import reverse
+from django.core.cache import cache
 
 from .utils import generate_unique_slug, strip_whitespace_lines
+
+from .mycache.keys import Keys
 
 
 class Artist(models.Model):
@@ -83,10 +85,10 @@ class Song(models.Model):
 
         if self.published and self.pub_date is None:
             self.pub_date = timezone.now()
-            cache.delete('most_recent_songs')
+            cache.delete(Keys.MOST_RECENT_SONGS)
         elif not self.published and self.pub_date is not None:
             self.pub_date = None
-            cache.delete('most_recent_songs')
+            cache.delete(Keys.MOST_RECENT_SONGS)
 
         if self.video:
             self.video = self.get_embed_video_url()
