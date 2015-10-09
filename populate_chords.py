@@ -7,9 +7,7 @@ import django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'guitarchords.settings')
 django.setup()
 
-from django.contrib.auth.models import User
-
-from chords.models import Artist, Song
+from chords.models import Artist, Song, User
 
 
 def add_artist(name):

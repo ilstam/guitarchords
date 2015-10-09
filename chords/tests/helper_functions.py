@@ -1,6 +1,4 @@
-from django.contrib.auth.models import User
-
-from chords.models import Artist, Song
+from chords.models import Artist, Song, User
 
 
 def create_artist(name='Some Artist'):
