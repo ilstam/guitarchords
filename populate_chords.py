@@ -24,6 +24,8 @@ def add_song(title, artist, sender=None, content='', genre='', video='',
     s.video = video
     s.tabs = tabs
     s.published = published
+    if published:
+        s.publish()
     s.save()
     return s
 
