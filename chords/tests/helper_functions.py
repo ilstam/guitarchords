@@ -10,8 +10,9 @@ def create_artist(name='Some Artist'):
 
 def create_song(title='Random Song', artist=None, sender=None, published=True,
                 tabs=False, genre=None):
-    song = Song(title=title, artist=artist, sender=sender, published=published,
-                tabs=tabs)
+    song = Song(title=title, artist=artist, sender=sender, tabs=tabs)
+    if published:
+        song.publish()
     if genre is not None:
         song.genre = genre
     song.save()

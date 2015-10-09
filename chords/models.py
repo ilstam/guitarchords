@@ -3,10 +3,9 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.core.cache import cache
+from django.db.models import Count
 
 from .utils import generate_unique_slug, strip_whitespace_lines
-
-from .mycache.keys import Keys
 
 
 class Artist(models.Model):
@@ -18,8 +17,13 @@ class Artist(models.Model):
     def save(self, slug_max_length=-1, *args, **kwargs):
         if self.id is None:
             self.slug = generate_unique_slug(Artist, self.name, slug_max_length)
+            MyCache.incr_value(MyCache.Keys.ARTISTS_COUNT)
 
         super(Artist, self).save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        MyCache.decr_value(MyCache.Keys.ARTISTS_COUNT)
+        super(Artist, self).delete(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('chords:artist', kwargs={'artist_slug' : self.slug})
@@ -82,18 +86,28 @@ class Song(models.Model):
             self.slug = generate_unique_slug(Song, self.title, slug_max_length)
 
         self.content = strip_whitespace_lines(self.content)
-
-        if self.published and self.pub_date is None:
-            self.pub_date = timezone.now()
-            cache.delete(Keys.MOST_RECENT_SONGS)
-        elif not self.published and self.pub_date is not None:
-            self.pub_date = None
-            cache.delete(Keys.MOST_RECENT_SONGS)
-
         if self.video:
             self.video = self.get_embed_video_url()
 
         super(Song, self).save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        self.unpublish()
+        super(Song, self).delete(*args, **kwargs)
+
+    def publish(self):
+        self.published = True
+        self.pub_date = timezone.now()
+        MyCache.incr_value(MyCache.Keys.PUBLISHED_SONGS_COUNT)
+        MyCache.delete_recent_songs()
+        self.save()
+
+    def unpublish(self):
+        self.published = False
+        self.pub_date = None
+        MyCache.decr_value(MyCache.Keys.PUBLISHED_SONGS_COUNT)
+        MyCache.delete_recent_songs()
+        self.save()
 
     def get_embed_video_url(self):
         if 'www.youtube.com' in self.video:
@@ -161,3 +175,76 @@ class Comment(models.Model):
     def save(self, *args, **kwargs):
         self.content = strip_whitespace_lines(self.content)
         super(Comment, self).save(*args, **kwargs)
+
+
+class MyCache:
+    class Keys:
+        PUBLISHED_SONGS_COUNT = 'published_songs_count'
+        ARTISTS_COUNT = 'artists_count'
+        USER_COUNT = 'users_count'
+        MOST_POPULAR_SONGS = 'most_popular_songs'
+        MOST_RECENT_SONGS = 'most_recent_songs'
+
+    def popular_songs():
+        key = MyCache.Keys.MOST_POPULAR_SONGS
+        songs = cache.get(key, None)
+        if songs is None:
+            # print("DB READ - most popular songs")
+            songs = Song.objects.filter(published=True).annotate(
+                    popularity=Count('viewedBy') + 2 * Count('bookmarkedBy')
+                    ).order_by('-popularity')
+
+            # cache the result for a day
+            cache.set(key, songs, 86400)
+        return songs
+
+    def recent_songs():
+        key = MyCache.Keys.MOST_RECENT_SONGS
+        songs = cache.get(key, None)
+        if songs is None:
+            # print("DB READ - most recent songs")
+            songs = Song.objects.filter(published=True).order_by('-pub_date')
+            cache.set(key, songs)
+        return songs
+
+    def delete_recent_songs():
+        cache.delete(MyCache.Keys.MOST_RECENT_SONGS)
+
+    def published_songs_count():
+        key = MyCache.Keys.PUBLISHED_SONGS_COUNT
+        count = cache.get(key, None)
+        if count is None:
+            # print("DB READ - published songs count")
+            count = Song.objects.filter(published=True).count()
+            cache.set(key, count)
+        return count
+
+    def artists_count():
+        key = MyCache.Keys.ARTISTS_COUNT
+        count = cache.get(key, None)
+        if count is None:
+            # print("DB READ - artists count")
+            count = Artist.objects.count()
+            cache.set(key, count)
+        return count
+
+    def users_count():
+        key = MyCache.Keys.USER_COUNT
+        count = cache.get(key, None)
+        if count is None:
+            # print("DB READ - users count")
+            count = User.objects.count()
+            cache.set(key, count)
+        return count
+
+    def incr_value(key):
+        try:
+            cache.incr(key)
+        except ValueError:
+            pass
+
+    def decr_value(key):
+        try:
+            cache.decr(key)
+        except ValueError:
+            pass
