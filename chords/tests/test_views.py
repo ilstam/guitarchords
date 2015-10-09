@@ -66,6 +66,33 @@ class IndexViewTests(TestCase):
         self.assertQuerysetEqual(response.context['recent_songs'],
                                  ['<Song: Random Song>'])
 
+    def test_count_numbers_are_up_to_date(self):
+        """
+        Song, artist and user count numbers in index should always be
+        up-to-date.
+        """
+        for i in range(3):
+            last_song = create_song()
+        for i in range(2):
+            last_artist = create_artist()
+        user = create_user(username='a')
+
+        response = self.client.get(reverse('chords:index'))
+
+        self.assertEqual(3, response.context['song_count'])
+        self.assertEqual(2, response.context['artist_count'])
+        self.assertEqual(1, response.context['user_count'])
+
+        last_song.delete()
+        last_artist.delete()
+        user.delete()
+
+        response = self.client.get(reverse('chords:index'))
+
+        self.assertEqual(2, response.context['song_count'])
+        self.assertEqual(1, response.context['artist_count'])
+        self.assertEqual(0, response.context['user_count'])
+
     @override_settings(CACHES=settings.DUMMY_CACHE)
     def test_index_view_display_more_popular_songs_first(self):
         """
