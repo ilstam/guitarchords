@@ -10,6 +10,13 @@
     <form id="registration_form" method="post" action="">
         {% csrf_token %}
 
+        {% if form.username.errors %}
+            <div class="alert alert-danger alert-dismissible">{{ form.username.errors }}</div>
+        {% endif %}
+        {% if form.email.errors %}
+            <div class="alert alert-danger">{{ form.email.errors }}</div>
+        {% endif %}
+
         <div class="form-group">
             <label class="control-label" for="username">{% trans "Username" %}</label>
             <input type="text" class="form-control" id="username" name="username">
