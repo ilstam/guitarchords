@@ -2,4 +2,4 @@
 db.sqlite3
 chords/migrations/*
 .coverage
-.static_compressed
+chords/static/CACHE/*

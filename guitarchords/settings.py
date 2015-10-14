@@ -116,6 +116,4 @@ STATICFILES_FINDERS = (
     'compressor.finders.CompressorFinder',
 )
 
-COMPRESS_ROOT = os.path.join(BASE_DIR, '.static_compressed')
-
-COMPRESS_ENABLED = not DEBUG
+COMPRESS_ROOT = os.path.join(BASE_DIR, 'chords/static')
