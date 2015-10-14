@@ -1,5 +1,6 @@
 # recaptcha settings
 
+import os
 from .settings import PRODUCTION
 
 NOCAPTCHA = True  # if True, use the new No Captcha reCaptcha
