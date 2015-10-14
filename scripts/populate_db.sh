@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 # make db migrations, populate some data and create a superuser
 
 cd ..

@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 # delte database and migration files
 
 cd ..

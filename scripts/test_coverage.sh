@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 # run tests and display coverage report
 
 cd ..
