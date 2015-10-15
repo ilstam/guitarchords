@@ -51,12 +51,8 @@ sitemaps = {
 
 
 urlpatterns = [
-    url(r'^sitemap\.xml$', sitemap_view, {'sitemaps': sitemaps},
-        name='django.contrib.sitemaps.views.sitemap'),
-    url(r'^robots\.txt/$', TemplateView.as_view(template_name='robots.txt',
-        content_type='text/plain')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^chords/', include('chords.urls', namespace='chords')),
+    url(r'^', include('chords.urls', namespace='chords')),
     url(r'^accounts/login/$', login_user, name='auth_login'),
     url(r'^accounts/register/$', RegistrationViewUniqueEmailPasswordValidation.as_view(), name='registration_register'),
     url(r'^accounts/password/change/$', 'password_validation.views.password_change',
@@ -65,4 +61,8 @@ urlpatterns = [
         'password_validation.views.password_reset_confirm',
         {'post_reset_redirect': reverse_lazy('auth_password_reset_complete')}, name='auth_password_reset_confirm'),
     url(r'^accounts/', include('registration.backends.default.urls')),
+    url(r'^sitemap\.xml$', sitemap_view, {'sitemaps': sitemaps},
+        name='django.contrib.sitemaps.views.sitemap'),
+    url(r'^robots\.txt/$', TemplateView.as_view(template_name='robots.txt',
+        content_type='text/plain')),
 ]

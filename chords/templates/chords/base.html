@@ -43,7 +43,7 @@
                                 <li><a href="{% url 'chords:user' user.username %}">My songs</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a href="{% url 'auth_password_change' %}">Change Password</a></li>
-                                <li><a href="{% url 'auth_logout' %}?next=/chords/">Logout</a></li>
+                                <li><a href="{% url 'auth_logout' %}?next=/">Logout</a></li>
                             </ul>
                         </li>
                     {% else %}
