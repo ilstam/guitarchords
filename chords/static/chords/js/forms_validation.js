@@ -98,7 +98,7 @@ $('#registration_form').submit(function(event) {
     var pass1 = $('#password1');
     var pass2 = $('#password2');
 
-    var v1 = (! applyValidationError(username, /^[\w@+-.]{1,30}$/.test(username.val())))
+    var v1 = (! applyValidationError(username, /^[\w@.+-]{1,30}$/.test(username.val())))
     var v2 = (! applyValidationError(email, email.val() != ''))
     var v3 = (! validatePassword1(pass1, pass2))
     var v4 = (! validatePassword2(pass1, pass2))
