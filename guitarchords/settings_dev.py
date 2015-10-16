@@ -4,6 +4,9 @@ from .settings import BASE_DIR
 
 DEBUG=True
 
+ADMINS = (('Ilias Stamatis', 'stamatis.iliass@gmail.com'), )
+MANAGERS = ADMINS
+
 SECRET_KEY = 'p-gvap=o0(jm%14k&zn5wc4-u!7b-3#6#z@-@y)%$-k)!-u5)*'
 
 DATABASES = {
