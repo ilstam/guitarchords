@@ -2,13 +2,11 @@ import os
 from .settings import BASE_DIR
 
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG=False
 
-# Compress static files
-COMPRESS_ENABLED = True
+ADMINS = (('Ilias Stamatis', 'stamatis.iliass@example.com'), )
+MANAGERS = ADMINS
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ['SECRET_KEY']
 
 ALLOWED_HOSTS = ['localhost']
@@ -26,3 +24,15 @@ CACHES = {
         'LOCATION': 'unique-snowflake',
     }
 }
+
+# email settings
+EMAIL_HOST = 'smtp.example.com'
+EMAIL_PORT = -1
+EMAIL_HOST_USER = 'user'
+EMAIL_HOST_PASSWORD = 'password'
+EMAIL_USE_TLS = False
+
+# Compress static files
+COMPRESS_ENABLED = True
+
+RECAPTCHA_PRIVATE_KEY = os.environ['RECAPTCHA_PRIVATE_KEY']

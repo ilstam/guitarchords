@@ -18,17 +18,13 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-PRODUCTION = True if os.getenv('PRODUCTION', None) else False
+PRODUCTION = (os.getenv('PRODUCTION') == 'True')
 
 # WARNING: Be careful not to override any variables defined on the following files
 if PRODUCTION:
     from .settings_prod import *
 else:
     from .settings_dev import *
-
-from .registration_settings import *
-from .mail_settings import *
-from .recaptcha_settings import *
 
 # Application definition
 
@@ -117,3 +113,19 @@ STATICFILES_FINDERS = (
 )
 
 COMPRESS_ROOT = os.path.join(BASE_DIR, 'chords/static')
+
+# django-registration-redux app settings
+# http://django-registration-redux.readthedocs.org
+
+REGISTRATION_OPEN = True         # users can register
+ACCOUNT_ACTIVATION_DAYS = 7      # one-week activation window
+LOGIN_REDIRECT_URL = '/'         # redirect here after a successful log in
+LOGIN_URL = '/accounts/login/'   # the page users are directed to if they are not logged in,
+                                 # and are trying to access pages requiring authentication
+REGISTRATION_EMAIL_HTML = False  # disable html emails (just use the txt version)
+
+# django-recaptcha app settings
+# https://github.com/praekelt/django-recaptcha
+
+NOCAPTCHA = True  # if True, use the new No Captcha reCaptcha
+RECAPTCHA_PUBLIC_KEY = '6Le9nQ0TAAAAALp08H8WCEg3EVZzwWZ3d7xJ4JoN'
