@@ -1,6 +1,5 @@
 from django import forms
-from django.conf import settings
-from django.core.mail import send_mail
+from django.core.mail import mail_managers
 
 from .models import Song, Comment
 from .utils import strip_whitespace_lines
@@ -104,13 +103,12 @@ class ContactForm(forms.Form):
     subject = forms.CharField(label='Subject', max_length=100)
     body = forms.CharField(label='Your message', widget=forms.Textarea())
 
-    def send_email(self):
-        to_email = getattr(settings, 'REGISTRATION_DEFAULT_FROM_EMAIL',
-                           settings.DEFAULT_FROM_EMAIL)
-        send_mail(
+    def send_emails(self):
+        msg = 'Mail from: {0}\n\n'.format(self.cleaned_data['email'])
+        msg += self.cleaned_data['body']
+
+        mail_managers(
                 subject=self.cleaned_data['subject'],
-                message=self.cleaned_data['body'],
-                from_email=self.cleaned_data['email'],
-                recipient_list=[to_email],
+                message=msg,
                 fail_silently=False
         )
