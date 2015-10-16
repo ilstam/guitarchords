@@ -143,7 +143,7 @@ class ContactView(FormView):
         return {}
 
     def form_valid(self, form):
-        form.send_email()
+        form.send_emails()
         return super(ContactView, self).form_valid(form)
 
 def contact_done(request):
