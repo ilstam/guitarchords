@@ -107,10 +107,6 @@ textarea {
         margin-top: 90px;
         margin-bottom: 25px;
     }
-
-    #comment_seperator {
-        margin-top: 0px;
-    }
 }
 
 @media only screen and (max-width: 990px) {

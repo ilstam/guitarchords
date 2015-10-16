@@ -5,7 +5,7 @@
         <h2>{{ song.title }}</h2>
         <br />
 
-        <div id="song_content">{{ song.content }}</div> <br />
+        <div id="song_content">{{ song.content }}</div>
     </div>
 
     <div class="col-md-6">
@@ -68,8 +68,8 @@
 
 {% if not preview %}
     <div class="row col-md-12" id="comments_row">
-        <hr id="comment_seperator" />
-        <p><strong>Comments</strong></p> <br />
+        <hr />
+        <p><strong>Comments</strong></p>
         {% if comments %}
             {% for comment in comments %}
                 {% include "chords/display_comment.html" %}
