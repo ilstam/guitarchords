@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<!--
+	NOTICE: This is a not standard django fixture file.
+	Use the populate_data.py script provided along with this file
+	to populate the database with some meaningful data.
+-->
+
+<data>
+	<user username="bob" password="password"></user>
+	<user username="alice" password="password"></user>
+	<user username="Kate234" password="password"></user>
+	<user username="george_what" password="password"></user>
+	<user username="Penelope" password="password"></user>
+	<user username="john26" password="password"></user>
+	<user username="Smith" password="password"></user>
+
+	<artist name="Scorpions" />
+
+	<song title="Wind of Change" artist="Scorpions" sender="bob" genre="ROC" published="True" video="https://www.youtube.com/watch?v=n4RjJKxsamQ">
+F   Dm  F  Dm  Am  Dm  Am G  C
+C             Dm
+I follow the Moskva
+     F         C
+Down to Gorky Park
+                  Dm     Am  G
+Listening to the wind of change
+C                  Dm
+An August summer night
+Bb              C
+Soldiers passing by
+Dm                    Am   G        F   Dm  F  Dm  Am  Dm  Am G C
+Listening to the wind of change
+
+The world closing in
+Did you ever think
+That we could be so close,like brothers
+The future's in the air
+I can feel it everywhere
+Blowing with the wind of change
+
+Chorus:
+C    G           Dm           G
+Take me to the magic of the moment
+   C         G
+On a glory night
+     Dm                 G           Am
+Where the children of tomorrow dream away
+F                 G
+In the wind of change
+
+
+Walking down the street
+Distant memories
+Are buried in the past forever
+
+C             Dm
+I follow the Moskva
+     F         C
+Down to Gorky Park
+                  Dm     Am  G
+Listening to the wind of change
+
+Take me to the magic of the moment
+On a glory night
+Where the children of tomorrow share their dreams
+With you and me
+
+C    G           Dm           G
+Take me to the magic of the moment
+   C         G
+On a glory night
+     Dm                 G           Am
+Where the children of tomorrow dream away
+F                 G
+In the wind of change
+
+Am                           G
+The wind of change blows straight
+          Em  G   Am
+Into the face of time
+                     Em    G
+Like a stormwind that will ring
+                         D     C
+The freedom bell for peace of mind
+                  Dm
+Let your balalaika sing
+                     E
+What my guitar wants to say
+
+Solo
+
+Take me to the magic of the moment
+On a glory night
+Where the children of tomorrow share their dreams
+With you and me
+
+Take me to the magic of the moment
+On a glory night
+Where the children of tomorrow dream away
+In the wind of change
+	</song>
+
+</data>
