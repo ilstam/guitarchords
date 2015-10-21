@@ -99,6 +99,16 @@ function changeSemiton(chord, semitonsMove) {
 }
 
 /**
+ * Replace html escaped <em> tags by real <em> tags.
+ *
+ * @param song {String} the whole song string
+ * @return {String} parsed song
+ */
+function parseComments(song) {
+    return song.replace(/&lt;em&gt;/g, '<em>').replace(/&lt;\/em&gt;/g, '</em>');
+}
+
+/**
  * Checks wether a song line contain tablatures.
  *
  * @param line {String} a song line
@@ -112,27 +122,14 @@ function isTabLine(line) {
 }
 
 /**
- * Encloses each chord in a span tag of class "chord", and assigns an
- * appropriate image to it. Additionally, it encloses each line containing
- * chords in a div tag of class "chordline" and each line containing tabs
- * in a div tag of class "tabsline".
+ * Encloses each line of the given song string containing tabs, in a div tag
+ * of class "tabsline".
  *
- * eg. "Am" becomes ->
- * <div class="chordline">
- *     <span class="chord" origchord="Am">
- *         <span class="chordname">Am</span>
- *         <img src="Am.png">
- *     </span>
- * </div>
+ * @param song {String} the whole song string
+ * @return {Array of Strings} the parsed lines
  */
-function parseSong() {
-    var content = $('#song_content').html();
-
-    // Parse comments
-    content = content.replace(/&lt;em&gt;/g, '<em>').replace(/&lt;\/em&gt;/g, '</em>');
-
-    // Parse tabs
-    var lines = content.split('\n');
+function parseTabs(song) {
+    var lines = song.split('\n');
     var newlines = [];
 
     for (i = 0; i < lines.length; i++) {
@@ -143,14 +140,32 @@ function parseSong() {
         newlines.push(lines[i]);
     }
 
-    // Parse chords
-    lines = newlines;
-    var finallines = '';
+    return newlines;
+}
+
+/**
+ * In the given song, encloses each chord in a span tag of class "chord",
+ * and assigns an appropriate image to it. Additionally, it encloses each line
+ * containing chords in a div tag of class "chordline".
+ *
+ * eg. "Am" becomes ->
+ * <div class="chordline">
+ *     <span class="chord" origchord="Am">
+ *         <span class="chordname">Am</span>
+ *         <img src="Am.png">
+ *     </span>
+ * </div>
+ *
+ * @param lines {Array of Strings} the initial song lines
+ * @return {Array of Strings} the parsed lines
+ */
+function parseChords(lines) {
+    var newlines = '';
 
     for (i = 0; i < lines.length; i++) {
-        // Do not parse tab lines for chords.
+        // Do not parse tab lines.
         if (lines[i].indexOf('<div class="tabsline">') != -1) {
-            finallines += lines[i];
+            newlines += lines[i];
             continue;
         }
 
@@ -167,12 +182,17 @@ function parseSong() {
 
         // Enclose chords lines in div tags of class "chordline".
         if (lines[i].indexOf('<span class="chord"') != -1)
-            finallines += '<div class="chordline">' + lines[i] + '</div>';
+            newlines += '<div class="chordline">' + lines[i] + '</div>';
         else
-            finallines += lines[i];
+            newlines += lines[i];
     }
 
-    $('#song_content').html(finallines);
+    return newlines;
+}
+
+function parseSong() {
+    var song = $('#song_content');
+    song.html(parseChords(parseTabs(parseComments(song.html()))));
 }
 
 /**
