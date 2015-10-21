@@ -99,6 +99,19 @@ function changeSemiton(chord, semitonsMove) {
 }
 
 /**
+ * Checks wether a song line contain tablatures.
+ *
+ * @param line {String} a song line
+ * @return {Boolean}
+ */
+function isTabLine(line) {
+    var regex = /^[A-Ga-g]:*\|{0,2}.*-.*-.*-/;
+    if (regex.test(line))
+            return true;
+    return false;
+}
+
+/**
  * Encloses each chord in a span tag of class "chord", and assigns an
  * appropriate image to it. Additionally, it encloses each line containing
  * chords in a div tag of class "chordline" and each line containing tabs
@@ -119,11 +132,10 @@ function parseSong() {
     content = content.replace(/&lt;em&gt;/g, '<em>').replace(/&lt;\/em&gt;/g, '</em>');
 
     // parse tabs
-    var regex = /^[A-Ga-g]\|?[1-9-]{3,}/;
     var lines = content.split('\n');
     var newlines = [];
     for (i = 0; i < lines.length; i++) {
-        if (regex.test(lines[i]))
+        if (isTabLine(lines[i]))
             lines[i] = '<div class="tabsline">' + lines[i] + '</div>';
         else
             lines[i] += '\n'
