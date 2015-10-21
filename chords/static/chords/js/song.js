@@ -128,12 +128,13 @@ function isTabLine(line) {
 function parseSong() {
     var content = $('#song_content').html();
 
-    //parse comments
+    // Parse comments
     content = content.replace(/&lt;em&gt;/g, '<em>').replace(/&lt;\/em&gt;/g, '</em>');
 
-    // parse tabs
+    // Parse tabs
     var lines = content.split('\n');
     var newlines = [];
+
     for (i = 0; i < lines.length; i++) {
         if (isTabLine(lines[i]))
             lines[i] = '<div class="tabsline">' + lines[i] + '</div>';
@@ -142,19 +143,20 @@ function parseSong() {
         newlines.push(lines[i]);
     }
 
-    // parse chords
+    // Parse chords
     lines = newlines;
     var finallines = '';
 
     for (i = 0; i < lines.length; i++) {
+        // Do not parse tab lines for chords.
         if (lines[i].indexOf('<div class="tabsline">') != -1) {
-            // don't parse tab lines for chords
             finallines += lines[i];
             continue;
         }
 
+        // Enclose chords in span tags of class "chords".
         lines[i] = lines[i].replace(
-            /([A-G][#b]?(maj|m|aug|dim|sus)?([245679]|11|13)?)/g,
+            /\b([A-G][#b]?(maj|m|aug|dim|sus)?([245679]|11|13)?)\b/g,
             function($0, $1) {
                 return '<span class="chord" origchord="' + $1 +
                     '"><span class="chordname">' + $1 + '</span>' +
@@ -163,6 +165,7 @@ function parseSong() {
             }
         );
 
+        // Enclose chords lines in div tags of class "chordline".
         if (lines[i].indexOf('<span class="chord"') != -1)
             finallines += '<div class="chordline">' + lines[i] + '</div>';
         else
