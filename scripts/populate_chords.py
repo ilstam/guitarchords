@@ -2,8 +2,10 @@
 # Populate the database with some meaningful data.
 
 import os
+import sys
 import django
 
+sys.path.append(os.path.abspath('..'))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'guitarchords.settings')
 django.setup()
 

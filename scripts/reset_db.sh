@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 ./delete_db.sh
-./populate_db.sh
+./init_db.sh

@@ -1,13 +1,13 @@
 # Include this module into a population script.
 # Remember to setup the django environment before calling populate().
-# You may need to change DATA_PATH.
 
+import os
 import xml.etree.ElementTree as etree
 
 from chords.models import Artist, Song, User
 
 
-DATA_PATH = './chords/fixtures/data.xml'
+DATA_PATH = os.path.join(os.path.dirname(__file__), 'data.xml')
 
 
 def add_user(username='username', password='password'):
