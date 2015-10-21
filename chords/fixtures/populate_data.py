@@ -9,6 +9,8 @@ from chords.models import Artist, Song, User
 
 DATA_PATH = os.path.join(os.path.dirname(__file__), 'data.xml')
 
+def str_to_bool(s):
+    return s.lower() == "true"
 
 def add_user(username='username', password='password'):
     try:
@@ -26,14 +28,15 @@ def add_artist(name):
 
 def add_song(title, artist, sender=None, content='', genre='', video='',
              tabs=False, published=False):
+
     artist = Artist.objects.get(name=artist)
     s = Song.objects.get_or_create(title=title, artist=artist)[0]
     s.sender = User.objects.get(username=sender)
     s.content = content
     s.genre = genre
     s.video = video
-    s.tabs = tabs
-    s.published = published
+    s.tabs = str_to_bool(tabs) if isinstance(tabs, str) else tabs
+    s.published = str_to_bool(published) if isinstance(published, str) else published
     if published:
         s.publish()
     s.save()
