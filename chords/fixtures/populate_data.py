@@ -44,12 +44,12 @@ def populate():
     root = tree.getroot()
 
     for user in root.findall('user'):
-            add_user(**user.attrib)
+        add_user(**user.attrib)
 
     for artist in root.findall('artist'):
-            add_artist(**artist.attrib)
+        add_artist(**artist.attrib)
 
     for song in root.findall('song'):
-            data = song.attrib
-            data['content'] = song.text
-            add_song(**data)
+        data = song.attrib
+        data['content'] = song.text
+        add_song(**data)
