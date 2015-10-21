@@ -37,7 +37,7 @@ class RegistrationViewUniqueEmailPasswordValidation(RegistrationView):
 
 
 def login_user(request):
-    if not 'remember_me' in request.POST:
+    if request.method == 'POST' and not 'remember_me' in request.POST:
         request.session.set_expiry(0)
     return auth.views.login(request, 'registration/login.html')
 
