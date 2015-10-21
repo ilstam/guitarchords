@@ -23,21 +23,21 @@ bootstrap
 Get started
 ------------
 Make migrations:
-`./manage.py makemigrations chords`
-`./manage.py migrate`
+`python3 manage.py makemigrations chords`
+`python3 manage.py migrate`
 
 Populate some test data (optional):
-`./populate_chords.py`
+`python3 scripts/populate_chords.py`
 
 Create a superuser for the admin site (optional):
-`./manage.py createsuperuser`
+`python3 manage.py createsuperuser`
 
 Run the development server:
-`./manage.py runserver`
+`python3 manage.py runserver`
 
-You can now visit the site on http://localhost:8000/chords/.
+You can now visit the site on http://localhost:8000.
 
 Optionally you may also start a debugging mail server:
-`./scripts/run_mailserver.sh`
+`python3 scripts/run_mailserver.sh`
 
 That's required for user registrations and other stuff.
