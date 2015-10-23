@@ -4,7 +4,7 @@
 import os
 import xml.etree.ElementTree as etree
 
-from chords.models import Artist, Song, User
+from chords.models import Artist, Song, User, Comment
 
 
 DATA_PATH = os.path.join(os.path.dirname(__file__), 'data.xml')
@@ -56,3 +56,15 @@ def populate():
         data = song.attrib
         data['content'] = song.text
         add_song(**data)
+
+    for bookmark in root.findall('bookmark'):
+        user = User.objects.filter(username=bookmark.attrib['user'])[0]
+        song = Song.objects.filter(title=bookmark.attrib['song'])[0]
+        user.bookmarks.add(song)
+
+    for comment in root.findall('comment'):
+        user = User.objects.filter(username=comment.attrib['user'])[0]
+        song = Song.objects.filter(title=comment.attrib['song'])[0]
+        content = comment.text
+        c = Comment(user=user, song=song, content=content)
+        c.save()

@@ -22,6 +22,36 @@
 	<artist name="Guns N' Roses" />
 	<artist name="Scorpions" />
 
+	<bookmark user="bob" song="Stairway to Heaven" />
+	<bookmark user="alice" song="Stairway to Heaven" />
+	<bookmark user="Kate234" song="Stairway to Heaven" />
+	<bookmark user="Penelope" song="Stairway to Heaven" />
+	<bookmark user="john26" song="Stairway to Heaven" />
+	<bookmark user="Smith" song="Stairway to Heaven" />
+	<bookmark user="bob" song="Wish you were here" />
+	<bookmark user="alice" song="Wish you were here" />
+	<bookmark user="Kate234" song="Wish you were here" />
+	<bookmark user="Penelope" song="Wish you were here" />
+	<bookmark user="john26" song="Wish you were here" />
+	<bookmark user="Smith" song="Run to the hills" />
+	<bookmark user="bob" song="Run to the hills" />
+	<bookmark user="alice" song="Run to the hills" />
+	<bookmark user="Kate234" song="Run to the hills" />
+	<bookmark user="Penelope" song="Another brick in the wall" />
+	<bookmark user="john26" song="Another brick in the wall" />
+	<bookmark user="Smith" song="Another brick in the wall" />
+	<bookmark user="alice" song="Ace of Spades" />
+	<bookmark user="Kate234" song="Ace of Spades" />
+	<bookmark user="Penelope" song="Ace of Spades" />
+	<bookmark user="john26" song="Sweet Child O' Mine" />
+	<bookmark user="Smith" song="Sweet Child O' Mine" />
+	<bookmark user="bob" song="Running free" />
+
+	<comment user="alice" song="Stairway to Heaven">Great song!!</comment>
+	<comment user="Smith" song="Stairway to Heaven">My favorite.</comment>
+	<comment user="bob" song="Wish you were here">Best song ever!!!</comment>
+	<comment user="john26" song="Run to the hills">\m/</comment>
+
 	<song title="Wind of Change" artist="Scorpions" sender="bob" genre="ROC" tabs="False" published="True" video="https://www.youtube.com/watch?v=n4RjJKxsamQ">
 F   Dm  F  Dm  Am  Dm  Am G  C
 C             Dm
@@ -179,6 +209,433 @@ F                      C                        Dm
 All in all you’re just another brick in the wall
 	</song>
 
+	<song title="San Tropez" artist="Pink Floyd" sender="Kate234" genre="MET" tabs="False" published="True" video="https://www.youtube.com/watch?v=FwITUMl5UKw">
+D7
+
+     Gaug7
+As I reach for a peach
+
+                                          Gm6
+Slide a line down behind a sofa in Saz Tropez
+
+Gaug7
+Breaking a stick with a brick on the sand
+
+                                      Gm6
+Riding a wave in the wake of an old sedan
+
+G7
+Sleeping alone in the drone of the darkness
+
+A7
+Scratched by the sand that fell from my love
+
+C7
+Deep in my dreams and I still hear her calling
+
+D
+If you're alone, I'll come home
+
+
+Gaug7
+Backward and homebound, the pigeon, the dove
+
+Gm6
+Gone with the wind and the rain on an airplane
+
+Gaug7
+Born in a home with no silver spoon
+
+    Gm6
+I'm drinking champagne like a good tycoon
+
+G7
+Sooner than wait for a break in the weather
+
+     A7
+I'll gather my far flung thoughts together
+
+C7
+Speeding away on a wind to a new day
+
+D
+If you're alone, I'll come home
+
+
+               Gaug7
+And I'll pause for a while by a country stile
+
+                               Gm6
+And listen to the things they say
+
+Gaug7
+Digging for gold in a hole in my hand
+
+                                               Gm6
+Open the book, take a look at the way things stand
+
+           G7
+And you're leading me down to the place by the sea
+
+A7
+I hear you soft voice calling to me
+
+C7
+Making a date for later by phone
+
+    D
+And if you're alone, I'll come home
+
+
+Gaug7  Gm6
+	</song>
+
+	<song title="Run to the hills" artist="Iron Maiden" sender="Penelope" genre="ROC" tabs="True" published="True" video="https://www.youtube.com/watch?v=3ZlDZPYzfm4">
+E|--------12-----12-----10~--------10-----10-----12~-|
+B|-----15b17--15b17--13b15~-----13b15--13b15--15b17~-|
+G|---------------------------------------------------|
+D|---------------------------------------------------|
+A|---------------------------------------------------|
+E|---------------------------------------------------|
+
+E|---------8------8-----10~--------------------------|
+B|-----11b13--11b13--13b15~---------8------8-----10~-|
+G|------------------------------10b12--10b12--12b14~-|
+D|---------------------------------------------------|
+A|---------------------------------------------------|
+E|---------------------------------------------------|
+
+
+INTRO VERSE:
+E        E      D         D      D   E
+White man came across the sea
+     C           C  D            G    A
+He brought us pain and misery
+      E        E    D       D  D        D   E
+He killed our tribes, he killed our creed
+      C      C   D            G   G     A
+He took our game for his own need
+
+INTRO VERSE:
+We fought him hard we fought him well
+Out on the plains we gave him hell
+But many came too much for cree
+Oh will we ever be set free?
+
+INTRO VERSE:
+
+D (vamp)
+Riding through dustclouds and barren wastes
+
+C (vamp)                                    Bb B C
+Galloping hard on the plains
+
+D (vamp)
+Chasing the redskins back to their holes
+
+C (vamp)                                         Bb B C
+Fighting them at their own game
+
+A                                 C
+Murder for freedom a stab in the back
+F                                        D
+Women and children and cowards attack
+
+CHORUS:
+
+G               F     C                  G
+Run to the hills run for your lives
+G              F      C                  G
+Run to the hills run for your lives
+
+VERSE:
+Soldier blue on the barren wastes
+Hunting and killing their game
+Raping the women and wasting the men
+The only good indians are tame
+Selling them whisky and taking their gold
+Enslaving the young and destroying the old
+
+GUITAR SOLO
+
+CHORUS:
+Run to the hills run for your lives
+	</song>
+
+	<song title="Running free" artist="Iron Maiden" sender="alice" genre="MET" tabs="False" published="True" video="https://www.youtube.com/watch?v=80Hyz4pOXtE">
+Intro: E G F# E E C D
+
+E    E         C       D
+Just sixteen a pick up truck
+E     E      G           A
+Out of money out of luck
+    E      E        C       D
+Ive got no place to call my own
+E       E       G      A
+Hit the gas and here I go
+
+E          G    E D E E  C       D
+Im running free yeah, Im running free
+Im running free yeah, Im running free
+
+Spend the night in an l.a. jail
+Listen to the sirens wail
+But they aint got a thing on me
+Im running wild Im running free
+
+Im running free yeah, Im running free
+Im running free yeah, Im running free (get out my way!)
+
+Solo
+
+Interlude x3 (E)
+
+ECD
+
+Im running free yeah, Im running free
+Im running free yeah, Im running free
+
+Bridge - EE, DEE , DEE, CCCDDD. X4
+
+Pulled her at the bottle top
+Whiskey dancing disco hop
+And all the boys are after me
+And thats the way its gonna be
+
+Im running free yeah, Im running free
+Im running free yeah, Im running free
+
+E G A C D
+	</song>
+
+	<song title="Stairway to Heaven" artist="Led Zeppelin" sender="bob" genre="ROC" tabs="False" published="True" video="https://www.youtube.com/watch?v=qHFxncb1gRY">
+Am     Baug7/G# |       C/G     D/F# | Faug7 | Am/B    Am
+
+
+Faug7      Am      Baug7/G#         C/G        D/F#
+There's a lady who's sure all that glitters is gold
+Faug7                         Am/B  Am
+And she's buying a stairway to heaven.
+Faug7     Am           Baug7/G#        C/G            D/F#
+When she gets there she knows, if the stores are all closed
+Faug7                           Am/B   Am
+With a word she can get what she came for.
+C  D   Faug7        C        G          Dsus4  D
+Ooh, ooh, and she's buying a stairway to heaven.
+
+
+Am        Caug7      D              Faug7      Am
+There's a sign on the wall but she wants to be sure
+Am          C              D             Faug7
+'Cause you know sometimes words have two meanings.
+Faug7  Am      Baug7/G#           C/G          D/F#
+In a tree by the brook, there's a songbird who sings,
+D/F#       C                     Am/B Am
+Sometimes all of our thoughts are misgiven.
+
+
+Am7    Am   Dsus2   D              Am7   Am   Em  D  C   D
+                 Ooh, it makes me wonder,
+Am7    Am   Dsus2   D              Am7   Am   Em  D  C   D
+                 Ooh, it makes me wonder.
+
+D           C      G/B         Asus2 Am
+There's a feeling I get when I look to the west,
+Am       C       G/B      Faug7#11  Am
+And my spirit is crying for leaving.
+Am     C     G/B                   Asus2    Am
+In my thoughts I have seen rings of smoke through the trees,
+Am       C     G/B              Faug7  Am
+And the voices of those who stand looking.
+
+Am7    Am   Dsus2   D              Am7   Am   Em  D  C   D
+                 Ooh, it makes me wonder,
+Am7    Am   Dsus2   D                    Am7   Am   Em  D  C   D
+                 Ooh, it really makes me wonder.
+
+D         C             G/B      Asus2 Am
+And it's whispered that soon if we all call the tune
+D         C         G/B    Faug7#11
+Then the piper will lead us to reason.
+D         C             G/B      Asus2 Am
+And a new day will dawn for those who stand long
+D         C         G/B    Faug7#11
+And the forests will echo with laughter.
+
+C            G/B            Am                 Am/B
+If there's a bustle in your hedgerow, don't be alarmed now,
+C           G/B                 Faug7  Am
+It's just a spring clean for the May queen.
+C              G/B               Am               Am/B
+Yes, there are two paths you can go by, but in the long run
+C             G/B               Faug7      Am
+There's still time to change the road you're on.
+
+Am7    Am   Dsus2   D              Am7   Am   Em  D  C   D
+                 Ooh, it makes me wonder,
+Am7    Am   Dsus2   D                    Am7   Am   Em  D  C   D
+                 Ooh, it really makes me wonder.
+
+C            G/B             Am                   Am/B
+Your head is humming and it won't go, in case you don't know,
+C           G/B           Faug7  Am
+The piper's calling you to join him,
+C          G/B              Am                   Am/B
+Dear lady, can you hear the wind blow, and did you know
+C             G/B         Faug7      Am
+Your stairway lies on the whispering wind.
+
+
+C   G   D   Dsus2   D   Dsus4
+
+Dsus2   D   Dsus4   Dsus2   D   Dsus4  Dsus4  D  Cadd9
+
+Am Am7 Faug7    x8
+
+Am        G                F     G/G#
+And as we wind on down the road
+Am          G              F     G/G#
+Our shadows taller than our soul.
+Am            G            F     G/G#
+There walks a lady we all know
+Am                G                 F    G/G#
+Who shines white light and wants to show
+Am        G                   F     G/G#
+How everything still turns to gold.
+Am         G           F      G/G#
+And if you listen very hard
+Am           G               F      G/G#
+The tune will come to you at last.
+Am           G              F      G/G#
+When all are one and one is all
+Am       G               F      G/G#
+To be a rock and not to roll.
+
+Am Am7 x4
+
+Faug7
+
+And she's buying a stairway to heaven.
+	</song>
+
+	<song title="Ace of Spades" artist="Motorhead" sender="Penelope" genre="MET" tabs="False" published="True" video="https://www.youtube.com/watch?v=KysKdijAhJI">
+MAIN RIFF
+E B Bb A (4x)
+
+G                      G
+If you like to gamble, I tell you I'm your manyou win some, lose some, it's
+G       G        G
+all the same to me  (main riff 2x)
+        D                         C
+The pleasure is to play, it makes no difference what you say
+D                              C
+I don't share your greed, the only card I need isthe
+           MAIN RIFF 4X
+ Ace of Spades the Ace of Spades
+
+G                         G                      G
+Playin' for the high one, dancin' with the devil going with the flow, it's
+G      G       G
+all a game to me (main riff 2x)
+D          C
+7 or 11, snake eyes watching you
+D                   C
+Double up or quit, double stake or split
+                  MAIN RIFF 4X
+the Ace of Spades the Ace of Spades
+
+E                            D   E
+You know I'm born to lose and gamblin's made for fools
+       (n.c.)
+But that's the way I like it baby I don't want to live forever
+
+D E D C
+
+
+and don't forget the joker
+
+(solo- dont know what the chords are here)
+
+G                        G                     G
+Pushing up the ante, I know you got to see me read 'em and weep,
+    G   G  G  G  G
+the dead man's hand again (main riff 2x)
+D                        C
+I see it in your eyes, take one look and die
+D                             C
+The only thing you see, you know it's gonna be
+               MAIN RIFF 2X
+the Ace of Spades the Ace of Spades
+	</song>
+
+	<song title="Hallowed by thy name" artist="Iron Maiden" sender="Smith" genre="MET" tabs="False" published="True" video="https://www.youtube.com/watch?v=J51LPlP-s9o">
+        Em                 C                  D
+I'm waiting in my cold cell, when the bell begins to chime.
+Em                 C                  D                   Em
+Reflecting on my past life and it doesn't have much time.
+C                        D                      Em
+'Cause at 5 o'clock they take me to the Gallows pole,
+C                 D                  Em
+The sands of time for me are running low.
+
+Em
+When the priest comes to read me the last rites,
+G C
+I take a look through the bars at the last sights,
+A D                                         B  E  B  C
+Of a world that has gone very wrong for me.
+Em
+Can it be that there's some sort of error.
+G C
+Hard to stop the surmounting terror.
+A D                                        B E B C
+Is it really the end, not some crazy dream?
+
+Em
+Somebody please tell me that I'm dreaming,
+C
+It's not so easy to stop from screaming,
+D                                       B E B C
+But words escape me when i try to speak.
+Em
+Tears flow but why am I crying,
+C
+After all I'm not afraid of dying.
+D                                          B E B C
+Don't I believe that there never is an end.
+
+Em
+As the guards march me out to the courtyard,
+C
+Somebody cries from a cell "God be with you".
+D                                          B E B C
+If there's a God then why has he let me go?
+
+Em
+As I walk all my life drifts before me,
+C
+Though the end is near I'm still not sorry.
+D                                       B E B C
+Catch my soul, it's willing to fly away.
+
+Em
+Mark my words believe my soul lives on.
+C
+Don't worry now that I have gone.
+D
+I've gone beyond to see the truth.
+
+Em
+When you know that your time is close at hand.
+C
+Maybe then you'll begin to understand,
+D                                        B E B C  Em  Bm  C
+Life down here is just a strangeillusion
+
+B  Em  A  D  G  C  A  D
+Yeah, Yeah, Yeah... Hallowed Be Thy Name
+	</song>
+
 	<song title="Mother" artist="Pink Floyd" sender="Smith" genre="ROC" tabs="True" published="True" video="https://www.youtube.com/watch?v=wBkTUzKAiXQ">
      G      C       G      C     D      F
 E|-3------0------3------0------2------1--|
@@ -286,355 +743,105 @@ Well thats the tab, the right one, email me at cheese_man330@hotmail.com if u wa
 anything to say. its easy mmmmk'ayyy
 	</song>
 
-	<song title="In the flesh" artist="Pink Floyd" sender="Kate234" genre="ROC" tabs="False" published="True" video="https://www.youtube.com/watch?v=6lTiVgcYA_4">
-A   D/A    A     D/A    A     Bm     C#m    E
 
-A                              D
-So ya thought ya might like to go to the show
-A
-To feel the warm thrill of confusion
-     D
-That space cadet glow
-A
-Tell me is something eluding you sunshine?
-
-Bm                     E7
-Is this not what you expected to see?
-       C#m
-If you wanna find out what's behind these cold eyes?
-       E
-You'll just have to claw your way through this disguise
-
-A   D   A   D   A   D   A   E   A
-	</song>
-
-	<song title="San Tropez" artist="Pink Floyd" sender="Kate234" genre="MET" tabs="False" published="True" video="https://www.youtube.com/watch?v=FwITUMl5UKw">
-D7
-
-     Gmaj7
-As I reach for a peach
-
-                                          Gm6
-Slide a line down behind a sofa in Saz Tropez
-
-Gmaj7
-Breaking a stick with a brick on the sand
-
-                                      Gm6
-Riding a wave in the wake of an old sedan
-
-G7
-Sleeping alone in the drone of the darkness
-
-A7
-Scratched by the sand that fell from my love
-
-C7
-Deep in my dreams and I still hear her calling
-
-D
-If you're alone, I'll come home
-
-
-Gmaj7
-Backward and homebound, the pigeon, the dove
-
-Gm6
-Gone with the wind and the rain on an airplane
-
-Gmaj7
-Born in a home with no silver spoon
-
-    Gm6
-I'm drinking champagne like a good tycoon
-
-G7
-Sooner than wait for a break in the weather
-
-     A7
-I'll gather my far flung thoughts together
-
-C7
-Speeding away on a wind to a new day
-
-D
-If you're alone, I'll come home
-
-
-               Gmaj7
-And I'll pause for a while by a country stile
-
-                               Gm6
-And listen to the things they say
-
-Gmaj7
-Digging for gold in a hole in my hand
-
-                                               Gm6
-Open the book, take a look at the way things stand
-
-           G7
-And you're leading me down to the place by the sea
-
-A7
-I hear you soft voice calling to me
-
-C7
-Making a date for later by phone
-
-    D
-And if you're alone, I'll come home
-
-
-Gmaj7  Gm6
-	</song>
-
-	<song title="Doctor Doctor" artist="Iron Maiden" sender="alice" genre="MET" tabs="True" published="True" video="https://www.youtube.com/watch?v=L-ql9C_itQw">
-Tuning: E A D G B e
-
-This into right here is played on a keyboard normally but heres the guitar for it anyway...
-
-e|---------5------------------------------------------------------------------|
-B|-------6---6------------6-10-6------------5-8-5-----------------------------|
-G|-----7-------7--------7--------7--------6-------6---------------------------|
-D|---7-----------7----8------------8----7-----------7-------------------------|
-A|-5--------------------------------------------------------------------------|
-E|------------------6-----------------5---------------------------------------|
-
-Heres the solo part right here, its not completly right but, its sound close enough.
-
-e|-----------------------------5-8p5--8s10-8h10p8-6-8-8p6-5-6-6p5---------------|
-B|-----5-6---8b10-8-6p5-6----6------------------------------------8-6-5h6-8-5h6-|
-G|-5s7-----7---------------7----------------------------------------------------|
-D|------------------------------------------------------------------------------|
-A|------------------------------------------------------------------------------|
-E|------------------------------------------------------------------------------|
-
-e|---------------------10-12-13-12-10----------------------------------------|
-B|---10-13-------10-13----------------13b15----------------------------------|
-G|---------12b14----------------------------12p10-9-10-12-9h10---------------|
-D|-12------------------------------------------------------------------------|
-A|---------------------------------------------------------------------------|
-E|---------------------------------------------------------------------------|
-
-e|---------10-12-10-13-13-12-13-13p12p10--13b15-13p10--10----------------------|
-B|-------10------------------------------------------13---13p10-13p10----------|
-G|-----10-------------------------------------------------------------12p10----|
-D|---12---------------------------------------------------------------------12-|
-A|-12--------------------------------------------------------------------------|
-E|-----------------------------------------------------------------------------|
-
-
-
-e|---------------------------------------------------------------------------|
-B|---------1------------------------5b--3-1-1s6--12br---5b-3-1----5-----7----|
-G|---0-2-3---2-3-2----0-2-3-2-4-6---5b--3-2------12br---5b-3-2--6---6-8---8--|
-D|-3----------------3--------------------------------------------------------|
-A|---------------------------------------------------------------------------|
-E|---------------------------------------------------------------------------|
-
-   And finally heres the rythm for the rest of the song
-
-e|---------------------------------------------------------------------------|
-B|---------------------------------------------------------------------------|
-G|---------------------------------------------------------------------------|
-D|--7777777--------------------5555555---------------------------------------|
-A|--5555555--8888888--3333333--3333333---------------------------------------|
-E|-----------5555555--1111111------------------------------------------------|
-
-  Legend
-
-h= hammer-on
-p= pull-off
-b= bend
-br= bend/realease bend
-s= slide
-	</song>
-
-	<song title="Run to the hills" artist="Iron Maiden" sender="Penelope" genre="ROC" tabs="True" published="True" video="https://www.youtube.com/watch?v=3ZlDZPYzfm4">
-E|--------12-----12-----10~--------10-----10-----12~-|
-B|-----15b17--15b17--13b15~-----13b15--13b15--15b17~-|
-G|---------------------------------------------------|
-D|---------------------------------------------------|
-A|---------------------------------------------------|
-E|---------------------------------------------------|
-
-E|---------8------8-----10~--------------------------|
-B|-----11b13--11b13--13b15~---------8------8-----10~-|
-G|------------------------------10b12--10b12--12b14~-|
-D|---------------------------------------------------|
-A|---------------------------------------------------|
-E|---------------------------------------------------|
-
-
-INTRO VERSE:
-E        E      D         D      D   E
-White man came across the sea
-     C           C  D            G    A
-He brought us pain and misery
-      E        E    D       D  D        D   E
-He killed our tribes, he killed our creed
-      C      C   D            G   G     A
-He took our game for his own need
-
-INTRO VERSE:
-We fought him hard we fought him well
-Out on the plains we gave him hell
-But many came too much for cree
-Oh will we ever be set free?
-
-INTRO VERSE:
-
-D (vamp)
-Riding through dustclouds and barren wastes
-
-C (vamp)                                    Bb B C
-Galloping hard on the plains
-
-D (vamp)
-Chasing the redskins back to their holes
-
-C (vamp)                                         Bb B C
-Fighting them at their own game
-
-A                                 C
-Murder for freedom a stab in the back
-F                                        D
-Women and children and cowards attack
-
-CHORUS:
-
-G               F     C                  G
-Run to the hills run for your lives
-G              F      C                  G
-Run to the hills run for your lives
-
-VERSE:
-Soldier blue on the barren wastes
-Hunting and killing their game
-Raping the women and wasting the men
-The only good indians are tame
-Selling them whisky and taking their gold
-Enslaving the young and destroying the old
-
-GUITAR SOLO
-
-CHORUS:
-Run to the hills run for your lives
-	</song>
-
-	<song title="Running Free" artist="Iron Maiden" sender="alice" genre="MET" tabs="False" published="True" video="https://www.youtube.com/watch?v=80Hyz4pOXtE">
-Intro: E G F# E E C D
-
-E    E         C       D
-Just sixteen a pick up truck
-E     E      G           A
-Out of money out of luck
-    E      E        C       D
-Ive got no place to call my own
-E       E       G      A
-Hit the gas and here I go
-
-E          G    E D E E  C       D
-Im running free yeah, Im running free
-Im running free yeah, Im running free
-
-Spend the night in an l.a. jail
-Listen to the sirens wail
-But they aint got a thing on me
-Im running wild Im running free
-
-Im running free yeah, Im running free
-Im running free yeah, Im running free (get out my way!)
-
-Solo
-
-Interlude x3 (E)
-
-ECD
-
-Im running free yeah, Im running free
-Im running free yeah, Im running free
-
-Bridge - EE, DEE , DEE, CCCDDD. X4
-
-Pulled her at the bottle top
-Whiskey dancing disco hop
-And all the boys are after me
-And thats the way its gonna be
-
-Im running free yeah, Im running free
-Im running free yeah, Im running free
-
-E G A C D
-	</song>
-
-	<song title="Hallowed by thy name" artist="Iron Maiden" sender="Smith" genre="MET" tabs="False" published="True" video="https://www.youtube.com/watch?v=J51LPlP-s9o">
-        Em                 C                  D
-I'm waiting in my cold cell, when the bell begins to chime.
-Em                 C                  D                   Em
-Reflecting on my past life and it doesn't have much time.
-C                        D                      Em
-'Cause at 5 o'clock they take me to the Gallows pole,
-C                 D                  Em
-The sands of time for me are running low.
-
-Em
-When the priest comes to read me the last rites,
-G C
-I take a look through the bars at the last sights,
-A D                                         B  E  B  C
-Of a world that has gone very wrong for me.
-Em
-Can it be that there's some sort of error.
-G C
-Hard to stop the surmounting terror.
-A D                                        B E B C
-Is it really the end, not some crazy dream?
-
-Em
-Somebody please tell me that I'm dreaming,
-C
-It's not so easy to stop from screaming,
-D                                       B E B C
-But words escape me when i try to speak.
-Em
-Tears flow but why am I crying,
-C
-After all I'm not afraid of dying.
-D                                          B E B C
-Don't I believe that there never is an end.
-
-Em
-As the guards march me out to the courtyard,
-C
-Somebody cries from a cell "God be with you".
-D                                          B E B C
-If there's a God then why has he let me go?
-
-Em
-As I walk all my life drifts before me,
-C
-Though the end is near I'm still not sorry.
-D                                       B E B C
-Catch my soul, it's willing to fly away.
-
-Em
-Mark my words believe my soul lives on.
-C
-Don't worry now that I have gone.
-D
-I've gone beyond to see the truth.
-
-Em
-When you know that your time is close at hand.
-C
-Maybe then you'll begin to understand,
-D                                        B E B C  Em  Bm  C
-Life down here is just a strangeillusion
-
-B  Em  A  D  G  C  A  D
-Yeah, Yeah, Yeah... Hallowed Be Thy Name
+	<song title="California Uber Alles" artist="Dead Kennedys" sender="Smith" genre="PUN" tabs="False" published="True" video="https://www.youtube.com/watch?v=GoA_zY6tqQw">
+Intro: D#     E   F# E      (2x bass, 4x guitar)
+
+D#            E           F# E
+I am Governor Jerry Brown
+D#                 E            F# E
+My aura smiles and never frowns
+D#             E    F# E D#    C C# C
+Soon I will be president....
+
+D#                E            F# E
+Carter power will soon go away
+D#           E           F# E
+I will be Fuhrer one day
+D#             E      F# E
+I will command all of you
+D#                 C#      A  F#
+Your kids will meditate in school
+D#                 C#      A  F#
+Your kids will meditate in school
+
+D#
+California Uber Alles
+           G#
+California Uber Alles
+D#
+Uber Alles California
+           G#  D#     C#  A F#
+Uber Alles California
+
+D#     C#   A F#
+
+D#     E   F# E  (2x)
+
+D#                E           F# E
+Zen fascists will control you
+D#   E       F# E
+100% natural
+D#                   E      F# E
+You will jog for the master race
+D#                  C#    A F#
+And always wear the happy face
+D#                     E           F# E
+Close your eyes, can't happen here
+D#                E             F# E
+Big Bro' on white horse is near
+D#                     E        F# E
+The hippies won't come back you say
+D#            C#       A F#
+Mellow out or you will pay
+D#            C#       A F#
+Mellow out or you will pay
+
+California Uber Alles
+California Uber Alles
+Uber Alles California
+Uber Alles California
+
+D#     C#   A F#  (2x)
+
+(slowly)
+
+D#     C#   A F#  (2x)
+
+D#                 C#     A F#
+Now it is nineteen eighty-four
+D#             C#         A F#
+Knock knock at your front door
+D#                   C#       A F#
+It's the suede/denim secret police
+D#                      C#     A F#
+They have come for your uncool neice
+
+(same chord progression; getting faster...)
+
+Come quietly to the camp
+You'd look nice as a drawstring lamp
+Don't you worry, it's only a shower
+For your clothes here's a pretty flower...
+
+(...and faster...)
+
+DIE on organic poison gas
+Serpent's egg's already hatched
+You will croak, you little clown
+When you mess with President Brown
+When you mess with President Brown
+
+California Uber Alles
+California Uber Alles
+Uber Alles California
+Uber Alles California
+
+D#     C#   A F#  (2x)
+
+D#     C#   F# C#  (3x)
+
+D#
 	</song>
 
 	<song title="Redemption Song" artist="Bob Marley" sender="john26" genre="REG" tabs="True" published="True" video="https://www.youtube.com/watch?v=QrY9eHkXTa4">
@@ -737,276 +944,100 @@ We've got to fulfill the book.
 C  Em  Am  D
 	</song>
 
-	<song title="California Uber Alles" artist="Dead Kennedys" sender="Smith" genre="PUN" tabs="False" published="True" video="https://www.youtube.com/watch?v=GoA_zY6tqQw">
-Intro: D#     E   F# E      (2x bass, 4x guitar)
+	<song title="In the flesh" artist="Pink Floyd" sender="Kate234" genre="ROC" tabs="False" published="True" video="https://www.youtube.com/watch?v=6lTiVgcYA_4">
+A   D/A    A     D/A    A     Bm     C#m    E
 
-D#            E           F# E
-I am Governor Jerry Brown
-D#                 E            F# E
-My aura smiles and never frowns
-D#             E    F# E D#    C C# C
-Soon I will be president....
+A                              D
+So ya thought ya might like to go to the show
+A
+To feel the warm thrill of confusion
+     D
+That space cadet glow
+A
+Tell me is something eluding you sunshine?
 
-D#                E            F# E
-Carter power will soon go away
-D#           E           F# E
-I will be Fuhrer one day
-D#             E      F# E
-I will command all of you
-D#                 C#      A  F#
-Your kids will meditate in school
-D#                 C#      A  F#
-Your kids will meditate in school
+Bm                     E7
+Is this not what you expected to see?
+       C#m
+If you wanna find out what's behind these cold eyes?
+       E
+You'll just have to claw your way through this disguise
 
-D#
-California Uber Alles
-           G#
-California Uber Alles
-D#
-Uber Alles California
-           G#  D#     C#  A F#
-Uber Alles California
-
-D#     C#   A F#
-
-D#     E   F# E  (2x)
-
-D#                E           F# E
-Zen fascists will control you
-D#   E       F# E
-100% natural
-D#                   E      F# E
-You will jog for the master race
-D#                  C#    A F#
-And always wear the happy face
-D#                     E           F# E
-Close your eyes, can't happen here
-D#                E             F# E
-Big Bro' on white horse is near
-D#                     E        F# E
-The hippies won't come back you say
-D#            C#       A F#
-Mellow out or you will pay
-D#            C#       A F#
-Mellow out or you will pay
-
-California Uber Alles
-California Uber Alles
-Uber Alles California
-Uber Alles California
-
-D#     C#   A F#  (2x)
-
-(slowly)
-
-D#     C#   A F#  (2x)
-
-D#                 C#     A F#
-Now it is nineteen eighty-four
-D#             C#         A F#
-Knock knock at your front door
-D#                   C#       A F#
-It's the suede/denim secret police
-D#                      C#     A F#
-They have come for your uncool neice
-
-(same chord progression; getting faster...)
-
-Come quietly to the camp
-You'd look nice as a drawstring lamp
-Don't you worry, it's only a shower
-For your clothes here's a pretty flower...
-
-(...and faster...)
-
-DIE on organic poison gas
-Serpent's egg's already hatched
-You will croak, you little clown
-When you mess with President Brown
-When you mess with President Brown
-
-California Uber Alles
-California Uber Alles
-Uber Alles California
-Uber Alles California
-
-D#     C#   A F#  (2x)
-
-D#     C#   F# C#  (3x)
-
-D#
+A   D   A   D   A   D   A   E   A
 	</song>
 
-	<song title="Ace of Spades" artist="Motorhead" sender="Penelope" genre="MET" tabs="False" published="True" video="https://www.youtube.com/watch?v=KysKdijAhJI">
-MAIN RIFF
-E B Bb A (4x)
+	<song title="Doctor Doctor" artist="Iron Maiden" sender="alice" genre="MET" tabs="True" published="True" video="https://www.youtube.com/watch?v=L-ql9C_itQw">
+Tuning: E A D G B e
 
-G                      G
-If you like to gamble, I tell you I'm your manyou win some, lose some, it's
-G       G        G
-all the same to me  (main riff 2x)
-        D                         C
-The pleasure is to play, it makes no difference what you say
-D                              C
-I don't share your greed, the only card I need isthe
-           MAIN RIFF 4X
- Ace of Spades the Ace of Spades
+This into right here is played on a keyboard normally but heres the guitar for it anyway...
 
-G                         G                      G
-Playin' for the high one, dancin' with the devil going with the flow, it's
-G      G       G
-all a game to me (main riff 2x)
-D          C
-7 or 11, snake eyes watching you
-D                   C
-Double up or quit, double stake or split
-                  MAIN RIFF 4X
-the Ace of Spades the Ace of Spades
+e|---------5------------------------------------------------------------------|
+B|-------6---6------------6-10-6------------5-8-5-----------------------------|
+G|-----7-------7--------7--------7--------6-------6---------------------------|
+D|---7-----------7----8------------8----7-----------7-------------------------|
+A|-5--------------------------------------------------------------------------|
+E|------------------6-----------------5---------------------------------------|
 
-E                            D   E
-You know I'm born to lose and gamblin's made for fools
-       (n.c.)
-But that's the way I like it baby I don't want to live forever
+Heres the solo part right here, its not completly right but, its sound close enough.
 
-D E D C
+e|-----------------------------5-8p5--8s10-8h10p8-6-8-8p6-5-6-6p5---------------|
+B|-----5-6---8b10-8-6p5-6----6------------------------------------8-6-5h6-8-5h6-|
+G|-5s7-----7---------------7----------------------------------------------------|
+D|------------------------------------------------------------------------------|
+A|------------------------------------------------------------------------------|
+E|------------------------------------------------------------------------------|
 
+e|---------------------10-12-13-12-10----------------------------------------|
+B|---10-13-------10-13----------------13b15----------------------------------|
+G|---------12b14----------------------------12p10-9-10-12-9h10---------------|
+D|-12------------------------------------------------------------------------|
+A|---------------------------------------------------------------------------|
+E|---------------------------------------------------------------------------|
 
-and don't forget the joker
-
-(solo- dont know what the chords are here)
-
-G                        G                     G
-Pushing up the ante, I know you got to see me read 'em and weep,
-    G   G  G  G  G
-the dead man's hand again (main riff 2x)
-D                        C
-I see it in your eyes, take one look and die
-D                             C
-The only thing you see, you know it's gonna be
-               MAIN RIFF 2X
-the Ace of Spades the Ace of Spades
-	</song>
-
-	<song title="Stairway to Heaven" artist="Led Zeppelin" sender="bob" genre="ROC" tabs="False" published="True" video="https://www.youtube.com/watch?v=qHFxncb1gRY">
-Am     Bmaj7/G# |       C/G     D/F# | Fmaj7 | Am/B    Am
+e|---------10-12-10-13-13-12-13-13p12p10--13b15-13p10--10----------------------|
+B|-------10------------------------------------------13---13p10-13p10----------|
+G|-----10-------------------------------------------------------------12p10----|
+D|---12---------------------------------------------------------------------12-|
+A|-12--------------------------------------------------------------------------|
+E|-----------------------------------------------------------------------------|
 
 
-Fmaj7      Am      Bmaj7/G#         C/G        D/F#
-There's a lady who's sure all that glitters is gold
-Fmaj7                         Am/B  Am
-And she's buying a stairway to heaven.
-Fmaj7     Am           Bmaj7/G#        C/G            D/F#
-When she gets there she knows, if the stores are all closed
-Fmaj7                           Am/B   Am
-With a word she can get what she came for.
-C  D   Fmaj7        C        G          Dsus4  D
-Ooh, ooh, and she's buying a stairway to heaven.
 
+e|---------------------------------------------------------------------------|
+B|---------1------------------------5b--3-1-1s6--12br---5b-3-1----5-----7----|
+G|---0-2-3---2-3-2----0-2-3-2-4-6---5b--3-2------12br---5b-3-2--6---6-8---8--|
+D|-3----------------3--------------------------------------------------------|
+A|---------------------------------------------------------------------------|
+E|---------------------------------------------------------------------------|
 
-Am        Cmaj7      D              Fmaj7      Am
-There's a sign on the wall but she wants to be sure
-Am          C              D             Fmaj7
-'Cause you know sometimes words have two meanings.
-Fmaj7  Am      Bmaj7/G#           C/G          D/F#
-In a tree by the brook, there's a songbird who sings,
-D/F#       C                     Am/B Am
-Sometimes all of our thoughts are misgiven.
+   And finally heres the rythm for the rest of the song
 
+e|---------------------------------------------------------------------------|
+B|---------------------------------------------------------------------------|
+G|---------------------------------------------------------------------------|
+D|--7777777--------------------5555555---------------------------------------|
+A|--5555555--8888888--3333333--3333333---------------------------------------|
+E|-----------5555555--1111111------------------------------------------------|
 
-Am7    Am   Dsus2   D              Am7   Am   Em  D  C   D
-                 Ooh, it makes me wonder,
-Am7    Am   Dsus2   D              Am7   Am   Em  D  C   D
-                 Ooh, it makes me wonder.
+  Legend
 
-D           C      G/B         Asus2 Am
-There's a feeling I get when I look to the west,
-Am       C       G/B      Fmaj7#11  Am
-And my spirit is crying for leaving.
-Am     C     G/B                   Asus2    Am
-In my thoughts I have seen rings of smoke through the trees,
-Am       C     G/B              Fmaj7  Am
-And the voices of those who stand looking.
-
-Am7    Am   Dsus2   D              Am7   Am   Em  D  C   D
-                 Ooh, it makes me wonder,
-Am7    Am   Dsus2   D                    Am7   Am   Em  D  C   D
-                 Ooh, it really makes me wonder.
-
-D         C             G/B      Asus2 Am
-And it's whispered that soon if we all call the tune
-D         C         G/B    Fmaj7#11
-Then the piper will lead us to reason.
-D         C             G/B      Asus2 Am
-And a new day will dawn for those who stand long
-D         C         G/B    Fmaj7#11
-And the forests will echo with laughter.
-
-C            G/B            Am                 Am/B
-If there's a bustle in your hedgerow, don't be alarmed now,
-C           G/B                 Fmaj7  Am
-It's just a spring clean for the May queen.
-C              G/B               Am               Am/B
-Yes, there are two paths you can go by, but in the long run
-C             G/B               Fmaj7      Am
-There's still time to change the road you're on.
-
-Am7    Am   Dsus2   D              Am7   Am   Em  D  C   D
-                 Ooh, it makes me wonder,
-Am7    Am   Dsus2   D                    Am7   Am   Em  D  C   D
-                 Ooh, it really makes me wonder.
-
-C            G/B             Am                   Am/B
-Your head is humming and it won't go, in case you don't know,
-C           G/B           Fmaj7  Am
-The piper's calling you to join him,
-C          G/B              Am                   Am/B
-Dear lady, can you hear the wind blow, and did you know
-C             G/B         Fmaj7      Am
-Your stairway lies on the whispering wind.
-
-
-C   G   D   Dsus2   D   Dsus4
-
-Dsus2   D   Dsus4   Dsus2   D   Dsus4  Dsus4  D  Cadd9
-
-Am Am7 Fmaj7    x8
-
-Am        G                F     G/G#
-And as we wind on down the road
-Am          G              F     G/G#
-Our shadows taller than our soul.
-Am            G            F     G/G#
-There walks a lady we all know
-Am                G                 F    G/G#
-Who shines white light and wants to show
-Am        G                   F     G/G#
-How everything still turns to gold.
-Am         G           F      G/G#
-And if you listen very hard
-Am           G               F      G/G#
-The tune will come to you at last.
-Am           G              F      G/G#
-When all are one and one is all
-Am       G               F      G/G#
-To be a rock and not to roll.
-
-Am Am7 x4
-
-Fmaj7
-
-And she's buying a stairway to heaven.
+h= hammer-on
+p= pull-off
+b= bend
+br= bend/realease bend
+s= slide
 	</song>
 
 	<song title="Sweet Child O' Mine" artist="Guns N' Roses" sender="Penelope" genre="ROC" tabs="False" published="True" video="https://www.youtube.com/watch?v=1w7OgIMMRc4">
 D
 She's got a smile that it seems to me
-Cadd9
+Caug9
 Reminds me of childhood memories
        G                                         D
 Where everything was as fresh as a bright blue sky
 D
 Now and then when i see her face
-    Cadd9
+    Caug9
 She takes me away to that special place
            G                                        D
 And if i stay too long I'd probably break down and cry
@@ -1019,13 +1050,13 @@ Oooooh Sweet Love of Mine
 
 D
 She's got eyes of the bluest sky
-Cadd9
+Caug9
 And if they thought of rain
 G                                     D
 I'd hate to look into those eyes and see an ounce of pain
 D
 Her hair reminds me of a warm safe place
-      Cadd9
+      Caug9
 Where as a child i'd hide
      G                                      D
 And prey for the thunder and the rain to quietly pass me by
