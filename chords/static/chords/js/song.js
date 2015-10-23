@@ -171,7 +171,7 @@ function parseChords(lines) {
 
         // Enclose chords in span tags of class "chords".
         lines[i] = lines[i].replace(
-            /\b([A-G][#b]?(maj|m|aug|dim|sus)?([245679]|11|13)?)\b/g,
+            /\b([A-G][#b]?(maj|m|aug|dim|sus|add)?([245679]|11|13)?[#b]?([245679]|11|13)?)\b/g,
             function($0, $1) {
                 return '<span class="chord" origchord="' + $1 +
                     '"><span class="chordname">' + $1 + '</span>' +
