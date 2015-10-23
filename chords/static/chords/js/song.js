@@ -171,7 +171,7 @@ function parseChords(lines) {
 
         // Enclose chords in span tags of class "chords".
         lines[i] = lines[i].replace(
-            /\b([A-G][#b]?(maj|m|aug|dim|sus|add)?([245679]|11|13)?[#b]?([245679]|11|13)?)\b/g,
+            /([A-G][#b]?(maj|m|aug|dim|sus|add)?([245679]|11|13)?[#b]?([245679]|11|13)?)/g,
             function($0, $1) {
                 return '<span class="chord" origchord="' + $1 +
                     '"><span class="chordname">' + $1 + '</span>' +
@@ -181,10 +181,17 @@ function parseChords(lines) {
         );
 
         // Enclose chords lines in div tags of class "chordline".
-        if (lines[i].indexOf('<span class="chord"') != -1)
-            newlines += '<div class="chordline">' + lines[i] + '</div>';
-        else
-            newlines += lines[i];
+        if (lines[i].indexOf('<span class="chord"') != -1) {
+            var stripped = lines[i].replace(/<span class="chord".+<\/span>/g, '');
+            var match = /[^\s\(\)\/\|x\d]/.exec(stripped)
+            // Is it really a chord or does it simply look like one?
+            if (!match)
+                lines[i] = '<div class="chordline">' + lines[i] + '</div>';
+            else
+                // Remove span tags from "false" chords.
+                lines[i] = lines[i].replace(/<span class="chord" origchord="(.+?)">.+?<img.+?<\/span>/g, '$1');
+        }
+        newlines += lines[i];
     }
 
     return newlines;
