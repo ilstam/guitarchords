@@ -9,6 +9,7 @@ admin.AdminSite.site_header = 'Chords Administration'
 class ArtistAdmin(admin.ModelAdmin):
     exclude = ['slug']
     actions = ['delete_selected']
+    search_fields = ['name']
 
     def delete_selected(self, request, queryset):
         for artist in queryset:
@@ -26,7 +27,7 @@ class SongAdmin(admin.ModelAdmin):
 
     list_display = ['full_title', 'reg_date', 'pub_date', 'published']
     list_filter = ['pub_date', 'reg_date', 'genre', 'tabs']
-    search_fields = ['sender__username', 'artist__name']
+    search_fields = ['title', 'artist__name']
     actions = ['delete_selected', 'publish_songs', 'unpublish_songs']
 
     def publish_songs(self, request, queryset):
