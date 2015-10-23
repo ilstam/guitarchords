@@ -115,7 +115,7 @@ function parseComments(song) {
  * @return {Boolean}
  */
 function isTabLine(line) {
-    var regex = /^[A-Ga-g]:*\|{0,2}.*-.*-.*-/;
+    var regex = /^[A-Ga-g]:*\|{0,2}.*-.*-.*-.*-/;
     if (regex.test(line))
             return true;
     return false;
