@@ -2,6 +2,7 @@
 # Remember to setup the django environment before calling populate().
 
 import os
+import uuid
 import xml.etree.ElementTree as etree
 
 from chords.models import Artist, Song, User, Comment
@@ -12,7 +13,10 @@ DATA_PATH = os.path.join(os.path.dirname(__file__), 'data.xml')
 def str_to_bool(s):
     return s.lower() == "true"
 
-def add_user(username='username', password='password'):
+def add_user(username, password=None):
+    if not password:
+        # generate a random password
+        password = str(uuid.uuid4())
     try:
         user = User.objects.filter(username=username)[0]
     except IndexError:

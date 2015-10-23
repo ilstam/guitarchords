@@ -6,12 +6,12 @@
 -->
 
 <data>
-	<user username="bob" password="password"></user>
-	<user username="alice" password="password"></user>
-	<user username="Kate234" password="password"></user>
-	<user username="Penelope" password="password"></user>
-	<user username="john26" password="password"></user>
-	<user username="Smith" password="password"></user>
+	<user username="bob" />
+	<user username="alice" />
+	<user username="Kate234" />
+	<user username="Penelope" />
+	<user username="john26" />
+	<user username="Smith" />
 
 	<artist name="Iron Maiden" />
 	<artist name="Motorhead" />
