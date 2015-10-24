@@ -114,6 +114,8 @@ STATICFILES_FINDERS = (
     'compressor.finders.CompressorFinder',
 )
 
+COMPRESS_ROOT = os.path.join(BASE_DIR, 'static')
+
 # django-registration-redux app settings
 # http://django-registration-redux.readthedocs.org
 
