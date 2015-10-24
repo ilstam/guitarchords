@@ -34,5 +34,6 @@ EMAIL_USE_TLS = False
 
 # Compress static files
 COMPRESS_ENABLED = True
+COMPRESS_OFFLINE = True
 
 RECAPTCHA_PRIVATE_KEY = os.environ['RECAPTCHA_PRIVATE_KEY']

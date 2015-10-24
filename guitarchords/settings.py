@@ -106,13 +106,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = 'static'
+
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'compressor.finders.CompressorFinder',
 )
-
-COMPRESS_ROOT = os.path.join(BASE_DIR, 'chords/static')
 
 # django-registration-redux app settings
 # http://django-registration-redux.readthedocs.org
